@@ -1,0 +1,417 @@
+<div class="main-content-wrapper">
+  <header class="dashboard-header">
+    <div class="header-row">
+      <div>
+        <h1>My Payslips</h1>
+        <p class="subtitle">
+          <span *ngIf="employeeName">Welcome back, <strong>{{ employeeName }}</strong>! </span>
+          View, download, or email your secure monthly salary statements.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Premium Financial Overview Stat Cards -->
+  <div class="row g-4 mb-4" *ngIf="!isLoading && payslips.length > 0">
+    <div class="col-md-4">
+      <div class="stat-card primary">
+        <div class="stat-header">
+          <mat-icon>payments</mat-icon>
+          <span>Annual CTC (Gross)</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">
+            INR {{ formatCurrency(annualCTC) }}
+          </div>
+          <div class="stat-label">Total yearly gross contract salary</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card secondary">
+        <div class="stat-header">
+          <mat-icon>receipt</mat-icon>
+          <span>Annual Deductions</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">
+            INR {{ formatCurrency(annualDeductions) }}
+          </div>
+          <div class="stat-label">Yearly taxes & PF contributions</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card accent">
+        <div class="stat-header">
+          <mat-icon>account_balance_wallet</mat-icon>
+          <span>Annual Net Salary</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">
+            INR {{ formatCurrency(annualNet) }}
+          </div>
+          <div class="stat-label">Estimated yearly take-home salary</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modern Filter Bar Section -->
+  <div class="filter-section-new mt-2 mb-4">
+    <div class="filter-card">
+      <div class="filter-grid">
+        <div class="filter-field">
+          <label for="month-select" class="filter-label">Salary Month</label>
+          <div class="select-box">
+            <mat-icon class="box-icon">calendar_month</mat-icon>
+            <select id="month-select" class="custom-select-control" [(ngModel)]="selectedMonth" (change)="applyFilters()">
+              <option value="ALL">All Months (Full Year)</option>
+              <option *ngFor="let m of availableMonths" [value]="m.value">{{ m.viewValue }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-field">
+          <label for="year-select" class="filter-label">Salary Year</label>
+          <div class="select-box">
+            <mat-icon class="box-icon">event</mat-icon>
+            <select id="year-select" class="custom-select-control" [(ngModel)]="selectedYear" (change)="applyFilters()">
+              <option *ngFor="let y of availableYears" [value]="y">{{ y }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Single Current Month Payslip Card (Centered) -->
+  <div class="row g-4 mt-3" *ngIf="!isLoading && displayedSlots.length > 0">
+    <!-- Left Column: Payslip Card(s) -->
+    <div class="col-lg-8">
+      <div class="row g-4 justify-content-center">
+        <div [ngClass]="selectedMonth === 'ALL' ? 'col-md-6' : 'col-md-10 col-xl-8'" *ngFor="let slip of displayedSlots">
+          <mat-card class="payslip-card" [class.card-disabled]="!slip.accessible || !slip.isRealRecord">
+            <mat-card-header class="border-0 pb-0">
+              <div mat-card-avatar class="payslip-avatar"><mat-icon>payments</mat-icon></div>
+              <mat-card-title>Payslip {{ getSlipTitle(slip) }}</mat-card-title>
+              <mat-card-subtitle>Employee ID: {{ currentDisplayEmpId() }}</mat-card-subtitle>
+            </mat-card-header>
+            
+            <mat-card-content class="pt-3">
+              <!-- 1. Real Payslip Record + Accessible State -->
+              <ng-container *ngIf="slip.accessible && slip.isRealRecord">
+                <div class="net-pay-section">
+                  <div class="net-pay-header">
+                    <span class="net-pay-label">Net Take-Home Salary</span>
+                    <button mat-icon-button class="info-details-btn" (click)="openBreakdownModal(slip)" title="View Detailed Breakdown">
+                      <mat-icon>info</mat-icon>
+                    </button>
+                  </div>
+                  <div class="salary-box-new">
+                    <span class="currency-new">{{ slip.Currency || 'INR' }}</span>
+                    <span class="amount-new">{{ formatCurrency(parseFloat(slip.NetSalary || slip.BasicPay) / 12) }}</span>
+                    <span class="per-month-new">/ Month</span>
+                  </div>
+                </div>
+
+                <!-- Mini Summary (Gross vs Deductions) -->
+                <div class="mini-summary-grid mt-3">
+                  <div class="summary-tile earnings-tile">
+                    <span class="tile-label">Gross Earnings</span>
+                    <span class="tile-val">{{ slip.Currency || 'INR' }} {{ formatCurrency(parseFloat(slip.TotalEarnings) / 12) }}</span>
+                  </div>
+                  <div class="summary-tile deductions-tile">
+                    <span class="tile-label">Total Deductions</span>
+                    <span class="tile-val">{{ slip.Currency || 'INR' }} {{ formatCurrency(parseFloat(slip.TotalDeductions) / 12) }}</span>
+                  </div>
+                </div>
+
+                <!-- Visual Deduction Bar -->
+                <div class="deduction-ratio-container mt-3">
+                  <div class="bar-labels">
+                    <span>Net Pay ({{ (100 - (parseFloat(slip.TotalDeductions) / parseFloat(slip.TotalEarnings) * 100)) | number:'1.0-0' }}%)</span>
+                    <span>Deductions ({{ (parseFloat(slip.TotalDeductions) / parseFloat(slip.TotalEarnings) * 100) | number:'1.0-0' }}%)</span>
+                  </div>
+                  <div class="progress-bar-track">
+                    <div class="progress-bar-fill net-fill" [style.width.%]="(100 - (parseFloat(slip.TotalDeductions) / parseFloat(slip.TotalEarnings) * 100))"></div>
+                    <div class="progress-bar-fill ded-fill" [style.width.%]="(parseFloat(slip.TotalDeductions) / parseFloat(slip.TotalEarnings) * 100)"></div>
+                  </div>
+                </div>
+
+                <div class="period-info-new mt-3">
+                  <div class="detail-item">
+                    <mat-icon>calendar_today</mat-icon>
+                    <span><strong>Period:</strong> {{ getPeriodText(slip) }}</span>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- 2. Accessible but no payslip record exists (Pending release by HR) -->
+              <ng-container *ngIf="slip.accessible && !slip.isRealRecord">
+                <div class="state-card pending-release-card">
+                  <div class="state-icon-wrapper">
+                    <mat-icon class="pending-icon">hourglass_empty</mat-icon>
+                  </div>
+                  <h3>Statement Pending Release</h3>
+                  <p>The salary statement for <strong>{{ getSelectedMonthName() }} {{ selectedYear }}</strong> is currently being finalized by HR and Finance. It will be available for download shortly.</p>
+                </div>
+              </ng-container>
+
+              <!-- 3. Not accessible (Blocked state before joining or future date) -->
+              <ng-container *ngIf="!slip.accessible">
+                <!-- 3a. Before Joining Date -->
+                <div class="state-card pre-joining-card" *ngIf="slip.reason === 'before_joining'">
+                  <div class="state-icon-wrapper">
+                    <mat-icon class="restricted-icon">work_outline</mat-icon>
+                  </div>
+                  <h3>Prior to Employment</h3>
+                  <p>Our records show your journey with us began on <strong>{{ formatDate(joiningDate) }}</strong>. Payslips are only available for your active tenure. We are glad to have you with us now!</p>
+                </div>
+
+                <!-- 3b. Future Date -->
+                <div class="state-card future-date-card" *ngIf="slip.reason === 'future'">
+                  <div class="state-icon-wrapper">
+                    <mat-icon class="future-icon">update</mat-icon>
+                  </div>
+                  <h3>Looking Ahead</h3>
+                  <p>The payroll cycle for <strong>{{ getSelectedMonthName() }} {{ selectedYear }}</strong> has not started yet. Your statement will be generated and posted here once the month concludes.</p>
+                </div>
+              </ng-container>
+            </mat-card-content>
+            
+            <mat-card-actions align="end" class="gap-2 px-3 pb-3 border-0">
+              <button mat-icon-button class="action-btn text-warning" title="Email" (click)="openMailModal(slip)"
+                [disabled]="!slip.accessible || !slip.isRealRecord">
+                <mat-icon>email</mat-icon>
+              </button>
+              <button mat-icon-button class="action-btn text-primary" title="Print" (click)="printPayslip(slip)"
+                [disabled]="!slip.accessible || !slip.isRealRecord">
+                <mat-icon>print</mat-icon>
+              </button>
+              <button mat-flat-button class="dl-btn" (click)="downloadPDF(slip)"
+                [disabled]="!slip.accessible || !slip.isRealRecord">
+                <mat-icon>download</mat-icon>Download
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Sidebar (Bank Account Details & General FAQs) -->
+    <div class="col-lg-4">
+      <!-- Bank details card -->
+      <mat-card class="content-card mb-4" *ngIf="payslips.length > 0">
+        <mat-card-header class="border-0 pb-0">
+          <mat-card-title>Payment Account</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="pt-3">
+          <div class="profile-info-list">
+            <div class="info-block">
+              <label>Bank Name</label>
+              <div class="value">{{ payslips[0].BankName || 'STATE BANK OF INDIA' }}</div>
+            </div>
+            <div class="info-block">
+              <label>Account Number</label>
+              <div class="value">{{ obfuscateAccount(payslips[0].AccountNumber) }}</div>
+            </div>
+            <div class="info-block">
+              <label>PAN Number</label>
+              <div class="value">{{ obfuscatePAN(payslips[0].PANNumber) }}</div>
+            </div>
+            <div class="info-block">
+              <label>Payout Frequency</label>
+              <div class="value">Monthly Cycle</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Payroll FAQ Guidelines -->
+      <mat-card class="content-card mb-4">
+        <mat-card-header class="border-0 pb-0">
+          <mat-card-title>Payroll Help & Guidelines</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="pt-3">
+          <div class="profile-info-list">
+            <div class="info-block">
+              <label>TDS & Tax Declarations</label>
+              <div class="value" style="font-size: 0.85rem; font-weight: 400; color: #64748b;">
+                Submit declarations on the Tax Portal before the 10th of each month to avoid tax changes.
+              </div>
+            </div>
+            <div class="info-block">
+              <label>Disbursal Timeline</label>
+              <div class="value" style="font-size: 0.85rem; font-weight: 400; color: #64748b;">
+                Salaries are credited directly into your linked bank account on the last working day of the month.
+              </div>
+            </div>
+            <div class="info-block">
+              <label>Form 16 Availability</label>
+              <div class="value" style="font-size: 0.85rem; font-weight: 400; color: #64748b;">
+                Annual tax statements (Form 16) for FY 2025-2026 are scheduled for release in June 2026.
+              </div>
+            </div>
+            <div class="info-block">
+              <label>Queries & Support</label>
+              <div class="value" style="font-size: 0.85rem; font-weight: 400; color: #64748b;">
+                Contact the finance desk at <strong>payroll@company.com</strong> for questions regarding your pay statement.
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Fallback for empty results (no error) -->
+  <div class="text-center py-5 no-payslips-card" *ngIf="!isLoading && !hasError && loadedOnce && displayedSlots.length === 0">
+    <mat-icon class="huge-icon">receipt_long</mat-icon>
+    <h3>No Payslips Found</h3>
+    <p class="text-muted" *ngIf="payslips.length === 0">SAP returned no payslip records for employee {{ currentDisplayEmpId() }}.</p>
+    <p class="text-muted" *ngIf="payslips.length > 0">No salary statements match your current filters.</p>
+    <div class="d-flex justify-content-center gap-3 mt-3">
+      <button mat-flat-button class="reset-btn" (click)="clearFilters()" *ngIf="selectedMonth || selectedYear">Show All Payslips</button>
+      <button mat-stroked-button class="refresh-outline-btn" (click)="refreshPayslips()">
+        <mat-icon>refresh</mat-icon> Retry Fetch from SAP
+      </button>
+    </div>
+  </div>
+
+  <!-- Error State with Retry -->
+  <div class="text-center py-5 error-card" *ngIf="!isLoading && hasError">
+    <mat-icon class="huge-icon error-icon">cloud_off</mat-icon>
+    <h3>Connection Issue</h3>
+    <p class="text-muted">Unable to reach the SAP server. Please check your VPN connection and try again.</p>
+    <button mat-flat-button class="refresh-btn mt-3" (click)="refreshPayslips()">
+      <mat-icon>refresh</mat-icon> Retry
+    </button>
+  </div>
+
+  <!-- Initial Loading Spinner -->
+  <div *ngIf="isLoading" class="text-center p-5"><mat-spinner diameter="40" class="mx-auto"></mat-spinner></div>
+
+  <!-- Email Popup Modal -->
+  <div class="mail-modal-overlay" *ngIf="isMailModalOpen">
+    <div class="mail-modal-card">
+      <div class="modal-header">
+        <h3>Email Payslip</h3>
+        <button mat-icon-button (click)="closeMailModal()"><mat-icon>close</mat-icon></button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-instruction">Send payslip <strong>{{ getSlipTitle(activeSlipForMail) }}</strong> to a secure email address.</p>
+        
+        <mat-form-field appearance="outline" class="w-100 mt-2">
+          <mat-label>Recipient Email Address</mat-label>
+          <input matInput type="email" [(ngModel)]="mailEmailAddress" placeholder="e.g. employee@company.com" required>
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="modal-actions">
+        <button mat-button (click)="closeMailModal()" [disabled]="isSendingMail">Cancel</button>
+        <button mat-flat-button color="primary" class="send-btn" (click)="sendMail()" [disabled]="isSendingMail || !mailEmailAddress">
+          <mat-icon *ngIf="!isSendingMail">send</mat-icon>
+          <mat-spinner diameter="18" *ngIf="isSendingMail" class="me-2"></mat-spinner>
+          {{ isSendingMail ? 'Sending...' : 'Send Email' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detailed Salary Breakdown Modal Overlay -->
+  <div class="breakdown-modal-overlay" *ngIf="isBreakdownModalOpen && activeSlipForBreakdown">
+    <div class="breakdown-modal-card">
+      <div class="modal-header">
+        <div class="header-title-group">
+          <mat-icon class="header-icon">receipt_long</mat-icon>
+          <div>
+            <h3>Salary Breakdown</h3>
+            <p class="modal-sub">Statement {{ getSlipTitle(activeSlipForBreakdown) }}</p>
+          </div>
+        </div>
+        <button mat-icon-button (click)="closeBreakdownModal()"><mat-icon>close</mat-icon></button>
+      </div>
+      
+      <div class="modal-body scrollable-modal-body">
+        <div class="employee-details-strip">
+          <div class="strip-item">
+            <small>EMPLOYEE NAME</small>
+            <span>{{ employeeName || 'Valued Employee' }}</span>
+          </div>
+          <div class="strip-item">
+            <small>EMPLOYEE ID</small>
+            <span>{{ currentDisplayEmpId() }}</span>
+          </div>
+        </div>
+
+        <div class="breakdown-table-container">
+          <!-- Earnings Table -->
+          <div class="breakdown-group earnings-group">
+            <h4 class="group-title"><mat-icon>add_circle_outline</mat-icon> Gross Earnings</h4>
+            <div class="breakdown-row-new">
+              <span class="row-label">Basic Salary</span>
+              <span class="row-value">{{ activeSlipForBreakdown.Currency }} {{ formatCurrency(parseFloat(activeSlipForBreakdown.BasicPay) / 12) }}</span>
+            </div>
+            <div class="breakdown-row-new" *ngIf="activeSlipForBreakdown.HRA">
+              <span class="row-label">HRA (House Rent Allowance)</span>
+              <span class="row-value">{{ activeSlipForBreakdown.Currency }} {{ formatCurrency(parseFloat(activeSlipForBreakdown.HRA) / 12) }}</span>
+            </div>
+            <div class="breakdown-row-new" *ngIf="activeSlipForBreakdown.DA">
+              <span class="row-label">DA (Dearness Allowance)</span>
+              <span class="row-value">{{ activeSlipForBreakdown.Currency }} {{ formatCurrency(parseFloat(activeSlipForBreakdown.DA) / 12) }}</span>
+            </div>
+            <div class="breakdown-row-new" *ngIf="activeSlipForBreakdown.SpecialAllowance">
+              <span class="row-label">Special Allowance</span>
+              <span class="row-value">{{ activeSlipForBreakdown.Currency }} {{ formatCurrency(parseFloat(activeSlipForBreakdown.SpecialAllowance) / 12) }}</span>
+            </div>
+            <div class="breakdown-row-new" *ngIf="activeSlipForBreakdown.Bonus">
+              <span class="row-label">Performance Bonus</span>
+              <span class="row-value">{{ activeSlipForBreakdown.Currency }} {{ formatCurrency(parseFloat(activeSlipForBreakdown.Bonus) / 12) }}</span>
+            </div>
+            <div class="breakdown-total-row-new">
+              <span>Gross Total</span>
+              <span>{{ activeSlipForBreakdown.Currency }} {{ formatCurrency(parseFloat(activeSlipForBreakdown.TotalEarnings) / 12) }}</span>
+            </div>
+          </div>
+
+          <!-- Deductions Table -->
+          <div class="breakdown-group deductions-group mt-3">
+            <h4 class="group-title"><mat-icon>remove_circle_outline</mat-icon> Deductions</h4>
+            <div class="breakdown-row-new" *ngIf="activeSlipForBreakdown.PF">
+              <span class="row-label">Provident Fund (PF)</span>
+              <span class="row-value">{{ activeSlipForBreakdown.Currency }} {{ formatCurrency(parseFloat(activeSlipForBreakdown.PF) / 12) }}</span>
+            </div>
+            <div class="breakdown-row-new" *ngIf="activeSlipForBreakdown.IncomeTax">
+              <span class="row-label">TDS / Income Tax</span>
+              <span class="row-value">{{ activeSlipForBreakdown.Currency }} {{ formatCurrency(parseFloat(activeSlipForBreakdown.IncomeTax) / 12) }}</span>
+            </div>
+            <div class="breakdown-row-new" *ngIf="activeSlipForBreakdown.ProfessionalTax">
+              <span class="row-label">Professional Tax</span>
+              <span class="row-value">{{ activeSlipForBreakdown.Currency }} {{ formatCurrency(parseFloat(activeSlipForBreakdown.ProfessionalTax) / 12) }}</span>
+            </div>
+            <div class="breakdown-total-row-new deductions-total">
+              <span>Deductions Total</span>
+              <span>{{ activeSlipForBreakdown.Currency }} {{ formatCurrency(parseFloat(activeSlipForBreakdown.TotalDeductions) / 12) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Net Take Home Net Highlight inside Modal -->
+        <div class="net-take-home-highlight mt-4">
+          <div class="label-col">
+            <strong>Net Take-Home Pay</strong>
+            <p>Directly credited to your bank account.</p>
+          </div>
+          <div class="value-col">
+            <h2>{{ activeSlipForBreakdown.Currency }} {{ formatCurrency(parseFloat(activeSlipForBreakdown.NetSalary || activeSlipForBreakdown.BasicPay) / 12) }}</h2>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-actions mt-3">
+        <button mat-flat-button color="primary" class="send-btn" (click)="closeBreakdownModal()">Close Details</button>
+      </div>
+    </div>
+  </div>
+
+</div>

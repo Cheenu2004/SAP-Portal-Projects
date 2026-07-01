@@ -1,0 +1,181 @@
+<div class="main-content-wrapper">
+  <header class="dashboard-header">
+    <h1>Welcome, {{ profile?.EmployeeName || empId }}</h1>
+    <p class="subtitle">Employee Portal Overview</p>
+  </header>
+
+  <!-- 2 BALANCED SUMMARY CARDS -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-6">
+      <div class="stat-card primary">
+        <div class="stat-header">
+          <mat-icon>person</mat-icon>
+          <span>Profile Status</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">Active</div>
+          <div class="stat-label">Verified Employee</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="stat-card accent">
+        <div class="stat-header">
+          <mat-icon>payments</mat-icon>
+          <span>Net Salary <small>(Per Month)</small></span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value" *ngIf="latestPayslip">{{ formatCurrency(latestPay) }} <small>{{ currency }}</small></div>
+          <div class="stat-value" *ngIf="!latestPayslip">0.00 <small>INR</small></div>
+          <div class="stat-label" *ngIf="latestPayslip">Paid on: {{ formatDate(latestPayslip.PayDate) || payPeriod }}</div>
+          <div class="stat-label" *ngIf="!latestPayslip">No payout records found</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: Quick Actions, Financial Details & Leave Balances -->
+    <div class="col-lg-8">
+      
+      <!-- Quick Actions Section -->
+      <div class="mb-4">
+        <h2 class="section-title">Quick Actions</h2>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <button class="action-card-btn" routerLink="/leave">
+              <mat-icon class="action-icon text-primary">event_note</mat-icon>
+              <div class="action-info">
+                <span class="action-title">Manage Leaves</span>
+                <span class="action-desc">Apply or view history</span>
+              </div>
+            </button>
+          </div>
+          <div class="col-md-4">
+            <button class="action-card-btn" (click)="downloadLatestPayslip()" [disabled]="isDownloading || !latestPayslip">
+              <mat-icon class="action-icon text-success" [class.spin]="isDownloading">download</mat-icon>
+              <div class="action-info">
+                <span class="action-title">Get Payslip</span>
+                <span class="action-desc">{{ isDownloading ? 'Downloading...' : (latestPayslip ? 'Download latest PDF' : 'No payslips found') }}</span>
+              </div>
+            </button>
+          </div>
+          <div class="col-md-4">
+            <button class="action-card-btn" routerLink="/profile">
+              <mat-icon class="action-icon text-warning">badge</mat-icon>
+              <div class="action-info">
+                <span class="action-title">Full Profile</span>
+                <span class="action-desc">View details & documents</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Financial Summary Card (Cumulative since Joining) -->
+      <mat-card class="content-card mb-4" *ngIf="latestPayslip">
+        <mat-card-header>
+          <mat-card-title>Financial Summary</mat-card-title>
+          <mat-card-subtitle>Cumulative Earnings & Deductions ({{ monthsSinceJoining }} Month(s) Since Joining)</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="p-4">
+          <div class="financial-grid">
+            <div class="fin-item">
+              <span class="fin-label">Gross Earnings</span>
+              <span class="fin-value text-success">+ {{ currency }} {{ formatCurrency(cumulativeGross) }}</span>
+            </div>
+            <div class="fin-item">
+              <span class="fin-label">Total Deductions</span>
+              <span class="fin-value text-danger">- {{ currency }} {{ formatCurrency(cumulativeDeductions) }}</span>
+            </div>
+            <div class="fin-item highlight">
+              <span class="fin-label">Net Take-Home</span>
+              <span class="fin-value">{{ currency }} {{ formatCurrency(cumulativeNet) }}</span>
+            </div>
+          </div>
+          
+          <mat-divider class="my-4"></mat-divider>
+          
+          <!-- Bank & Account Information -->
+          <div class="row g-3">
+            <div class="col-sm-4">
+              <div class="info-block">
+                <label>Bank Name</label>
+                <div class="value">{{ latestPayslip.BankName || 'STATE BANK OF INDIA' }}</div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="info-block">
+                <label>Account Number</label>
+                <div class="value">{{ obfuscateAccount(latestPayslip.AccountNumber) }}</div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="info-block">
+                <label>PAN Number</label>
+                <div class="value">{{ obfuscatePAN(latestPayslip.PANNumber) }}</div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+
+    <!-- Right Column: My Information & Recent Leaves -->
+    <div class="col-lg-4">
+      <mat-card class="content-card mb-4">
+        <mat-card-header>
+          <mat-card-title>My Information</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="p-4" *ngIf="profile">
+          <div class="profile-info-list">
+            <div class="info-block" *ngIf="displayEmpId">
+              <label>Employee ID</label>
+              <div class="value">{{ displayEmpId }}</div>
+            </div>
+            <div class="info-block" *ngIf="profile.Department">
+              <label>Department</label>
+              <div class="value">{{ profile.Department }}</div>
+            </div>
+            <div class="info-block" *ngIf="profile.Designation">
+              <label>Designation</label>
+              <div class="value">{{ profile.Designation }}</div>
+            </div>
+            <div class="info-block" *ngIf="profile.Email">
+              <label>Email Address</label>
+              <div class="value email-value">{{ profile.Email }}</div>
+            </div>
+          </div>
+          <button mat-stroked-button color="primary" class="w-100 mt-4" routerLink="/profile">
+            View Full Profile
+          </button>
+        </mat-card-content>
+        <div class="loading-spinner" *ngIf="isLoading">
+          <mat-spinner diameter="30"></mat-spinner>
+        </div>
+      </mat-card>
+
+      <!-- Recent Leaves Card -->
+      <mat-card class="content-card mb-4" *ngIf="recentLeaves && recentLeaves.length > 0">
+        <mat-card-header>
+          <mat-card-title>Recent Applications</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="p-4">
+          <div class="recent-leave-list">
+            <div class="recent-leave-item" *ngFor="let leave of recentLeaves">
+              <div class="leave-item-header">
+                <span class="leave-type">{{ leave.LeaveDesc || leave.LeaveType }}</span>
+                <span class="leave-status" [ngClass]="leave.LeaveStatus?.toLowerCase()">{{ leave.LeaveStatus }}</span>
+              </div>
+              <div class="leave-item-details">
+                <span>{{ formatDate(leave.FromDate) }} to {{ formatDate(leave.ToDate) }}</span>
+                <span class="days-badge">{{ formatDate(leave.ToDate) === 'Ongoing / Active' || leave.TotalDays === 0 ? 'Ongoing' : leave.TotalDays + ' days' }}</span>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

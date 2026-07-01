@@ -1,0 +1,79 @@
+<div class="layout-container">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport
+        [attr.role]="'navigation'"
+        mode="side"
+        [opened]="false">
+      <div class="sidebar-header">
+        <div class="logo">
+          <mat-icon>fingerprint</mat-icon>
+          <span>Employee Portal</span>
+        </div>
+      </div>
+      
+      <mat-nav-list class="nav-list">
+        <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>dashboard</mat-icon>
+          <span matListItemTitle>Dashboard</span>
+        </a>
+        <a mat-list-item routerLink="/profile" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>person</mat-icon>
+          <span matListItemTitle>Profile</span>
+        </a>
+        <a mat-list-item routerLink="/leave" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>event_available</mat-icon>
+          <span matListItemTitle>Leave Management</span>
+        </a>
+        <a mat-list-item routerLink="/payslip" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>receipt_long</mat-icon>
+          <span matListItemTitle>Payslips</span>
+        </a>
+      </mat-nav-list>
+
+      <div class="sidebar-footer">
+      </div>
+    </mat-sidenav>
+    
+    <mat-sidenav-content>
+      <mat-toolbar color="primary" class="header">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span class="spacer"></span>
+        <div class="user-info" style="display: flex; align-items: center; gap: 8px;">
+          <span class="user-name" *ngIf="employeeName">{{ employeeName }}</span>
+          <span class="user-id" *ngIf="displayEmpId">({{ displayEmpId }})</span>
+          <mat-icon>account_circle</mat-icon>
+          <button mat-icon-button (click)="confirmLogout()" title="Logout" style="color: var(--primary-color); margin-left: 8px;">
+            <mat-icon>logout</mat-icon>
+          </button>
+        </div>
+      </mat-toolbar>
+      
+      <main class="content">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <!-- Logout Confirmation Modal -->
+  <div class="logout-modal-overlay" *ngIf="showLogoutModal">
+    <div class="logout-modal-card">
+      <div class="modal-header">
+        <h3>Confirm Logout</h3>
+        <button mat-icon-button (click)="cancelLogout()"><mat-icon>close</mat-icon></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to logout from the portal?</p>
+      </div>
+      <div class="modal-actions">
+        <button mat-button (click)="cancelLogout()">Cancel</button>
+        <button mat-flat-button color="warn" (click)="executeLogout()">Logout</button>
+      </div>
+    </div>
+  </div>
+</div>

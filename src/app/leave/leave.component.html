@@ -1,0 +1,200 @@
+<div class="main-content-wrapper">
+  <header class="dashboard-header">
+    <div class="header-row">
+      <div>
+        <h1>Leave Management</h1>
+        <p class="subtitle">Track your leave applications, balances, and request time off.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Overview Stat Cards -->
+  <div class="row g-4 mb-4" *ngIf="!isLoading && !hasError">
+    <div class="col-md-6">
+      <div class="stat-card primary">
+        <div class="stat-header">
+          <mat-icon>event_available</mat-icon>
+          <span>Leave Taken</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">
+            {{ totalLeaveTaken }} <small>Days</small>
+          </div>
+          <div class="stat-label">Total time off utilized</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="stat-card secondary">
+        <div class="stat-header">
+          <mat-icon>schedule</mat-icon>
+          <span>Pending Requests</span>
+        </div>
+        <div class="stat-body">
+          <div class="stat-value">
+            {{ pendingLeavesCount }} <small>Active</small>
+          </div>
+          <div class="stat-label">Requests awaiting approval</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4 mt-1" *ngIf="!isLoading && !hasError">
+    <!-- Left Column: Leave History -->
+    <div class="col-lg-8">
+
+      <!-- Leave History Table Card -->
+      <mat-card class="content-card">
+        <mat-card-header class="pb-3 border-0">
+          <mat-card-title>Leave History</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          
+          <!-- Modern Search Bar -->
+          <div class="search-container mb-3" *ngIf="leaveData.length > 0">
+            <div class="search-box-wrapper">
+              <mat-icon class="search-icon">search</mat-icon>
+              <input type="text" class="custom-search-input" (keyup)="applyFilter($event)" placeholder="Search leave type, dates, or status...">
+            </div>
+          </div>
+
+          <!-- Material Table -->
+          <div class="table-responsive" *ngIf="leaveData.length > 0">
+            <table mat-table [dataSource]="dataSource" matSort class="w-100">
+              
+              <!-- Leave Type Column -->
+              <ng-container matColumnDef="LeaveType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+                <td mat-cell *matCellDef="let row">
+                  <div class="type-cell-wrapper">
+                    <mat-icon class="type-icon text-primary">
+                      {{ (row.LeaveDesc || '').toLowerCase().includes('sick') ? 'healing' : 
+                         (row.LeaveDesc || '').toLowerCase().includes('casual') ? 'beach_access' : 'flight_takeoff' }}
+                    </mat-icon>
+                    <div>
+                      <span class="type-name">{{ row.LeaveDesc || getLeaveTypeName(row.LeaveType) }}</span>
+                      <span class="type-desc text-muted d-block" style="font-size: 0.75rem;">{{ row.Reason || 'Regular Time Off' }}</span>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Start Date Column -->
+              <ng-container matColumnDef="FromDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+                <td mat-cell *matCellDef="let row">{{ formatDate(row.FromDate) }}</td>
+              </ng-container>
+
+              <!-- End Date Column -->
+              <ng-container matColumnDef="ToDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
+                <td mat-cell *matCellDef="let row">{{ formatDate(row.ToDate) }}</td>
+              </ng-container>
+
+              <!-- Total Days Column -->
+              <ng-container matColumnDef="TotalDays">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Days</th>
+                <td mat-cell *matCellDef="let row" class="fw-bold">
+                  {{ formatDate(row.ToDate) === 'Ongoing / Active' || row.TotalDays === 0 ? 'Ongoing' : row.TotalDays + ' Day(s)' }}
+                </td>
+              </ng-container>
+
+              <!-- Status Column -->
+              <ng-container matColumnDef="LeaveStatus">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                <td mat-cell *matCellDef="let row">
+                  <span class="status-badge" [ngClass]="row.LeaveStatus?.toLowerCase()">
+                    <mat-icon class="badge-icon">
+                      {{ row.LeaveStatus?.toUpperCase() === 'APPROVED' ? 'check_circle' : 
+                         row.LeaveStatus?.toUpperCase() === 'PENDING' ? 'schedule' : 'cancel' }}
+                    </mat-icon>
+                    {{ row.LeaveStatus }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              
+              <!-- Filter Empty Row -->
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell text-center py-4" colspan="5" style="color: #64748b; font-style: italic;">
+                  No leave records matching the search filter found.
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <mat-paginator *ngIf="leaveData.length > 0" [pageSizeOptions]="[5, 10]" class="mt-2"></mat-paginator>
+
+          <!-- Fallback when SAP actually returned 0 leaves ever -->
+          <div class="empty-state py-5" *ngIf="loadedOnce && leaveData.length === 0">
+            <mat-icon class="huge-icon">event_busy</mat-icon>
+            <h3>No Leave Applications</h3>
+            <p class="text-muted">You do not have any active or historical leave records registered in SAP.</p>
+          </div>
+
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+
+    <!-- Right Column: Guidelines -->
+    <div class="col-lg-4">
+      
+      <!-- Guidelines Card -->
+      <mat-card class="content-card mb-4">
+        <mat-card-header class="border-0 pb-0">
+          <mat-card-title>Leave Policy Rules</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="pt-3">
+          <div class="profile-info-list">
+            <div class="info-block">
+              <label>Prior Notice</label>
+              <div class="value" style="font-size: 0.85rem; font-weight: 400; color: #64748b; line-height: 1.4;">
+                Casual & Privilege leaves require at least 3 days prior manager approval in the portal.
+              </div>
+            </div>
+            <div class="info-block">
+              <label>Sick Leave Medicals</label>
+              <div class="value" style="font-size: 0.85rem; font-weight: 400; color: #64748b; line-height: 1.4;">
+                Sick leaves exceeding 3 consecutive business days require a registered doctor's medical certificate.
+              </div>
+            </div>
+            <div class="info-block">
+              <label>Fiscal Year Quota</label>
+              <div class="value" style="font-size: 0.85rem; font-weight: 400; color: #64748b; line-height: 1.4;">
+                Remaining leaves expire or carry forward according to your region's policy on Dec 31.
+              </div>
+            </div>
+            <div class="info-block">
+              <label>Contact HR</label>
+              <div class="value" style="font-size: 0.85rem; font-weight: 400; color: #64748b; line-height: 1.4;">
+                Email <strong>hr@company.com</strong> for special leave extensions or maternity policies.
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+
+  <!-- Connection Issues / Error State -->
+  <div class="text-center py-5 error-card" *ngIf="!isLoading && hasError">
+    <mat-icon class="huge-icon error-icon">cloud_off</mat-icon>
+    <h3>Connection Issue</h3>
+    <p class="text-muted">Unable to reach the SAP server. Please check your VPN connection and try again.</p>
+    <button mat-flat-button class="refresh-btn mt-3" (click)="reloadLeaveData()">
+      <mat-icon>refresh</mat-icon> Retry
+    </button>
+  </div>
+
+  <!-- Initial Loading Spinner -->
+  <div *ngIf="isLoading" class="text-center p-5">
+    <mat-spinner diameter="40" class="mx-auto"></mat-spinner>
+    <p class="text-muted mt-3">Fetching leave details from SAP...</p>
+  </div>
+
+</div>

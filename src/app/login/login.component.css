@@ -1,0 +1,414 @@
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(14, 165, 164, 0.1) 100%),
+    var(--bg-main);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(37, 99, 235, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.08) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(180deg, rgba(0,0,0,0.85), transparent);
+}
+.login-wrapper::after {
+  display: none;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 32px;
+  z-index: 1;
+  /* Glass effect override just for login */
+  background: rgba(255, 255, 255, 0.98) !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 24px 60px -34px rgba(23, 32, 51, 0.6) !important;
+  border-radius: var(--radius-lg) !important;
+  animation: slideUp var(--transition-fast) ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+mat-card-header {
+  margin-bottom: 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: var(--primary-color);
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+mat-card-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px !important;
+  font-family: 'Outfit', sans-serif;
+}
+
+mat-card-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.login-btn {
+  width: 100%;
+  height: 48px;
+  background-color: var(--primary-color) !important;
+  color: white !important;
+  font-weight: 600;
+  font-size: 1.05rem;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.login-btn:not([disabled]):hover {
+  background-color: var(--primary-hover) !important;
+  transform: translateY(-1px);
+}
+
+.error-msg {
+  color: var(--accent-color);
+  background-color: #FFF1F2;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  text-align: center;
+  border: 1px solid #FECDD3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* --- Forgot Password Link --- */
+.forgot-link-row {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.forgot-link {
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.forgot-link:hover {
+  background-color: rgba(37, 99, 235, 0.08);
+  color: #1d4ed8;
+}
+
+.forgot-link-icon {
+  font-size: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+/* --- Forgot Password Modal Overlay (Dashboard-aligned Glassmorphism) --- */
+.forgot-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.55);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.25s ease-out;
+}
+
+.forgot-modal-card {
+  width: 100%;
+  max-width: 460px;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid #e2e8f0;
+  background-color: white;
+  overflow: hidden;
+  animation: scaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Modal Header */
+.forgot-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.forgot-header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.forgot-header-icon {
+  color: #2563eb;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+}
+
+.forgot-modal-header h3 {
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+}
+
+.forgot-modal-sub {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin: 2px 0 0;
+}
+
+/* Error Banner inside modal */
+.forgot-error-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 24px 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background-color: #fff1f2;
+  border: 1px solid #fecdd3;
+  color: #be123c;
+  font-size: 0.82rem;
+  font-weight: 500;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.forgot-error-banner mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Modal Body */
+.forgot-modal-body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.forgot-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.forgot-field-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #2563eb;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.forgot-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.forgot-input-wrapper:focus-within {
+  border-color: #2563eb;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.forgot-input-wrapper.input-error {
+  border-color: #f43f5e;
+  background-color: #fff8f8;
+}
+
+.forgot-input-wrapper.input-error:focus-within {
+  box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.12);
+}
+
+.forgot-input-icon {
+  position: absolute;
+  left: 12px;
+  color: #94a3b8;
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+  pointer-events: none;
+}
+
+.forgot-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 12px 44px 12px 42px;
+  font-size: 0.95rem;
+  color: #1e293b;
+  font-weight: 500;
+  outline: none;
+}
+
+.forgot-input::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.forgot-toggle-btn {
+  position: absolute;
+  right: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s ease;
+  color: #64748b;
+}
+
+.forgot-toggle-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.forgot-toggle-btn mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Mismatch Hint */
+.mismatch-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #f43f5e;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.hint-icon {
+  font-size: 14px !important;
+  width: 14px !important;
+  height: 14px !important;
+}
+
+/* Modal Actions */
+.forgot-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.forgot-cancel-btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #475569;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.forgot-cancel-btn:hover:not(:disabled) {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.forgot-submit-btn {
+  padding: 10px 24px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.forgot-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+.forgot-submit-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.forgot-cancel-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

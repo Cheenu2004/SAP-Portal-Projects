@@ -1,0 +1,138 @@
+<div class="login-wrapper">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-icon class="logo-icon">fingerprint</mat-icon>
+      <mat-card-title>Employee Portal</mat-card-title>
+      <mat-card-subtitle>Sign in to your secure workspace</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Employee ID</mat-label>
+          <input matInput formControlName="empId" placeholder="e.g. EMP001" required>
+          <mat-icon matPrefix class="me-2 text-muted">badge</mat-icon>
+          <mat-error *ngIf="loginForm.get('empId')?.hasError('required')">
+            Employee ID is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+          <mat-icon matPrefix class="me-2 text-muted">lock</mat-icon>
+          <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+            Password is required
+          </mat-error>
+        </mat-form-field>
+
+        <div class="actions mt-4">
+          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading" class="login-btn">
+            <mat-spinner *ngIf="isLoading" diameter="24" color="accent"></mat-spinner>
+            <span *ngIf="!isLoading">Sign In</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Forgot Password Link -->
+      <div class="forgot-link-row">
+        <button type="button" class="forgot-link" (click)="openForgotModal()">
+          <mat-icon class="forgot-link-icon">lock_reset</mat-icon>
+          Forgot Password?
+        </button>
+      </div>
+    </mat-card-content>
+    
+    <mat-card-footer *ngIf="isLoading" class="mt-4">
+      <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
+    </mat-card-footer>
+  </mat-card>
+
+  <!-- Forgot Password Modal Overlay -->
+  <div class="forgot-modal-overlay" *ngIf="showForgotModal">
+    <div class="forgot-modal-card">
+      <!-- Modal Header -->
+      <div class="forgot-modal-header">
+        <div class="forgot-header-title">
+          <mat-icon class="forgot-header-icon">lock_reset</mat-icon>
+          <div>
+            <h3>Reset Password</h3>
+            <p class="forgot-modal-sub">Enter your Employee ID and set a new password</p>
+          </div>
+        </div>
+        <button mat-icon-button (click)="closeForgotModal()" [disabled]="forgotIsSubmitting">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Error Banner -->
+      <div class="forgot-error-banner" *ngIf="forgotErrorMessage">
+        <mat-icon>error_outline</mat-icon>
+        <span>{{ forgotErrorMessage }}</span>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="forgot-modal-body">
+        <!-- Employee ID -->
+        <div class="forgot-field-group">
+          <label class="forgot-field-label">Employee ID</label>
+          <div class="forgot-input-wrapper">
+            <mat-icon class="forgot-input-icon">badge</mat-icon>
+            <input type="text"
+                   class="forgot-input"
+                   [(ngModel)]="forgotEmpId"
+                   placeholder="e.g. 14 or EMP001"
+                   [disabled]="forgotIsSubmitting">
+          </div>
+        </div>
+
+        <!-- New Password -->
+        <div class="forgot-field-group">
+          <label class="forgot-field-label">New Password</label>
+          <div class="forgot-input-wrapper">
+            <mat-icon class="forgot-input-icon">lock</mat-icon>
+            <input [type]="forgotHideNewPassword ? 'password' : 'text'"
+                   class="forgot-input"
+                   [(ngModel)]="forgotNewPassword"
+                   placeholder="Enter new password"
+                   [disabled]="forgotIsSubmitting">
+            <button type="button" class="forgot-toggle-btn" (click)="forgotHideNewPassword = !forgotHideNewPassword" tabindex="-1">
+              <mat-icon>{{ forgotHideNewPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="forgot-field-group">
+          <label class="forgot-field-label">Confirm Password</label>
+          <div class="forgot-input-wrapper" [class.input-error]="passwordsMismatch">
+            <mat-icon class="forgot-input-icon">lock_outline</mat-icon>
+            <input [type]="forgotHideConfirmPassword ? 'password' : 'text'"
+                   class="forgot-input"
+                   [(ngModel)]="forgotConfirmPassword"
+                   placeholder="Re-enter new password"
+                   [disabled]="forgotIsSubmitting">
+            <button type="button" class="forgot-toggle-btn" (click)="forgotHideConfirmPassword = !forgotHideConfirmPassword" tabindex="-1">
+              <mat-icon>{{ forgotHideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </div>
+          <span class="mismatch-hint" *ngIf="passwordsMismatch">
+            <mat-icon class="hint-icon">warning</mat-icon> Passwords do not match
+          </span>
+        </div>
+      </div>
+
+      <!-- Modal Actions -->
+      <div class="forgot-modal-actions">
+        <button class="forgot-cancel-btn" (click)="closeForgotModal()" [disabled]="forgotIsSubmitting">Cancel</button>
+        <button class="forgot-submit-btn" (click)="submitForgotPassword()" [disabled]="!forgotFormValid || forgotIsSubmitting">
+          <mat-spinner diameter="18" *ngIf="forgotIsSubmitting" class="me-2"></mat-spinner>
+          {{ forgotIsSubmitting ? 'Updating...' : 'Update Password' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

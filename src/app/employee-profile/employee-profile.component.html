@@ -1,0 +1,109 @@
+<div class="main-content-wrapper">
+  <!-- Dashboard-Style Header -->
+  <header class="dashboard-header">
+    <div class="header-row">
+      <div>
+        <h1>Employee Profile</h1>
+        <p class="subtitle" *ngIf="employeeName">Complete details for <strong>{{ employeeName }}</strong></p>
+        <p class="subtitle" *ngIf="!employeeName && !isLoading">Your personal and employment details from SAP</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-state">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Fetching profile from SAP...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!profile && !isLoading" class="error-card">
+    <mat-icon class="huge-icon error-icon">cloud_off</mat-icon>
+    <h3>Connection Issue</h3>
+    <p class="text-muted">Unable to load profile data from SAP. Please check your VPN connection and try again.</p>
+    <button mat-flat-button class="refresh-btn mt-3" (click)="loadProfile()">
+      <mat-icon>refresh</mat-icon> Retry
+    </button>
+  </div>
+
+  <!-- Profile Content (when loaded) -->
+  <ng-container *ngIf="profile && !isLoading">
+
+    <!-- Hero Profile Card -->
+    <div class="profile-hero-card">
+      <div class="hero-banner"></div>
+      <div class="hero-body">
+        <div class="hero-avatar-wrap">
+          <div class="hero-avatar">
+            <mat-icon>person</mat-icon>
+          </div>
+        </div>
+        <div class="hero-info">
+          <h2 class="hero-name">{{ employeeName }}</h2>
+          <div class="hero-meta">
+            <span class="meta-chip designation-chip" *ngIf="designation">
+              <mat-icon>work</mat-icon> {{ designation }}
+            </span>
+            <span class="meta-chip department-chip" *ngIf="department">
+              <mat-icon>business</mat-icon> {{ department }}
+            </span>
+            <span class="meta-chip id-chip">
+              <mat-icon>badge</mat-icon> ID: {{ employeeIdDisplay }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Stats Row -->
+      <div class="quick-stats-row">
+        <div class="quick-stat" *ngIf="email">
+          <mat-icon>email</mat-icon>
+          <div class="qs-text">
+            <span class="qs-label">Email</span>
+            <span class="qs-value email-val">{{ email }}</span>
+          </div>
+        </div>
+        <div class="quick-stat" *ngIf="phone">
+          <mat-icon>phone</mat-icon>
+          <div class="qs-text">
+            <span class="qs-label">Phone</span>
+            <span class="qs-value">{{ phone }}</span>
+          </div>
+        </div>
+        <div class="quick-stat" *ngIf="joiningDate">
+          <mat-icon>event</mat-icon>
+          <div class="qs-text">
+            <span class="qs-label">Date of Joining</span>
+            <span class="qs-value">{{ joiningDate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categorized Section Cards -->
+    <div class="sections-grid">
+      <mat-card *ngFor="let section of profileSections" class="section-card" [ngClass]="section.colorClass">
+        <mat-card-header class="section-header">
+          <div class="section-icon-wrap" [ngClass]="section.colorClass + '-icon'">
+            <mat-icon>{{ section.icon }}</mat-icon>
+          </div>
+          <mat-card-title class="section-title">{{ section.title }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="section-body">
+          <div class="field-list">
+            <div class="field-row" *ngFor="let field of section.fields">
+              <div class="field-icon-col">
+                <mat-icon>{{ field.icon }}</mat-icon>
+              </div>
+              <div class="field-text-col">
+                <span class="field-label">{{ field.label }}</span>
+                <span class="field-value" [ngClass]="{'email-val': field.key === 'Email'}">{{ field.value }}</span>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+  </ng-container>
+</div>

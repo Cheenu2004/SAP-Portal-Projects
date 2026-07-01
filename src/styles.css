@@ -1,0 +1,101 @@
+/* Global Layout Overhaul - Light Employee Portal Theme */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #2563EB;
+  --primary-hover: #1D4ED8;
+  --secondary-color: #0EA5A4;
+  --accent-color: #E11D48;
+  
+  --bg-main: #F6F9FC;
+  --bg-surface: #FFFFFF;
+  --bg-sidebar: #FFFFFF;
+  
+  --text-main: #172033;
+  --text-muted: #5B6B82;
+  --text-light: #172033;
+  --border-color: #DCE6F2;
+  
+  /* Glassmorphism & Shadows */
+  --glass-bg: rgba(255, 255, 255, 0.86);
+  --glass-border: rgba(220, 230, 242, 0.9);
+  --card-shadow: 0 12px 30px -18px rgba(23, 32, 51, 0.35);
+  --hover-shadow: 0 18px 34px -22px rgba(23, 32, 51, 0.45);
+  
+  /* Radii & Transitions */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html, body {
+  height: 100%;
+  font-size: 15px;
+}
+
+body {
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Page Alignment Wrapper */
+.main-content-wrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px 40px;
+  animation: fadeIn var(--transition-fast) ease-out;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius-md);
+}
+
+/* Standardized Card Overrides */
+.mat-mdc-card {
+  border-radius: var(--radius-md) !important;
+  border: 1px solid rgba(0,0,0,0.04) !important;
+  box-shadow: var(--card-shadow) !important;
+  background: #ffffff !important;
+  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.mat-mdc-card:hover {
+  box-shadow: var(--hover-shadow) !important;
+  transform: translateY(-2px);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  color: var(--text-main);
+}
+
+h1 { font-size: 2.25rem !important; font-weight: 700; margin-bottom: 8px; letter-spacing: 0; }
+.subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 32px; font-weight: 400; }
+
+/* Grid Gutters */
+.row { --bs-gutter-x: 24px; --bs-gutter-y: 24px; }
+
+/* Global Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Override Material Form Fields to look modern */
+.mdc-text-field--outlined {
+  --mdc-outlined-text-field-outline-color: var(--border-color);
+  --mdc-outlined-text-field-focus-outline-color: var(--primary-color);
+  --mdc-outlined-text-field-hover-outline-color: #BFD0E4;
+  border-radius: var(--radius-sm);
+}
