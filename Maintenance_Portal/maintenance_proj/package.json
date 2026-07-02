@@ -1,0 +1,7 @@
+{
+  "name": "maintenance_proj",
+  "private": true,
+  "scripts": {
+    "sap-proxy": "node tool/sap_proxy.js"
+  }
+}

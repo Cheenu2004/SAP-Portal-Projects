@@ -1,0 +1,17 @@
+{
+  "dart.analysisExcludedFolders": [
+    "sahaana_main/flutter",
+    "sahaana_main/maintenance_new/maintenance_proj/build",
+    "sahaana_main/maintenance_new/maintenance_proj/.dart_tool"
+  ],
+  "files.watcherExclude": {
+    "**/sahaana_main/flutter/**": true,
+    "**/build/**": true,
+    "**/.dart_tool/**": true
+  },
+  "search.exclude": {
+    "**/sahaana_main/flutter": true,
+    "**/build": true,
+    "**/.dart_tool": true
+  }
+}
