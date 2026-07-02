@@ -1,0 +1,124 @@
+<div class="login-wrapper">
+  <!-- Info Side (Left) -->
+  <div class="login-info-side">
+    <div class="info-content">
+      <div class="logo">
+        <span class="logo-text-light">Vendor Portal</span>
+      </div>
+      
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="icon-wrapper bg-yellow">
+            <mat-icon>request_quote</mat-icon>
+          </div>
+          <div class="feature-text">
+            <h3>Track RFQs & Quotes</h3>
+            <p>Access real-time updates on your requests for quotation and manage your bids effectively.</p>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="icon-wrapper bg-green">
+            <mat-icon>shopping_cart</mat-icon>
+          </div>
+          <div class="feature-text">
+            <h3>Manage Purchase Orders</h3>
+            <p>Review, accept, and track all your purchase orders in one centralized location.</p>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="icon-wrapper bg-blue">
+            <mat-icon>local_shipping</mat-icon>
+          </div>
+          <div class="feature-text">
+            <h3>Monitor Deliveries</h3>
+            <p>Stay on top of delivery schedules, shipping statuses, and track inbound materials.</p>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="icon-wrapper bg-pink">
+            <mat-icon>receipt</mat-icon>
+          </div>
+          <div class="feature-text">
+            <h3>Handle Invoices & Payments</h3>
+            <p>Submit invoices directly, monitor approval workflows, and check payment statuses instantly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Side (Right) -->
+  <div class="login-form-side">
+    <div class="login-box">
+      <div class="login-header">
+        <h2>{{ isForgotPassword ? 'Reset Password' : 'Vendor Login' }}</h2>
+        <p>{{ isForgotPassword ? 'Enter your new credentials' : 'Enter your credentials to access the portal' }}</p>
+      </div>
+      
+      <mat-card class="login-card">
+        <mat-card-content>
+          <!-- Login Form -->
+          <form (ngSubmit)="onLogin()" #loginForm="ngForm" *ngIf="!isForgotPassword">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Vendor ID</mat-label>
+              <input matInput [(ngModel)]="vendorId" name="vendorId" required placeholder="Enter Vendor ID">
+              <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Password</mat-label>
+              <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" name="password" required placeholder="Enter Password">
+              <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <div class="forgot-password-link">
+              <a href="javascript:void(0)" (click)="toggleForgotPassword()">Forgot Password?</a>
+            </div>
+
+            <button mat-raised-button color="primary" type="submit" class="login-btn" [disabled]="!loginForm.valid">
+              Login
+            </button>
+          </form>
+
+          <!-- Forgot Password Form -->
+          <form (ngSubmit)="onForgotPassword()" #forgotForm="ngForm" *ngIf="isForgotPassword">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Vendor ID</mat-label>
+              <input matInput [(ngModel)]="vendorId" name="vendorId" required placeholder="Enter Vendor ID">
+              <mat-icon matSuffix>person</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>New Password</mat-label>
+              <input matInput [type]="hideNewPassword ? 'password' : 'text'" [(ngModel)]="newPassword" name="newPassword" required placeholder="Enter New Password">
+              <button mat-icon-button matSuffix (click)="hideNewPassword = !hideNewPassword" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideNewPassword">
+                <mat-icon>{{hideNewPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Confirm Password</mat-label>
+              <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" [(ngModel)]="confirmPassword" name="confirmPassword" required placeholder="Confirm Password">
+              <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
+                <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <div class="forgot-password-link">
+              <a href="javascript:void(0)" (click)="toggleForgotPassword()">Back to Login</a>
+            </div>
+
+            <button mat-raised-button color="primary" type="submit" class="login-btn" [disabled]="!forgotForm.valid || newPassword !== confirmPassword">
+              Reset Password
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,116 @@
+<div class="profile-page-wrapper">
+  <div class="page-header">
+  <div class="page-header-left">
+    <h1 class="page-title">Vendor Profile</h1>
+    <p class="page-subtitle">Your registered account details and location</p>
+  </div>
+</div>
+
+<div class="profile-container" *ngIf="profile">
+  
+  <!-- Dashboard Style Stat Cards for Core Info -->
+  <div class="profile-stat-grid">
+    <!-- Vendor Name -->
+    <div class="stat-card stat-blue">
+      <div class="stat-icon-wrap">
+        <mat-icon>business</mat-icon>
+      </div>
+      <div class="stat-info">
+        <h3 class="stat-label">Vendor Name</h3>
+        <p class="stat-value text-ellipsis" [title]="profile.WfVendorName">{{profile.WfVendorName || 'N/A'}}</p>
+      </div>
+    </div>
+
+    <!-- Vendor ID -->
+    <div class="stat-card stat-green">
+      <div class="stat-icon-wrap">
+        <mat-icon>badge</mat-icon>
+      </div>
+      <div class="stat-info">
+        <h3 class="stat-label">Vendor ID</h3>
+        <p class="stat-value">{{profile.WfVendorId | trimZeros}}</p>
+      </div>
+    </div>
+
+    <!-- Email Address (Conditional) -->
+    <div class="stat-card stat-yellow" *ngIf="profile.WfEmail && profile.WfEmail !== 'N/A'">
+      <div class="stat-icon-wrap">
+        <mat-icon>email</mat-icon>
+      </div>
+      <div class="stat-info">
+        <h3 class="stat-label">Email Address</h3>
+        <p class="stat-value text-ellipsis" [title]="profile.WfEmail">{{profile.WfEmail}}</p>
+      </div>
+    </div>
+
+    <!-- Tax Number (Conditional) -->
+    <div class="stat-card stat-red" *ngIf="profile.WfTaxNo && profile.WfTaxNo !== 'N/A'">
+      <div class="stat-icon-wrap">
+        <mat-icon>receipt_long</mat-icon>
+      </div>
+      <div class="stat-info">
+        <h3 class="stat-label">Tax Number</h3>
+        <p class="stat-value">{{profile.WfTaxNo}}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Width Address Section -->
+  <mat-card class="address-card">
+    <mat-card-header>
+      <mat-card-title>Location & Address</mat-card-title>
+      <mat-card-subtitle>Primary registered location details</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="address-list">
+        
+        <div class="address-row box-blue" *ngIf="profile.WfAddress && profile.WfAddress !== 'N/A'">
+          <div class="addr-icon"><mat-icon>signpost</mat-icon></div>
+          <div class="addr-text">
+            <span class="addr-label">Street Address</span>
+            <span class="addr-value">{{profile.WfAddress}}</span>
+          </div>
+        </div>
+
+        <div class="address-row box-green" *ngIf="profile.WfCity && profile.WfCity !== 'N/A'">
+          <div class="addr-icon"><mat-icon>location_city</mat-icon></div>
+          <div class="addr-text">
+            <span class="addr-label">City</span>
+            <span class="addr-value">{{profile.WfCity}}</span>
+          </div>
+        </div>
+
+        <div class="address-row box-teal" *ngIf="profile.WfRegion && profile.WfRegion !== 'N/A'">
+          <div class="addr-icon"><mat-icon>map</mat-icon></div>
+          <div class="addr-text">
+            <span class="addr-label">Region / State</span>
+            <span class="addr-value">{{profile.WfRegion}}</span>
+          </div>
+        </div>
+
+        <div class="address-row box-yellow" *ngIf="profile.WfPostalCode && profile.WfPostalCode !== 'N/A'">
+          <div class="addr-icon"><mat-icon>markunread_mailbox</mat-icon></div>
+          <div class="addr-text">
+            <span class="addr-label">Postal Code</span>
+            <span class="addr-value">{{profile.WfPostalCode}}</span>
+          </div>
+        </div>
+
+        <div class="address-row box-purple" *ngIf="profile.WfCountry && profile.WfCountry !== 'N/A'">
+          <div class="addr-icon"><mat-icon>public</mat-icon></div>
+          <div class="addr-text">
+            <span class="addr-label">Country</span>
+            <span class="addr-value">{{profile.WfCountry}}</span>
+          </div>
+        </div>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="empty-state" *ngIf="!profile">
+  <mat-icon>hourglass_empty</mat-icon>
+  <p>Loading profile...</p>
+</div>
+</div>

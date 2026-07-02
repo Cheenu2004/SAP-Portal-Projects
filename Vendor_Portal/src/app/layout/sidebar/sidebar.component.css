@@ -1,0 +1,148 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #1e293b;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  transition: width 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.logo-container {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px 0 20px;
+  background-color: #162032;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.sidebar.collapsed .logo-container {
+  padding: 0;
+  justify-content: center;
+  flex-direction: column;
+  height: 80px;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-wrap-collapsed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.logo-icon {
+  color: #4680ff;
+  font-size: 26px;
+  width: 26px;
+  height: 26px;
+}
+
+.logo-text {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.toggle-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.sidebar.collapsed .toggle-btn {
+  margin-top: 4px;
+}
+
+.nav-list {
+  padding-top: 12px;
+  flex: 1;
+  overflow: hidden; /* Removed scrollbar */
+}
+
+/* Force text color for Angular Material list items */
+::ng-deep .nav-item .mdc-list-item__primary-text {
+  color: #f8fafc !important;
+  font-weight: 500;
+}
+
+.nav-item {
+  margin: 2px 10px;
+  padding: 0 12px !important;
+  height: 46px !important;
+  border-radius: 8px !important;
+  color: #f8fafc !important;
+  transition: all 0.2s;
+  font-size: 13.5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .nav-item {
+  margin: 4px 10px;
+  padding: 0 !important;
+  justify-content: center;
+}
+
+.sidebar.collapsed ::ng-deep .nav-item .mdc-list-item__primary-text {
+  display: none !important;
+}
+
+.nav-item mat-icon {
+  color: #94a3b8;
+  margin-right: 10px;
+  font-size: 19px;
+  height: 19px;
+  width: 19px;
+}
+
+.sidebar.collapsed .nav-item mat-icon {
+  margin-right: 0;
+  font-size: 22px;
+  height: 22px;
+  width: 22px;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+}
+
+.nav-item:hover mat-icon {
+  color: #4680ff;
+}
+
+.nav-item.active {
+  background-color: rgba(70, 128, 255, 0.18) !important;
+}
+
+.nav-item.active mat-icon {
+  color: #4680ff !important;
+}
+
+
+

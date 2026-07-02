@@ -1,0 +1,168 @@
+<div class="profile-page-wrapper">
+  <div class="page-header">
+    <h1 class="page-title">Credit/Debit Memos</h1>
+    <p class="page-subtitle">Track your credit and debit memos</p>
+  </div>
+
+  <div class="profile-stat-grid stat-grid-3">
+    <div class="stat-card stat-blue">
+      <div class="stat-icon-wrap"><mat-icon>receipt_long</mat-icon></div>
+      <div class="stat-info">
+        <h3 class="stat-label">Total Memos</h3>
+        <p class="stat-value">{{totalMemos}}</p>
+      </div>
+    </div>
+    <div class="stat-card stat-green">
+      <div class="stat-icon-wrap"><mat-icon>account_balance_wallet</mat-icon></div>
+      <div class="stat-info">
+        <h3 class="stat-label">Total Credit</h3>
+        <p class="stat-value">{{totalCredit}}</p>
+      </div>
+    </div>
+    <div class="stat-card stat-red">
+      <div class="stat-icon-wrap"><mat-icon>money_off</mat-icon></div>
+      <div class="stat-info">
+        <h3 class="stat-label">Total Debit</h3>
+        <p class="stat-value">{{totalDebit}}</p>
+      </div>
+    </div>
+  </div>
+
+  <mat-card class="table-card">
+    <mat-card-content>
+      <div class="filter-bar">
+        <div class="filter-inputs">
+          <!-- General Search -->
+          <div class="search-box">
+            <mat-icon class="filter-icon">search</mat-icon>
+            <input type="text" class="search-input" [(ngModel)]="filterSearch" (keyup)="applyFilters()" placeholder="Search Memos...">
+          </div>
+
+          <!-- Category (Credit/Debit) -->
+          <mat-form-field appearance="outline" class="filter-dropdown">
+            <mat-label>Category</mat-label>
+            <mat-icon matPrefix class="filter-icon">category</mat-icon>
+            <mat-select [(value)]="filterCategory" (selectionChange)="applyFilters()">
+              <mat-option value="">All Categories</mat-option>
+              <mat-option *ngFor="let c of categories" [value]="c">{{c}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Type Dropdown -->
+          <mat-form-field appearance="outline" class="filter-dropdown">
+            <mat-label>Doc Type</mat-label>
+            <mat-icon matPrefix class="filter-icon">description</mat-icon>
+            <mat-select [(value)]="filterDocType" (selectionChange)="applyFilters()">
+              <mat-option value="">All Types</mat-option>
+              <mat-option *ngFor="let dt of docTypes" [value]="dt">{{dt}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Status Dropdown -->
+          <mat-form-field appearance="outline" class="filter-dropdown">
+            <mat-label>Status</mat-label>
+            <mat-icon matPrefix class="filter-icon">rule</mat-icon>
+            <mat-select [(value)]="filterStatus" (selectionChange)="applyFilters()">
+              <mat-option value="">All Statuses</mat-option>
+              <mat-option *ngFor="let s of statuses" [value]="s">{{s}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Sort By Dropdown -->
+          <mat-form-field appearance="outline" class="filter-dropdown sort-dropdown">
+            <mat-label>Sort By</mat-label>
+            <mat-icon matPrefix class="filter-icon">sort</mat-icon>
+            <mat-select [(value)]="selectedSort" (selectionChange)="applySort($event.value)">
+              <mat-option value="">None</mat-option>
+              <mat-option value="WfMemoDoc_asc">Memo Doc (Asc)</mat-option>
+              <mat-option value="WfMemoDoc_desc">Memo Doc (Desc)</mat-option>
+              <mat-option value="WfDocDate_asc">Doc Date (Oldest)</mat-option>
+              <mat-option value="WfDocDate_desc">Doc Date (Newest)</mat-option>
+              <mat-option value="WfAmount_asc">Amount (Low → High)</mat-option>
+              <mat-option value="WfAmount_desc">Amount (High → Low)</mat-option>
+              <mat-option class="reset-option" value="reset">⟲ Reset All Filters</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="table-container mat-elevation-z2">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- Memo Doc Column -->
+          <ng-container matColumnDef="WfMemoDoc">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Memo Doc </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-badge badge-blue">{{row.WfMemoDoc}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Doc Date Column -->
+          <ng-container matColumnDef="WfDocDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Doc Date </th>
+            <td mat-cell *matCellDef="let row"> {{row.WfDocDate | date}} </td>
+          </ng-container>
+
+          <!-- Post Date Column -->
+          <ng-container matColumnDef="WfPostDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Post Date </th>
+            <td mat-cell *matCellDef="let row"> {{row.WfPostDate | date}} </td>
+          </ng-container>
+
+          <!-- Doc Type Column -->
+          <ng-container matColumnDef="WfDocType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-tag">{{row.WfDocType}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Transaction Type Column -->
+          <ng-container matColumnDef="TransactionType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Category </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-badge" [ngClass]="isCredit(row.WfDocType) ? 'badge-green' : 'badge-red'">
+                {{isCredit(row.WfDocType) ? 'Credit' : 'Debit'}}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Amount Column -->
+          <ng-container matColumnDef="WfAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-price">{{row.WfAmount}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Currency Column -->
+          <ng-container matColumnDef="WfCurrency">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Currency </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-badge badge-amber">{{row.WfCurrency}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Status Column -->
+          <ng-container matColumnDef="WfStatus">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-badge" [ngClass]="(row.WfStatus || 'OPEN') === 'OPEN' ? 'badge-blue' : 'badge-green'">
+                {{row.WfStatus || 'OPEN'}}
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell no-data-cell" colspan="8">No matching Memos found.</td>
+          </tr>
+        </table>
+
+        <mat-paginator hidePageSize="true" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of Memos"></mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

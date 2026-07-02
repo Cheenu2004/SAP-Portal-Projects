@@ -1,0 +1,220 @@
+/* Page Wrapper */
+.profile-page-wrapper {
+  background-color: #e2e8f0; /* Visible light background (slate-200) */
+  min-height: calc(100vh - 64px);
+  margin: -24px;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Page Header */
+.page-header {
+  margin-bottom: 32px;
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+}
+
+.page-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: -0.5px;
+}
+
+.page-subtitle {
+  margin: 0;
+  font-size: 15px;
+  color: #64748b;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 900px;
+}
+
+/* Dashboard Style Stat Cards */
+.profile-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #f1f5f9;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.stat-blue { background-color: #eff6ff; border-color: #bfdbfe; }
+.stat-blue::before { background-color: #3b82f6; }
+
+.stat-green { background-color: #f0fdf4; border-color: #bbf7d0; }
+.stat-green::before { background-color: #10b981; }
+
+.stat-yellow { background-color: #fffbeb; border-color: #fde68a; }
+.stat-yellow::before { background-color: #f59e0b; }
+
+.stat-red { background-color: #fef2f2; border-color: #fecaca; }
+.stat-red::before { background-color: #ef4444; }
+
+.stat-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+
+.stat-blue .stat-icon-wrap { background-color: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+.stat-green .stat-icon-wrap { background-color: rgba(16, 185, 129, 0.1); color: #10b981; }
+.stat-yellow .stat-icon-wrap { background-color: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.stat-red .stat-icon-wrap { background-color: rgba(239, 68, 68, 0.1); color: #ef4444; }
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.stat-label {
+  margin: 0 0 4px 0;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Address List Section */
+.address-card {
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+  background-color: #ffffff;
+}
+
+.address-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.address-row {
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid transparent;
+}
+
+.box-blue { background-color: #eff6ff; border-color: #bfdbfe; }
+.box-green { background-color: #f0fdf4; border-color: #bbf7d0; }
+.box-teal { background-color: #f0fdfa; border-color: #99f6e4; }
+.box-yellow { background-color: #fffbeb; border-color: #fde68a; }
+.box-purple { background-color: #faf5ff; border-color: #e9d5ff; }
+
+.address-row:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.addr-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  flex-shrink: 0;
+  background-color: #ffffff; /* Contrast against the tinted row */
+}
+
+.addr-icon mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.box-blue .addr-icon { color: #3b82f6; }
+.box-green .addr-icon { color: #10b981; }
+.box-teal .addr-icon { color: #14b8a6; }
+.box-yellow .addr-icon { color: #f59e0b; }
+.box-purple .addr-icon { color: #a855f7; }
+
+.addr-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.addr-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.addr-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+  word-break: break-word;
+}
+
+/* Empty State */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  color: #94a3b8;
+}
+
+.empty-state mat-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}

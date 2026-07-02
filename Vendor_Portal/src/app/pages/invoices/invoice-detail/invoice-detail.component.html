@@ -1,0 +1,115 @@
+<div class="page-header">
+  <div class="header-left">
+    <button mat-icon-button routerLink="/invoices" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1 class="page-title">Invoice Details: {{invoiceId}}</h1>
+  </div>
+  <div class="header-actions">
+    <button mat-stroked-button color="primary" (click)="printPdf()" [disabled]="!pdfUrl">
+      <mat-icon>print</mat-icon> Print
+    </button>
+    <button mat-stroked-button color="accent" (click)="downloadPdf()" [disabled]="!pdfUrl">
+      <mat-icon>file_download</mat-icon> Download
+    </button>
+    <button mat-flat-button color="primary" routerLink="/invoices">
+      Back to List
+    </button>
+  </div>
+</div>
+
+<div class="detail-container">
+  <!-- Left Side: Invoice Info & Items -->
+  <div class="info-section">
+    <mat-card class="info-card">
+      <mat-card-header>
+        <mat-card-title>Invoice Information</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Invoice Number</span>
+            <span class="value">{{invoiceId}}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Fiscal Year</span>
+            <span class="value">{{fiscYear}}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Posting Status</span>
+            <span class="value badge badge-success">POSTED</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="items-card">
+      <mat-card-header>
+        <mat-card-title>Line Items</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="table-container">
+          <table mat-table [dataSource]="invoiceItems">
+            <ng-container matColumnDef="WfItemNo">
+              <th mat-header-cell *matHeaderCellDef> Item </th>
+              <td mat-cell *matCellDef="let row"> {{row.WfItemNo}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="WfMaterial">
+              <th mat-header-cell *matHeaderCellDef> Material </th>
+              <td mat-cell *matCellDef="let row"> {{row.WfMaterial}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="WfDescription">
+              <th mat-header-cell *matHeaderCellDef> Description </th>
+              <td mat-cell *matCellDef="let row"> {{row.WfDescription}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="WfQuantity">
+              <th mat-header-cell *matHeaderCellDef> Qty </th>
+              <td mat-cell *matCellDef="let row"> {{row.WfQuantity}} {{row.WfUom}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="WfUom">
+              <th mat-header-cell *matHeaderCellDef> UOM </th>
+              <td mat-cell *matCellDef="let row"> {{row.WfUom}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="WfAmount">
+              <th mat-header-cell *matHeaderCellDef> Amount </th>
+              <td mat-cell *matCellDef="let row"> {{row.WfAmount}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          
+          <div class="no-data" *ngIf="invoiceItems.length === 0 && !isLoading">
+            No line items found for this invoice.
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Right Side: PDF Viewer -->
+  <div class="pdf-section">
+    <mat-card class="pdf-card">
+      <mat-card-header>
+        <mat-card-title>Original Adobe Form</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="pdf-viewer" *ngIf="pdfUrl">
+          <iframe [src]="pdfUrl" width="100%" height="600px"></iframe>
+        </div>
+        <div class="pdf-placeholder" *ngIf="!pdfUrl && !isLoading">
+          <mat-icon>picture_as_pdf</mat-icon>
+          <p>Unable to load PDF document from SAP</p>
+        </div>
+        <div class="loading-overlay" *ngIf="isLoading">
+          <p>Loading Data from SAP...</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

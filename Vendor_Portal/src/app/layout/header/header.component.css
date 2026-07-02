@@ -1,0 +1,22 @@
+.header {
+  background-color: white;
+  box-shadow: 0 1px 15px rgba(0,0,0,0.04);
+  border-bottom: none;
+  height: 56px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.vendor-id {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--kaar-text);
+}

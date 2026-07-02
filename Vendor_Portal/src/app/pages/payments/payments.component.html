@@ -1,0 +1,117 @@
+<div class="profile-page-wrapper">
+  <div class="page-header">
+    <h1 class="page-title">Payments & Aging</h1>
+    <p class="page-subtitle">Track your payments and outstanding aging balances</p>
+  </div>
+
+  <div class="profile-stat-grid">
+    <div class="stat-card stat-blue">
+      <div class="stat-icon-wrap"><mat-icon>paid</mat-icon></div>
+      <div class="stat-info">
+        <h3 class="stat-label">Total Records</h3>
+        <p class="stat-value">{{totalPayments}}</p>
+      </div>
+    </div>
+    <div class="stat-card stat-amber">
+      <div class="stat-icon-wrap"><mat-icon>account_balance</mat-icon></div>
+      <div class="stat-info">
+        <h3 class="stat-label">Total Amount</h3>
+        <p class="stat-value">{{totalAmount | currency: 'INR':'symbol':'1.0-0'}}</p>
+      </div>
+    </div>
+  </div>
+
+  <mat-card class="table-card">
+    <mat-card-content>
+      <div class="filter-bar">
+        <div class="filter-inputs">
+          <!-- General Search -->
+          <div class="search-box">
+            <mat-icon class="filter-icon">search</mat-icon>
+            <input type="text" class="search-input" [(ngModel)]="filterSearch" (keyup)="applyFilters()" placeholder="Search Payments...">
+          </div>
+
+          <!-- Sort By Dropdown -->
+          <mat-form-field appearance="outline" class="filter-dropdown sort-dropdown">
+            <mat-label>Sort By</mat-label>
+            <mat-icon matPrefix class="filter-icon">sort</mat-icon>
+            <mat-select [(value)]="selectedSort" (selectionChange)="applySort($event.value)">
+              <mat-option value="">None</mat-option>
+              <mat-option value="WfInvDoc_asc">Invoice Number (Asc)</mat-option>
+              <mat-option value="WfInvDoc_desc">Invoice Number (Desc)</mat-option>
+              <mat-option value="WfDueDate_asc">Due Date (Oldest)</mat-option>
+              <mat-option value="WfDueDate_desc">Due Date (Newest)</mat-option>
+              <mat-option value="WfAmount_asc">Amount (Low → High)</mat-option>
+              <mat-option value="WfAmount_desc">Amount (High → Low)</mat-option>
+              <mat-option class="reset-option" value="reset">⟲ Reset All Filters</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="table-container mat-elevation-z2">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- Invoice Doc Column -->
+          <ng-container matColumnDef="WfInvDoc">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Invoice Number </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-badge badge-blue">{{row.WfInvDoc || row.WfMemoDoc || 'N/A'}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Due Date Column -->
+          <ng-container matColumnDef="WfDueDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Due Date </th>
+            <td mat-cell *matCellDef="let row"> {{(row.WfDueDate || row.WfPostDate) | date}} </td>
+          </ng-container>
+
+          <!-- Aging Column -->
+          <ng-container matColumnDef="WfAging">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Aging </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-badge" [ngClass]="row.WfAging > 30 ? 'badge-red' : (row.WfAging > 0 ? 'badge-amber' : 'badge-green')">
+                {{row.WfAging}} Days
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Amount Column -->
+          <ng-container matColumnDef="WfAmount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-price">{{row.WfAmount}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Currency Column -->
+          <ng-container matColumnDef="WfCurrency">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Currency </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-badge badge-amber">{{row.WfCurrency}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Status Column -->
+          <ng-container matColumnDef="WfStatus">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-badge" [ngClass]="row.WfStatus === 'OPEN' ? 'badge-amber' : 'badge-green'">
+                {{row.WfStatus || 'OPEN'}}
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell no-data-cell" colspan="6">No matching Payments found.</td>
+          </tr>
+        </table>
+
+        <mat-paginator hidePageSize="true" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of Payments"></mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

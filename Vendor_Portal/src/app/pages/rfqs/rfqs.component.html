@@ -1,0 +1,148 @@
+<div class="profile-page-wrapper">
+  <div class="page-header">
+    <h1 class="page-title">Request For Quotations</h1>
+    <p class="page-subtitle">Track and manage your requests for quotations</p>
+  </div>
+
+  <div class="profile-stat-grid">
+    <div class="stat-card stat-blue">
+      <div class="stat-icon-wrap"><mat-icon>request_quote</mat-icon></div>
+      <div class="stat-info">
+        <h3 class="stat-label">Total RFQs</h3>
+        <p class="stat-value">{{totalRfqs}}</p>
+      </div>
+    </div>
+
+    <div class="stat-card stat-yellow">
+      <div class="stat-icon-wrap"><mat-icon>category</mat-icon></div>
+      <div class="stat-info">
+        <h3 class="stat-label">Unique Materials</h3>
+        <p class="stat-value">{{uniqueMaterials}}</p>
+      </div>
+    </div>
+  </div>
+
+  <mat-card class="table-card">
+    <mat-card-content>
+      <div class="filter-bar">
+        <div class="filter-inputs">
+          <!-- General Search -->
+          <div class="search-box">
+            <mat-icon class="filter-icon">search</mat-icon>
+            <input type="text" class="search-input" [(ngModel)]="filterRfqNo" (keyup)="applyFilters()" placeholder="Search...">
+          </div>
+
+          <!-- Material Dropdown -->
+          <mat-form-field appearance="outline" class="filter-dropdown">
+            <mat-label>Material</mat-label>
+            <mat-icon matPrefix class="filter-icon">inventory_2</mat-icon>
+            <mat-select [(value)]="filterMaterial" (selectionChange)="applyFilters()">
+              <mat-option value="">All</mat-option>
+              <mat-option *ngFor="let mat of materials" [value]="mat">{{mat}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Plant Dropdown -->
+          <mat-form-field appearance="outline" class="filter-dropdown">
+            <mat-label>Plant</mat-label>
+            <mat-icon matPrefix class="filter-icon">factory</mat-icon>
+            <mat-select [(value)]="filterPlant" (selectionChange)="applyFilters()">
+              <mat-option value="">All</mat-option>
+              <mat-option *ngFor="let p of plants" [value]="p">{{p}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Sort By Dropdown (same style, with Reset inside) -->
+          <mat-form-field appearance="outline" class="filter-dropdown">
+            <mat-label>Sort By</mat-label>
+            <mat-icon matPrefix class="filter-icon">sort</mat-icon>
+            <mat-select [(value)]="selectedSort" (selectionChange)="applySort($event.value)">
+              <mat-option value="">None</mat-option>
+              <mat-option value="WfRfqNo_asc">RFQ Number (Asc)</mat-option>
+              <mat-option value="WfRfqNo_desc">RFQ Number (Desc)</mat-option>
+              <mat-option value="WfRfqDate_asc">RFQ Date (Oldest)</mat-option>
+              <mat-option value="WfRfqDate_desc">RFQ Date (Newest)</mat-option>
+              <mat-option value="WfNetPrice_asc">Net Price (Low → High)</mat-option>
+              <mat-option value="WfNetPrice_desc">Net Price (High → Low)</mat-option>
+              <mat-option class="reset-option" value="reset">⟲ Reset All Filters</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="table-container mat-elevation-z2">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- RFQ Number Column -->
+          <ng-container matColumnDef="WfRfqNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> RFQ Number </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-badge badge-blue">{{row.WfRfqNo}}</span>
+            </td>
+          </ng-container>
+
+          <!-- RFQ Date Column -->
+          <ng-container matColumnDef="WfRfqDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> RFQ Date </th>
+            <td mat-cell *matCellDef="let row"> {{row.WfRfqDate | date}} </td>
+          </ng-container>
+
+          <!-- Material Column -->
+          <ng-container matColumnDef="WfMaterial">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Material </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-badge badge-teal">{{row.WfMaterial}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Quantity Column -->
+          <ng-container matColumnDef="WfQuantity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity </th>
+            <td mat-cell *matCellDef="let row"> {{row.WfQuantity?.Matnr}} </td>
+          </ng-container>
+
+          <!-- UOM Column -->
+          <ng-container matColumnDef="WfUom">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> UOM </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-tag">{{row.WfUom}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Net Price Column -->
+          <ng-container matColumnDef="WfNetPrice">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Net Price </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-price">{{row.WfNetPrice}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Currency Column -->
+          <ng-container matColumnDef="WfCurrency">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Currency </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-badge badge-amber">{{row.WfCurrency}}</span>
+            </td>
+          </ng-container>
+
+          <!-- Plant Column -->
+          <ng-container matColumnDef="WfPlant">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Plant </th>
+            <td mat-cell *matCellDef="let row">
+              <span class="cell-badge badge-purple">{{row.WfPlant?.Werks}}</span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell no-data-cell" colspan="8">No matching RFQs found.</td>
+          </tr>
+        </table>
+
+        <mat-paginator hidePageSize="true" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of RFQs"></mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

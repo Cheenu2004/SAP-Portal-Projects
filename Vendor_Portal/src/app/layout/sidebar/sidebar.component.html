@@ -1,0 +1,22 @@
+<div class="sidebar" [class.collapsed]="isCollapsed">
+  <div class="logo-container">
+    <div class="logo-wrap" *ngIf="!isCollapsed">
+      <mat-icon class="logo-icon">store</mat-icon>
+      <span class="logo-text">Vendor Portal</span>
+    </div>
+    <div class="logo-wrap-collapsed" *ngIf="isCollapsed">
+      <mat-icon class="logo-icon">store</mat-icon>
+    </div>
+    <button class="toggle-btn" (click)="toggleSidebar()">
+      <mat-icon>{{ isCollapsed ? 'menu' : 'chevron_left' }}</mat-icon>
+    </button>
+  </div>
+
+  <mat-nav-list class="nav-list">
+    <a mat-list-item *ngFor="let item of navItems" [routerLink]="item.route" routerLinkActive="active" class="nav-item" [title]="isCollapsed ? item.label : ''">
+      <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+      <div matListItemTitle *ngIf="!isCollapsed">{{item.label}}</div>
+    </a>
+    
+  </mat-nav-list>
+</div>

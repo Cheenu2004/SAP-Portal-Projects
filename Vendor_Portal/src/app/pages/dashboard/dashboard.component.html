@@ -1,0 +1,132 @@
+<div class="page-header">
+  <div class="page-header-left">
+    <h1 class="page-title">Dashboard</h1>
+    <p class="page-subtitle">Welcome back! Here's what's happening today.</p>
+  </div>
+</div>
+
+<div class="dashboard-grid" *ngIf="dashboardData">
+  <!-- Stat Card 1 -->
+  <div class="stat-card stat-blue">
+    <div class="stat-icon-wrap">
+      <mat-icon>shopping_cart</mat-icon>
+    </div>
+    <div class="stat-info">
+      <p class="stat-label">Total POs</p>
+      <div class="stat-value">{{dashboardData.WfTotalPo}}</div>
+    </div>
+  </div>
+
+  <!-- Stat Card 2 -->
+  <div class="stat-card stat-green">
+    <div class="stat-icon-wrap">
+      <mat-icon>local_shipping</mat-icon>
+    </div>
+    <div class="stat-info">
+      <p class="stat-label">Open Deliveries</p>
+      <div class="stat-value">{{dashboardData.WfOpenDelivery}}</div>
+    </div>
+  </div>
+
+  <!-- Stat Card 3 -->
+  <div class="stat-card stat-yellow">
+    <div class="stat-icon-wrap">
+      <mat-icon>receipt</mat-icon>
+    </div>
+    <div class="stat-info">
+      <p class="stat-label">Total Invoices</p>
+      <div class="stat-value">{{dashboardData.WfTotalInvoice}}</div>
+    </div>
+  </div>
+
+  <!-- Stat Card 4 -->
+  <div class="stat-card stat-red">
+    <div class="stat-icon-wrap">
+      <mat-icon>account_balance_wallet</mat-icon>
+    </div>
+    <div class="stat-info">
+      <p class="stat-label">Pending Payment</p>
+      <div class="stat-value amount">{{dashboardData.WfPendingPayment | currency:'INR':'symbol':'1.0-0'}}</div>
+    </div>
+  </div>
+</div>
+
+<div class="lower-section" *ngIf="dashboardData">
+  <!-- Chart 1: Document Overview -->
+  <mat-card class="chart-card">
+    <mat-card-header>
+      <mat-card-title>Document Overview</mat-card-title>
+      <mat-card-subtitle>Total records processed</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="canvas-container">
+        <canvas id="doughnutChart"></canvas>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Chart 2: Financial Metrics -->
+  <mat-card class="chart-card">
+    <mat-card-header>
+      <mat-card-title>Financial Metrics</mat-card-title>
+      <mat-card-subtitle>Payments vs Pending (INR)</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="canvas-container">
+        <canvas id="barChart"></canvas>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Analysis Tool: Fulfillment Metrics -->
+  <mat-card class="chart-card analysis-card">
+    <mat-card-header>
+      <mat-card-title>Fulfillment Analysis</mat-card-title>
+      <mat-card-subtitle>Conversion & performance rates</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="analysis-content">
+      
+      <!-- PO to Delivery -->
+      <div class="analysis-item">
+        <div class="analysis-header">
+          <span class="analysis-label">PO Fulfillment Rate</span>
+          <span class="analysis-value">{{ poFulfillmentRate }}%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill bg-green" [style.width.%]="poFulfillmentRate"></div>
+        </div>
+        <div class="analysis-caption">Deliveries vs Total POs</div>
+      </div>
+
+      <!-- PO to Invoice -->
+      <div class="analysis-item">
+        <div class="analysis-header">
+          <span class="analysis-label">Invoicing Rate</span>
+          <span class="analysis-value">{{ invoiceRate }}%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill bg-blue" [style.width.%]="invoiceRate"></div>
+        </div>
+        <div class="analysis-caption">Invoices vs Total POs</div>
+      </div>
+
+      <!-- Payment Ratio -->
+      <div class="analysis-item">
+        <div class="analysis-header">
+          <span class="analysis-label">Payment Ratio</span>
+          <span class="analysis-value">{{ paymentRate }}%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill bg-yellow" [style.width.%]="paymentRate"></div>
+        </div>
+        <div class="analysis-caption">Total Paid vs Outstanding</div>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="empty-state" *ngIf="!dashboardData">
+  <mat-icon>assessment</mat-icon>
+  <p>Loading dashboard data...</p>
+</div>
