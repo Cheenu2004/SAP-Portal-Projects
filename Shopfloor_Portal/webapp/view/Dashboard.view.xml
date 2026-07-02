@@ -1,0 +1,78 @@
+<mvc:View
+    controllerName="shopfloor.portal.controller.Dashboard"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    height="100%">
+    <Page id="dashboardPage" backgroundDesign="Transparent">
+        <customHeader>
+            <Bar class="modernHeader">
+                <contentLeft>
+                    <core:Icon src="sap-icon://factory" size="1.5rem" color="#e53935" class="sapUiSmallMarginBegin"/>
+                    <Title text="Shop Floor Portal" class="sapUiSmallMarginBegin"/>
+                </contentLeft>
+                <contentRight>
+                    <Text text="Welcome, {userModel>/UserId}" class="sapUiSmallMarginEnd"/>
+                    <Button icon="sap-icon://log" type="Transparent" press="onLogout" tooltip="Logout"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <!-- Welcome Section -->
+                <VBox class="sapUiSmallMarginBottom animate-fade-in">
+                    <Title text="Operations Overview" level="H1" titleStyle="H1" />
+                    <Text text="Live metrics for Planned and Production Orders" class="sapUiTinyMarginTop" />
+                </VBox>
+
+                <!-- Compatible Flex Layout for Tiles -->
+                <FlexBox wrap="Wrap" justifyContent="Start" class="animate-fade-in">
+                    <!-- Planned Orders MTD -->
+                    <GenericTile 
+                        header="Planned Orders" 
+                        subheader="Month to Date" 
+                        press="onPlannedOrdersMTDPress"
+                        class="sapUiSmallMargin">
+                        <TileContent>
+                            <NumericContent value="{dashboardModel>/PlannedOrdersMTD}" icon="sap-icon://sales-order-item" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- Planned Orders YTD -->
+                    <GenericTile 
+                        header="Planned Orders" 
+                        subheader="Year to Date" 
+                        press="onPlannedOrdersYTDPress"
+                        class="sapUiSmallMargin">
+                        <TileContent>
+                            <NumericContent value="{dashboardModel>/PlannedOrdersYTD}" icon="sap-icon://lead" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- Production Orders MTD -->
+                    <GenericTile 
+                        header="Production Orders" 
+                        subheader="Month to Date" 
+                        press="onProductionOrdersMTDPress"
+                        class="sapUiSmallMargin">
+                        <TileContent>
+                            <NumericContent value="{dashboardModel>/ProductionOrdersMTD}" icon="sap-icon://factory" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- Production Orders YTD -->
+                    <GenericTile 
+                        header="Production Orders" 
+                        subheader="Year to Date" 
+                        press="onProductionOrdersYTDPress"
+                        class="sapUiSmallMargin">
+                        <TileContent>
+                            <NumericContent value="{dashboardModel>/ProductionOrdersYTD}" icon="sap-icon://performance" />
+                        </TileContent>
+                    </GenericTile>
+                </FlexBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

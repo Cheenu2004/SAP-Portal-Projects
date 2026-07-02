@@ -1,0 +1,132 @@
+{
+  "_version": "1.12.0",
+  "sap.app": {
+    "id": "shopfloor.portal",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "title": "Shop Floor Portal",
+    "description": "SAP UI5 Shop Floor Portal",
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/Z26_SHOP_PORTAL_ODATA_SRV/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0",
+          "localUri": "localService/metadata.xml"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "shopfloor.portal.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "app"
+    },
+    "dependencies": {
+      "minUI5Version": "1.65.6",
+      "libs": {
+        "sap.ui.layout": {},
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "shopfloor.portal.i18n.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode": "Inline",
+          "refreshAfterChange": false,
+          "useBatch": false
+        }
+      },
+      "userModel": {
+        "type": "sap.ui.model.json.JSONModel"
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "shopfloor.portal.view",
+        "controlAggregation": "pages",
+        "controlId": "app"
+      },
+      "routes": [
+        {
+          "name": "login",
+          "pattern": "",
+          "target": "login"
+        },
+        {
+          "name": "dashboard",
+          "pattern": "dashboard",
+          "target": "dashboard"
+        },
+        {
+          "name": "plannedOrders",
+          "pattern": "plannedOrders",
+          "target": "plannedOrders"
+        },
+        {
+          "name": "productionOrders",
+          "pattern": "productionOrders",
+          "target": "productionOrders"
+        }
+      ],
+      "targets": {
+        "login": {
+          "viewName": "Login",
+          "viewLevel": 1
+        },
+        "dashboard": {
+          "viewName": "Dashboard",
+          "viewLevel": 2
+        },
+        "plannedOrders": {
+          "viewName": "PlannedOrders",
+          "viewLevel": 3
+        },
+        "productionOrders": {
+          "viewName": "ProductionOrders",
+          "viewLevel": 3
+        }
+      }
+    }
+  }
+}

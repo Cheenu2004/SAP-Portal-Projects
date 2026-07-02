@@ -1,0 +1,91 @@
+<mvc:View
+    controllerName="shopfloor.portal.controller.ProductionOrders"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    height="100%">
+    <Page id="productionOrdersPage" class="lightThemePage" title="Production Orders" showNavButton="true" navButtonPress="onNavBack">
+        <headerContent>
+            <Button icon="sap-icon://home" press="onNavHome" />
+        </headerContent>
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+                    <SearchField id="searchField" width="300px" search="onSearch" placeholder="Search by Material or Order #"/>
+                    <HBox>
+                        <Select id="monthFilter" change="onFilterChange" class="sapUiTinyMarginEnd">
+                            <core:Item key="" text="All Months"/>
+                            <core:Item key="0" text="January"/>
+                            <core:Item key="1" text="February"/>
+                            <core:Item key="2" text="March"/>
+                            <core:Item key="3" text="April"/>
+                            <core:Item key="4" text="May"/>
+                            <core:Item key="5" text="June"/>
+                            <core:Item key="6" text="July"/>
+                            <core:Item key="7" text="August"/>
+                            <core:Item key="8" text="September"/>
+                            <core:Item key="9" text="October"/>
+                            <core:Item key="10" text="November"/>
+                            <core:Item key="11" text="December"/>
+                        </Select>
+                        <Select id="yearFilter" change="onFilterChange" class="sapUiTinyMarginEnd">
+                            <core:Item key="" text="All Years"/>
+                            <core:Item key="2024" text="2024"/>
+                            <core:Item key="2025" text="2025"/>
+                            <core:Item key="2026" text="2026"/>
+                        </Select>
+                        <Select id="sortBy" change="onFilterChange" class="sapUiTinyMarginEnd">
+                            <core:Item key="Gstrp" text="Sort By: Date"/>
+                            <core:Item key="Aufnr" text="Sort By: Order #"/>
+                        </Select>
+                        <Select id="sortOrder" change="onFilterChange">
+                            <core:Item key="asc" text="Ascending"/>
+                            <core:Item key="desc" text="Descending"/>
+                        </Select>
+                    </HBox>
+                </HBox>
+
+                <Table id="productionOrdersTable"
+                    items="{path: '/ProductionOrderSet', parameters: {operationMode: 'Client'}}"
+                    sticky="ColumnHeaders,HeaderToolbar">
+                    <columns>
+                        <Column>
+                            <Text text="Order Number" />
+                        </Column>
+                        <Column>
+                            <Text text="Material" />
+                        </Column>
+                        <Column hAlign="End">
+                            <Text text="Quantity" />
+                        </Column>
+                        <Column>
+                            <Text text="Start Date" />
+                        </Column>
+                        <Column>
+                            <Text text="End Date" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{Aufnr}" />
+                                <Text text="{Matnr}" />
+                                <Text text="{Gamng}" />
+                                <Text text="{
+                                    path: 'Gstrp',
+                                    type: 'sap.ui.model.type.Date',
+                                    formatOptions: { style: 'medium' }
+                                }" />
+                                <Text text="{
+                                    path: 'Gltrp',
+                                    type: 'sap.ui.model.type.Date',
+                                    formatOptions: { style: 'medium' }
+                                }" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

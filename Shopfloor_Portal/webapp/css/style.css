@@ -1,0 +1,214 @@
+/* Premium Light Theme - White, Red, and Grey */
+:root {
+    --bg-color: #f4f6f9;
+    --card-bg: #ffffff;
+    --primary-red: #e53935;
+    --dark-red: #b71c1c;
+    --text-dark: #2c3e50;
+    --text-muted: #7f8c8d;
+    --border-color: #e2e8f0;
+}
+
+/* Background */
+body, .sapMPage, .sapMPageBgStandard, .sapMApp, .sapMShell {
+    background: var(--bg-color) !important;
+    background-color: var(--bg-color) !important;
+    color: var(--text-dark) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* GLOBAL overrides for text visibility in Light Theme */
+.sapMTitle, .sapMLabel, .sapMText {
+    color: var(--text-dark) !important;
+}
+
+/* Premium Card Style with Soft Shadow */
+.glass-panel {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Login Box */
+.loginBox {
+    padding: 3.5rem !important;
+    max-width: 420px;
+    width: 100%;
+}
+
+/* Title and Icon */
+.loginTitle {
+    font-weight: 800 !important;
+    letter-spacing: -0.5px;
+}
+
+/* Input Styling - Clean and Modern */
+.customInputStyle {
+    margin-bottom: 1.25rem !important;
+}
+
+.customInputStyle .sapMInputBaseInner {
+    background: #f8fafc !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 10px !important;
+    color: var(--text-dark) !important;
+    font-size: 1rem !important;
+    padding: 0.5rem 1rem !important;
+    transition: all 0.3s ease;
+}
+
+.customInputStyle .sapMInputBaseInner:focus {
+    border-color: var(--primary-red) !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(229, 57, 53, 0.1) !important;
+}
+
+.customInputStyle .sapMInputPlaceholder {
+    color: var(--text-muted) !important;
+}
+
+/* Fix for value help icon in password field */
+.customInputStyle .sapMInputValHelp {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 10px 10px 0 !important;
+}
+
+.customInputStyle .sapMInputValHelp .sapMGIcn {
+    color: var(--primary-red) !important;
+}
+
+/* Buttons with Rich Gradient */
+.sapMBtnEmphasized {
+    background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(229, 57, 53, 0.2), 0 2px 4px -1px rgba(229, 57, 53, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.sapMBtnEmphasized:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 10px 15px -3px rgba(229, 57, 53, 0.3), 0 4px 6px -2px rgba(229, 57, 53, 0.1) !important;
+    transform: translateY(-1px);
+}
+
+/* Enhanced Tiles for Dashboard (Light Theme) */
+.sapMGT {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 16px !important;
+    transition: all 0.3s ease !important;
+    overflow: hidden;
+}
+
+.sapMGT:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-red) !important;
+    box-shadow: 0 10px 15px -3px rgba(229, 57, 53, 0.1);
+}
+
+.sapMGT .sapMGIcn {
+    color: var(--primary-red) !important;
+}
+
+.sapMNCValue {
+    font-size: 2.5rem !important;
+    font-weight: 700 !important;
+    color: var(--primary-red) !important;
+}
+
+/* Custom Header / ShellBar */
+.modernHeader {
+    background: var(--card-bg) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* FORCE LIGHT THEME FOR TABLES, LISTS, AND FORMS */
+.sapMTable, .sapMList {
+    background-color: #ffffff !important;
+}
+
+.sapMListTblRow, .sapMListTblRowAlternate {
+    background-color: #ffffff !important;
+}
+
+.sapMListTblCell {
+    color: var(--text-dark) !important;
+}
+
+/* Specific overrides for Detail Pages using the .lightThemePage class */
+.lightThemePage {
+    background-color: var(--bg-color) !important;
+}
+
+.lightThemePage .sapMTable {
+    background-color: #ffffff !important;
+}
+
+/* Force white background on SearchField and Selects */
+.lightThemePage .sapMSFInner, .lightThemePage .sapMSelectInner {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-dark) !important;
+}
+
+/* Force light theme for page header */
+.lightThemePage .sapMPageHeader {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.lightThemePage .sapMPageHeader .sapMTitle {
+    color: var(--text-dark) !important;
+}
+
+/* Specific overrides for Dashboard Page */
+#dashboardPage {
+    background: var(--bg-color) !important;
+    background-color: var(--bg-color) !important;
+}
+
+#dashboardPage .modernHeader {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+#dashboardPage .sapMGT {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+#dashboardPage .sapUiIcon {
+    color: var(--primary-red) !important;
+}
+
+/* GLOBAL AGGRESSIVE OVERRIDES FOR TABLE HEADERS (FORCING RED AND WHITE) */
+.sapMTable th, .sapMListTblHeader {
+    background-color: var(--primary-red) !important;
+    background: var(--primary-red) !important;
+}
+
+.sapMTable th .sapMText, 
+.sapMTable th .sapMLabel,
+.sapMListTblHeader .sapMText,
+.sapMListTblHeader .sapMLabel {
+    color: #ffffff !important;
+    font-weight: bold !important;
+}

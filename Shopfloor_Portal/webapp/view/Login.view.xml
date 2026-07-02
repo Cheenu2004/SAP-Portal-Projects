@@ -1,0 +1,51 @@
+<mvc:View
+    controllerName="shopfloor.portal.controller.Login"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    height="100%">
+    <Page id="loginPage" showHeader="false" backgroundDesign="Transparent" enableScrolling="false">
+        <content>
+            <VBox alignItems="Center" justifyContent="Center" height="100%">
+                <VBox class="sapUiMediumMargin loginBox glass-panel animate-fade-in" width="400px">
+                    <VBox alignItems="Center" class="sapUiLargeMarginBottom">
+                        <core:Icon src="sap-icon://factory" size="3rem" color="#e53935" class="sapUiSmallMarginBottom"/>
+                        <Title text="SHOP FLOOR PORTAL" level="H1" titleStyle="H1" class="sapUiSmallMarginBottom loginTitle"/>
+                        <Text text="Enterprise Manufacturing Intelligence" />
+                    </VBox>
+
+                    <VBox class="sapUiMediumMarginBottom" width="100%">
+                        <Label text="Employee ID" labelFor="userIdInput" class="sapUiTinyMarginBottom" design="Bold"/>
+                        <Input id="userIdInput" placeholder="Enter User ID" width="100%" class="customInputStyle"/>
+                    </VBox>
+
+                    <VBox class="sapUiMediumMarginBottom" width="100%">
+                        <Label text="Security Password" labelFor="passwordInput" class="sapUiTinyMarginBottom" design="Bold"/>
+                        <Input id="passwordInput" 
+                               type="Password" 
+                               placeholder="Enter Password" 
+                               width="100%" 
+                               class="customInputStyle"
+                               showValueHelp="true"
+                               valueHelpIconSrc="sap-icon://show"
+                               valueHelpRequest="onTogglePassword"/>
+                    </VBox>
+
+                    <Button id="loginButton" text="Sign In" type="Emphasized" width="100%" press="onLogin" class="sapUiLargeMarginTop"/>
+                    <Link text="Change Password?" press="onChangePasswordPress" class="sapUiSmallMarginTop sapUiSmallMarginBottom" alignSelf="Center"/>
+                    
+                    <MessageStrip
+                        id="errorMessageStrip"
+                        text="Invalid Credentials"
+                        type="Error"
+                        showIcon="true"
+                        visible="false"
+                        class="sapUiMediumMarginTop"/>
+                </VBox>
+                <Text text="© 2026 SAP Shop Floor Solutions" class="sapUiLargeMarginTop" visible="true" />
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,13 @@
+{
+  "name": "shopfloor-portal",
+  "version": "1.0.0",
+  "description": "SAP UI5 Shop Floor Portal",
+  "scripts": {
+    "start": "ui5 serve --config=ui5.yaml",
+    "serve": "npx http-server ./webapp"
+  },
+  "devDependencies": {
+    "@sap/ux-ui5-tooling": "^1.23.0",
+    "@ui5/cli": "^3.0.0"
+  }
+}

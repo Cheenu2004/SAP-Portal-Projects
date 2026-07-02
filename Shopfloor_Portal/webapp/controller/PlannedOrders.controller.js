@@ -1,0 +1,128 @@
+sap.ui.define([
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
+    "sap/ui/core/routing/History",
+    "sap/ui/model/Sorter"
+], function (Controller, Filter, FilterOperator, History, Sorter) {
+    "use strict";
+
+    return Controller.extend("shopfloor.portal.controller.PlannedOrders", {
+        onInit: function () {
+            this.getOwnerComponent().getRouter().getRoute("plannedOrders").attachPatternMatched(this._onRouteMatched, this);
+        },
+
+        _onRouteMatched: function () {
+            var oUserModel = this.getOwnerComponent().getModel("userModel");
+            var sMode = oUserModel.getProperty("/plannedFilterMode");
+            var sDefaultYear = oUserModel.getProperty("/plannedDefaultYear") || new Date().getFullYear().toString();
+            var sDefaultMonth = oUserModel.getProperty("/plannedDefaultMonth") || new Date().getMonth().toString();
+            
+            var oView = this.getView();
+            
+            // Ensure BOTH month and year filters are always visible and interactive
+            oView.byId("monthFilter").setVisible(true);
+            oView.byId("yearFilter").setVisible(true);
+            
+            if (sMode === "MTD") {
+                // Month wise - preselect dynamic smart year and month
+                oView.byId("monthFilter").setSelectedKey(sDefaultMonth);
+                oView.byId("yearFilter").setSelectedKey(sDefaultYear);
+                oView.byId("plannedOrdersPage").setTitle("Planned Orders - Month Wise");
+            } else if (sMode === "YTD") {
+                // Year wise - preselect dynamic smart year, show all months
+                oView.byId("monthFilter").setSelectedKey("");
+                oView.byId("yearFilter").setSelectedKey(sDefaultYear);
+                oView.byId("plannedOrdersPage").setTitle("Planned Orders - Year Wise");
+            } else {
+                // Default - Display all data
+                oView.byId("monthFilter").setSelectedKey("");
+                oView.byId("yearFilter").setSelectedKey("");
+                oView.byId("plannedOrdersPage").setTitle("Planned Orders");
+            }
+            
+            // Clear the filter mode so subsequent visits are neutral unless clicked from a tile
+            oUserModel.setProperty("/plannedFilterMode", null);
+
+            this._applyFilters();
+        },
+
+        onSearch: function (oEvent) {
+            var sQuery = oEvent.getParameter("query");
+            this._applyFilters();
+        },
+
+        onFilterChange: function () {
+            this._applyFilters();
+        },
+
+        _applyFilters: function () {
+            var oView = this.getView();
+            var sQuery = oView.byId("searchField").getValue();
+            var sMonth = oView.byId("monthFilter").getSelectedKey();
+            var sYear = oView.byId("yearFilter").getSelectedKey();
+            var sSortBy = oView.byId("sortBy").getSelectedKey();
+            var sSortOrder = oView.byId("sortOrder").getSelectedKey();
+            
+            var aFilters = [];
+
+            // Search Filter - Convert to uppercase as SAP Material Numbers are usually uppercase
+            if (sQuery) {
+                sQuery = sQuery.toUpperCase();
+                aFilters.push(new Filter({
+                    filters: [
+                        new Filter("Plnum", FilterOperator.Contains, sQuery),
+                        new Filter("Matnr", FilterOperator.Contains, sQuery)
+                    ],
+                    and: false
+                }));
+            }
+
+            // Date Filters
+            // Default to current year if month is selected but year is not
+            if (!sYear && sMonth) {
+                sYear = new Date().getFullYear().toString();
+            }
+
+            if (sYear) {
+                var oStartDate, oEndDate;
+                if (sMonth) {
+                    oStartDate = new Date(sYear, sMonth, 1);
+                    oEndDate = new Date(sYear, parseInt(sMonth) + 1, 0, 23, 59, 59);
+                } else {
+                    oStartDate = new Date(sYear, 0, 1);
+                    oEndDate = new Date(sYear, 11, 31, 23, 59, 59);
+                }
+                aFilters.push(new Filter("Psttr", FilterOperator.BT, oStartDate, oEndDate));
+            }
+
+            var oTable = oView.byId("plannedOrdersTable");
+            var oBinding = oTable.getBinding("items");
+            
+            // Apply Filters
+            oBinding.filter(aFilters);
+
+            // Apply Sorting
+            if (sSortBy) {
+                var bDescending = (sSortOrder === "desc");
+                var oSorter = new Sorter(sSortBy, bDescending);
+                oBinding.sort(oSorter);
+            }
+        },
+
+        onNavBack: function () {
+            var oHistory = History.getInstance();
+            var sPreviousHash = oHistory.getPreviousHash();
+
+            if (sPreviousHash !== undefined) {
+                window.history.go(-1);
+            } else {
+                this.getOwnerComponent().getRouter().navTo("dashboard", {}, true);
+            }
+        },
+
+        onNavHome: function () {
+            this.getOwnerComponent().getRouter().navTo("dashboard");
+        }
+    });
+});

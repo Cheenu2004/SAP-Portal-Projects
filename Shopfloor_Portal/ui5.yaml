@@ -1,0 +1,29 @@
+specVersion: "3.0"
+metadata:
+  name: shopfloor-portal
+type: application
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertErrors: true
+        backend:
+          - path: /sap
+            url: http://AZKTLDS5CP.kcloud.com:8000
+            changeOrigin: true
+        ui5:
+          path:
+            - /resources
+            - /test-resources
+          url: https://ui5.sap.com
+    - name: custom-auth
+      beforeMiddleware: fiori-tools-proxy
+---
+specVersion: "3.0"
+kind: extension
+type: server-middleware
+metadata:
+  name: custom-auth
+middleware:
+  path: webapp/middleware/customAuth.js
