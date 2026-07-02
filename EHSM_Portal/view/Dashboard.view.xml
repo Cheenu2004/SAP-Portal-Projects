@@ -1,0 +1,105 @@
+<mvc:View
+    controllerName="ehsmportal.controller.Dashboard"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page title="EHSM Dashboard">
+
+        <headerContent>
+            <Button
+                text="Logout"
+                type="Reject"
+                press="onLogout"/>
+        </headerContent>
+
+        <content>
+
+            <VBox
+                alignItems="Center"
+                justifyContent="Center"
+                width="100%"
+                class="sapUiLargeMarginTop ehsmDashContent">
+
+                <Title
+                    text="Environment Health &amp; Safety Management"
+                    level="H2"
+                    class="sapUiLargeMarginBottom"/>
+
+                <HBox
+                    justifyContent="Center"
+                    alignItems="Center"
+                    wrap="Wrap"
+                    width="100%">
+
+                    <!-- Risk Tile -->
+                    <Panel
+                        width="300px"
+                        class="sapUiMediumMargin ehsmTile">
+                        <VBox
+                            alignItems="Center"
+                            justifyContent="Center"
+                            class="sapUiLargeMargin">
+
+                            <core:Icon
+                                src="sap-icon://alert"
+                                size="4rem"
+                                color="#e78c07"
+                                class="sapUiMediumMarginBottom"/>
+
+                            <Title
+                                text="Risk Management"
+                                level="H3"/>
+
+                            <Text
+                                text="Manage safety risks"
+                                class="sapUiSmallMarginBottom sapUiSmallMarginTop"/>
+
+                            <Button
+                                text="Open"
+                                type="Emphasized"
+                                press="onRiskPress"/>
+
+                        </VBox>
+                    </Panel>
+
+                    <!-- Incident Tile -->
+                    <Panel
+                        width="300px"
+                        class="sapUiMediumMargin ehsmTile">
+                        <VBox
+                            alignItems="Center"
+                            justifyContent="Center"
+                            class="sapUiLargeMargin">
+
+                            <core:Icon
+                                src="sap-icon://sys-help"
+                                size="4rem"
+                                color="#cc1919"
+                                class="sapUiMediumMarginBottom"/>
+
+                            <Title
+                                text="Incident Management"
+                                level="H3"/>
+
+                            <Text
+                                text="Manage incidents"
+                                class="sapUiSmallMarginBottom sapUiSmallMarginTop"/>
+
+                            <Button
+                                text="Open"
+                                type="Emphasized"
+                                press="onIncidentPress"/>
+
+                        </VBox>
+                    </Panel>
+
+                </HBox>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

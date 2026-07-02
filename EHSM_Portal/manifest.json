@@ -1,0 +1,73 @@
+{
+  "_version": "1.12.0",
+  "sap.app": {
+    "id": "ehsmportal",
+    "type": "application",
+    "title": "EHSM Portal",
+    "applicationVersion": { "version": "1.0.0" },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/Z26_EHSM_PORTAL_902065_SRV/",
+        "type": "OData",
+        "settings": { "odataVersion": "2.0" }
+      }
+    }
+  },
+
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
+  },
+
+  "sap.ui5": {
+
+    "rootView": {
+      "viewName": "ehsmportal.view.App",
+      "type": "XML",
+      "id": "app"
+    },
+
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": { "sap.m": {}, "sap.ui.core": {} }
+    },
+
+    "resources": {
+      "css": [
+        { "uri": "css/style.css" }
+      ]
+    },
+
+    "models": {
+      "": {
+        "type": "sap.ui.model.odata.v2.ODataModel",
+        "dataSource": "mainService",
+        "settings": { "useBatch": false }
+      }
+    },
+
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "ehsmportal.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "async": true
+      },
+      "routes": [
+        { "name": "login",     "pattern": "",          "target": "login"     },
+        { "name": "dashboard", "pattern": "dashboard", "target": "dashboard" },
+        { "name": "risk",      "pattern": "risk",      "target": "risk"      },
+        { "name": "incident",  "pattern": "incident",  "target": "incident"  }
+      ],
+      "targets": {
+        "login":     { "viewName": "Login"     },
+        "dashboard": { "viewName": "Dashboard" },
+        "risk":      { "viewName": "Risk"      },
+        "incident":  { "viewName": "Incident"  }
+      }
+    }
+
+  }
+}

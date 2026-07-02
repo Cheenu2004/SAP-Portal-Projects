@@ -1,0 +1,136 @@
+<mvc:View
+    controllerName="ehsmportal.controller.Incident"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        title="Incident Management"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <VBox class="ehsmTableSection">
+
+                <Toolbar>
+
+                    <Title text="Incident Details"/>
+
+                    <ToolbarSpacer/>
+
+                    <!-- Category Filter -->
+                    <Select
+                        id="categoryFilter"
+                        width="180px"
+                        change="onCategoryFilter"
+                        items="{viewModel>/categories}">
+                        <core:Item
+                            key="{viewModel>key}"
+                            text="{viewModel>text}"/>
+                    </Select>
+
+                    <!-- Status Filter -->
+                    <Select
+                        id="incidentstatusFilter"
+                        width="150px"
+                        change="onStatusFilter"
+                        items="{viewModel>/statuses}">
+                        <core:Item
+                            key="{viewModel>key}"
+                            text="{viewModel>text}"/>
+                    </Select>
+
+                    <!-- Search -->
+                    <SearchField
+                        id="incidentSearch"
+                        width="250px"
+                        placeholder="Search by ID, Category, Status..."
+                        liveChange="onIncidentSearch"/>
+
+                    <!-- Sort Asc -->
+                    <Button
+                        icon="sap-icon://sort-ascending"
+                        tooltip="Sort Ascending"
+                        press="onSortAsc"/>
+
+                    <!-- Sort Desc -->
+                    <Button
+                        icon="sap-icon://sort-descending"
+                        tooltip="Sort Descending"
+                        press="onSortDesc"/>
+
+                </Toolbar>
+
+                <Table
+                    id="incidentTable"
+                    noDataText="No incident records found."
+                    growing="true"
+                    growingThreshold="10"
+                    growingScrollToLoad="true"
+                    busy="{viewModel>/busy}"
+                    items="{viewModel>/incidents}">
+
+                    <columns>
+
+                        <Column>
+                            <Text text="ID"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Category"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Status"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Created On"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Created By"/>
+                        </Column>
+
+                    </columns>
+
+                    <items>
+
+                        <ColumnListItem>
+
+                            <cells>
+
+                                <!-- ID -->
+                                <Text text="{viewModel>Id}"/>
+
+                                <!-- Category Description -->
+                                <Text text="{viewModel>CategoryDesc}"/>
+
+                                <!-- Status Description -->
+                                <Text text="{viewModel>StatusDesc}"/>
+
+                                <!-- Created On -->
+                                <Text text="{
+                                    path: 'viewModel>DatetimeCr',
+                                    formatter: '.formatDatetime'
+                                }"/>
+
+                                <!-- Created By -->
+                                <Text text="{viewModel>UserIdCr}"/>
+
+                            </cells>
+
+                        </ColumnListItem>
+
+                    </items>
+
+                </Table>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

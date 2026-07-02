@@ -1,0 +1,487 @@
+/* ================================================================
+   EHSM Portal — Global Stylesheet
+   Theme : Corporate Blue  (ref: company name template)
+   Target: SAP UI5 1.96 +  (Fiori 3 / Horizon compatible)
+   ================================================================ */
+
+/* ── 1. Colour Tokens ───────────────────────────────────────────── */
+:root {
+  --e-dark    : #1a3558;
+  --e-primary : #2875b8;
+  --e-mid     : #4a90d4;
+  --e-light   : #d6e8f7;
+  --e-pale    : #f0f5fb;
+  --e-white   : #ffffff;
+  --e-text    : #1a2b3c;
+  --e-sub     : #4a5f72;
+  --e-border  : #c2d4e6;
+  --e-radius  : 10px;
+  --e-radius-s: 6px;
+  --e-shadow  : 0 4px 18px rgba(26,53,88,0.13);
+}
+
+/* ── 2. Global Body ─────────────────────────────────────────────── */
+html, body, .sapUiBody {
+  background-color: var(--e-pale) !important;
+  font-family: "72", "72full", Arial, Helvetica, sans-serif !important;
+}
+
+.sapMPage > section,
+.sapMPageBgStandard,
+.sapMPageBgSolid {
+  background-color: var(--e-pale) !important;
+}
+
+/* ── 3. Page Header — all pages ─────────────────────────────────── */
+.sapMPageHeader .sapMBar,
+.sapMPageHeader .sapMIBar {
+  background: linear-gradient(to right, var(--e-dark) 0%, var(--e-primary) 100%) !important;
+  border-bottom: 3px solid var(--e-mid) !important;
+  box-shadow: 0 2px 10px rgba(26,53,88,0.28) !important;
+}
+
+.sapMPageHeader .sapMTitle,
+.sapMPageHeader .sapMBarMiddle .sapMTitle {
+  color: var(--e-white) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.4px !important;
+}
+
+.sapMPageHeader .sapMBarLeft .sapMBtnIcon,
+.sapMPageHeader .sapMBarLeft .sapMBtnContent {
+  color: var(--e-white) !important;
+}
+
+.sapMPageHeader .sapMBarLeft .sapMBtn:hover {
+  background: rgba(255,255,255,0.15) !important;
+  border-radius: var(--e-radius-s) !important;
+}
+
+/* Logout / Reject button in header */
+.sapMPageHeader .sapMBtnNegative,
+.sapMPageHeader .sapMBtnReject {
+  background: #b03a2e !important;
+  border-color: #b03a2e !important;
+  color: var(--e-white) !important;
+  border-radius: 20px !important;
+  font-weight: 600 !important;
+}
+.sapMPageHeader .sapMBtnNegative:hover,
+.sapMPageHeader .sapMBtnReject:hover {
+  background: #922b21 !important;
+  border-color: #922b21 !important;
+}
+
+/* ── 4. LOGIN PAGE ──────────────────────────────────────────────── */
+
+/* Full-page blue gradient behind the login card */
+.ehsmLoginPage > section {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 100vh !important;
+  background: linear-gradient(
+    145deg,
+    var(--e-dark) 0%,
+    var(--e-primary) 55%,
+    var(--e-mid) 100%
+  ) !important;
+}
+
+/* Hide the page shell header on login */
+.ehsmLoginPage .sapMPageHeader {
+  display: none !important;
+}
+
+/* White card container */
+.ehsmLoginCard {
+  background: var(--e-white) !important;
+  border-radius: var(--e-radius) !important;
+  box-shadow: 0 8px 32px rgba(26,53,88,0.22) !important;
+  padding: 2.5rem 2rem !important;
+  min-width: 340px !important;
+  max-width: 400px !important;
+  border-top: 4px solid var(--e-primary) !important;
+}
+
+/* App logo / title inside card */
+.ehsmLoginCard .ehsmAppTitle {
+  color: var(--e-dark) !important;
+  font-size: 1.3rem !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.ehsmLoginCard .ehsmAppSub {
+  color: var(--e-sub) !important;
+  font-size: 0.85rem !important;
+  text-align: center !important;
+  margin-bottom: 1.25rem !important;
+}
+
+/* Input fields inside login card */
+.ehsmLoginCard .sapMInput {
+  border: 1.5px solid var(--e-border) !important;
+  border-radius: var(--e-radius-s) !important;
+  background: #fafcff !important;
+}
+.ehsmLoginCard .sapMInputFocused,
+.ehsmLoginCard .sapMInput:focus-within {
+  border-color: var(--e-primary) !important;
+  box-shadow: 0 0 0 3px rgba(40,117,184,0.14) !important;
+}
+
+/* Login submit button */
+.ehsmLoginBtn .sapMBtnInner,
+.ehsmLoginBtn.sapMBtn .sapMBtnInner {
+  background: linear-gradient(to right, var(--e-dark), var(--e-primary)) !important;
+  border-color: transparent !important;
+  border-radius: 20px !important;
+  color: var(--e-white) !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.4px !important;
+}
+.ehsmLoginBtn .sapMBtnInner:hover {
+  opacity: 0.9 !important;
+}
+
+/* Form labels */
+.ehsmLoginCard .sapMLabel {
+  color: var(--e-sub) !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* ── 5. DASHBOARD PAGE ──────────────────────────────────────────── */
+.ehsmDashContent {
+  padding: 2rem 1rem 3rem !important;
+}
+
+/* Dashboard main heading */
+.ehsmDashContent > .sapMTitle {
+  color: var(--e-dark) !important;
+  font-size: 1.3rem !important;
+  font-weight: 700 !important;
+}
+
+/* Module tile / panel card */
+.ehsmTile {
+  background: var(--e-white) !important;
+  border-radius: var(--e-radius) !important;
+  border: 1px solid var(--e-border) !important;
+  box-shadow: var(--e-shadow) !important;
+  transition: transform 0.22s ease, box-shadow 0.22s ease !important;
+  overflow: hidden !important;
+  border-top: 3px solid var(--e-primary) !important;
+}
+.ehsmTile:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 10px 28px rgba(26,53,88,0.19) !important;
+}
+
+/* Strip default panel header line */
+.ehsmTile .sapMPanelHdr,
+.ehsmTile .sapMPanelHdrExpandable {
+  display: none !important;
+}
+
+/* Icon inside tile */
+.ehsmTile .sapUiIcon {
+  filter: drop-shadow(0 2px 5px rgba(26,53,88,0.18)) !important;
+}
+
+/* Tile titles and text */
+.ehsmTile .sapMTitle {
+  color: var(--e-dark) !important;
+  font-weight: 700 !important;
+}
+.ehsmTile .sapMText {
+  color: var(--e-sub) !important;
+  font-size: 0.88rem !important;
+}
+
+/* Open button inside tiles */
+.ehsmTile .sapMBtnEmphasized .sapMBtnInner {
+  background: linear-gradient(to right, var(--e-dark), var(--e-primary)) !important;
+  border-color: transparent !important;
+  border-radius: 20px !important;
+  color: var(--e-white) !important;
+  font-weight: 600 !important;
+  min-width: 110px !important;
+  transition: opacity 0.18s !important;
+}
+.ehsmTile .sapMBtnEmphasized .sapMBtnInner:hover {
+  opacity: 0.88 !important;
+}
+
+/* ── 6. RISK & INCIDENT — Table section wrapper ──────────────────── */
+.ehsmTableSection {
+  margin: 1.5rem !important;
+  border-radius: var(--e-radius) !important;
+  overflow: hidden !important;
+  box-shadow: var(--e-shadow) !important;
+}
+
+/* ── 7. RISK & INCIDENT — Toolbar ───────────────────────────────── */
+.ehsmTableSection .sapMTB,
+.ehsmTableSection .sapMToolbar {
+  background: linear-gradient(to right, var(--e-dark), var(--e-primary)) !important;
+  border-radius: 0 !important;
+  border: none !important;
+  padding: 0.4rem 1rem !important;
+  min-height: 52px !important;
+}
+
+.ehsmTableSection .sapMTB .sapMTitle,
+.ehsmTableSection .sapMToolbar .sapMTitle {
+  color: var(--e-white) !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+}
+
+/* Search field in toolbar */
+.ehsmTableSection .sapMTB .sapMSF,
+.ehsmTableSection .sapMToolbar .sapMSF {
+  background: rgba(255,255,255,0.16) !important;
+  border: 1.5px solid rgba(255,255,255,0.32) !important;
+  border-radius: var(--e-radius-s) !important;
+}
+.ehsmTableSection .sapMSFInput {
+  color: var(--e-white) !important;
+  caret-color: var(--e-white) !important;
+}
+.ehsmTableSection .sapMSFInput::placeholder {
+  color: rgba(255,255,255,0.65) !important;
+}
+.ehsmTableSection .sapMSFB,
+.ehsmTableSection .sapMSFReset {
+  color: rgba(255,255,255,0.8) !important;
+}
+
+/* Sort / icon buttons in toolbar */
+.ehsmTableSection .sapMTB .sapMBtn .sapMBtnInner,
+.ehsmTableSection .sapMToolbar .sapMBtn .sapMBtnInner {
+  background: rgba(255,255,255,0.14) !important;
+  border: 1px solid rgba(255,255,255,0.28) !important;
+  border-radius: var(--e-radius-s) !important;
+  color: var(--e-white) !important;
+}
+.ehsmTableSection .sapMTB .sapMBtn .sapMBtnInner:hover {
+  background: rgba(255,255,255,0.26) !important;
+}
+.ehsmTableSection .sapMBtnIcon {
+  color: var(--e-white) !important;
+}
+
+/* ── 8. RISK & INCIDENT — Table ─────────────────────────────────── */
+.ehsmTableSection .sapMList,
+.ehsmTableSection .sapMTable {
+  border: 1px solid var(--e-border) !important;
+  border-top: none !important;
+  border-radius: 0 0 var(--e-radius) var(--e-radius) !important;
+  background: var(--e-white) !important;
+}
+
+/* Column header row */
+.ehsmTableSection .sapMListTblHeaderRow,
+.ehsmTableSection tr.sapMListTblHeader {
+  background: var(--e-light) !important;
+  border-bottom: 2px solid var(--e-primary) !important;
+}
+
+/* Column header text */
+.ehsmTableSection .sapMListTblHeaderRow .sapMText,
+.ehsmTableSection .sapMListTblHeader .sapMText {
+  color: var(--e-dark) !important;
+  font-weight: 700 !important;
+  font-size: 0.8rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.6px !important;
+}
+
+/* Table data rows */
+.ehsmTableSection .sapMListItems .sapMLIB {
+  border-bottom: 1px solid var(--e-border) !important;
+  transition: background 0.14s !important;
+}
+.ehsmTableSection .sapMListItems .sapMLIB:hover {
+  background: var(--e-pale) !important;
+}
+
+/* Zebra striping */
+.ehsmTableSection .sapMListItems .sapMLIB:nth-child(even) {
+  background: #f5faff !important;
+}
+.ehsmTableSection .sapMListItems .sapMLIB:nth-child(even):hover {
+  background: var(--e-light) !important;
+}
+
+/* Cell text */
+.ehsmTableSection .sapMListItems .sapMText {
+  color: var(--e-text) !important;
+  font-size: 0.9rem !important;
+}
+
+/* No data message */
+.ehsmTableSection .sapMListNoData {
+  color: var(--e-sub) !important;
+  font-style: italic !important;
+  padding: 2.5rem !important;
+  background: var(--e-white) !important;
+}
+
+/* Growing / Load More button row */
+.ehsmTableSection .sapMGrowingList {
+  background: var(--e-pale) !important;
+  border-top: 1px solid var(--e-border) !important;
+  border-radius: 0 0 var(--e-radius) var(--e-radius) !important;
+}
+.ehsmTableSection .sapMGrowingListButton .sapMBtnInner {
+  color: var(--e-primary) !important;
+  font-weight: 600 !important;
+}
+
+/* ── 9. Responsive ──────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .ehsmLoginCard {
+    min-width: 92vw !important;
+    padding: 1.5rem 1rem !important;
+  }
+  .ehsmTableSection {
+    margin: 0.5rem !important;
+  }
+  .ehsmTile {
+    width: 92vw !important;
+    margin: 0.5rem auto !important;
+  }
+}
+
+/* ── 10. Filter Dropdowns in Toolbar ────────────────────────────── */
+
+.ehsmTableSection .sapMTB .sapMSlt,
+.ehsmTableSection .sapMToolbar .sapMSlt {
+  background: rgba(255,255,255,0.16) !important;
+  border: 1.5px solid rgba(255,255,255,0.32) !important;
+  border-radius: var(--e-radius-s) !important;
+  min-width: 0 !important;
+  margin-right: 4px !important;
+  height: 36px !important;
+}
+
+.ehsmTableSection .sapMTB .sapMSltLabel,
+.ehsmTableSection .sapMToolbar .sapMSltLabel {
+  color: var(--e-white) !important;
+  font-size: 0.85rem !important;
+  padding-left: 8px !important;
+}
+
+.ehsmTableSection .sapMTB .sapMSelectIcon,
+.ehsmTableSection .sapMTB .sapMSltIcon,
+.ehsmTableSection .sapMTB .sapUiIcon.sapMSltArrow,
+.ehsmTableSection .sapMToolbar .sapMSelectIcon,
+.ehsmTableSection .sapMToolbar .sapUiIcon.sapMSltArrow {
+  color: rgba(255,255,255,0.85) !important;
+}
+
+.ehsmTableSection .sapMTB .sapMSlt:hover,
+.ehsmTableSection .sapMToolbar .sapMSlt:hover {
+  background: rgba(255,255,255,0.26) !important;
+  border-color: rgba(255,255,255,0.55) !important;
+}
+
+.ehsmTableSection .sapMTB .sapMSltPressed,
+.ehsmTableSection .sapMTB .sapMSlt.sapMSltPressed,
+.ehsmTableSection .sapMToolbar .sapMSltPressed {
+  background: rgba(255,255,255,0.32) !important;
+  border-color: rgba(255,255,255,0.65) !important;
+}
+
+.ehsmTableSection .sapMTB .sapMSlt:focus,
+.ehsmTableSection .sapMToolbar .sapMSlt:focus {
+  outline: 2px solid rgba(255,255,255,0.6) !important;
+  outline-offset: 1px !important;
+}
+
+.sapMSelectList {
+  border: 1.5px solid var(--e-border) !important;
+  border-radius: var(--e-radius-s) !important;
+  box-shadow: 0 6px 20px rgba(26,53,88,0.14) !important;
+  overflow: hidden !important;
+}
+
+.sapMSelectList .sapMSelectListItem {
+  color: var(--e-text) !important;
+  font-size: 0.88rem !important;
+  border-bottom: 1px solid var(--e-border) !important;
+}
+
+.sapMSelectList .sapMSelectListItem:hover,
+.sapMSelectList .sapMSelectListItemSelected {
+  background: var(--e-light) !important;
+  color: var(--e-dark) !important;
+  font-weight: 600 !important;
+}
+
+.sapMSelectList .sapMSelectListItemSelected {
+  border-left: 3px solid var(--e-primary) !important;
+}
+
+.sapMSelectList .sapMSelectListItem:first-child {
+  color: var(--e-sub) !important;
+  font-style: italic !important;
+}
+
+/* ── 11. LOGIN — Forgot Password / Reset Form ───────────────────── */
+
+/* "Forgot Password?" link — right-aligned, subtle */
+.ehsmForgotLink.sapMLnk,
+.ehsmForgotLink {
+  color: var(--e-primary) !important;
+  font-size: 0.82rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+}
+.ehsmForgotLink.sapMLnk:hover {
+  color: var(--e-dark) !important;
+  text-decoration: underline !important;
+}
+
+/* Reset form section title */
+.ehsmResetTitle.sapMTitle {
+  color: var(--e-dark) !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+}
+
+/* "← Back to Login" link */
+.ehsmBackLink.sapMLnk,
+.ehsmBackLink {
+  color: var(--e-primary) !important;
+  font-size: 0.82rem !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+}
+.ehsmBackLink.sapMLnk:hover {
+  color: var(--e-dark) !important;
+  text-decoration: underline !important;
+}
+
+/* Reset Password submit button — teal accent to distinguish from Login */
+.ehsmResetBtn .sapMBtnInner,
+.ehsmResetBtn.sapMBtn .sapMBtnInner {
+  background: linear-gradient(to right, #0f6e56, #1d9e75) !important;
+  border-color: transparent !important;
+  border-radius: 20px !important;
+  color: var(--e-white) !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.4px !important;
+}
+.ehsmResetBtn .sapMBtnInner:hover {
+  opacity: 0.9 !important;
+}

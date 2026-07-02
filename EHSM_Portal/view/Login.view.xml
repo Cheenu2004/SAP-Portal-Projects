@@ -1,0 +1,172 @@
+<mvc:View
+    controllerName="ehsmportal.controller.Login"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        showHeader="false"
+        class="ehsmLoginPage">
+
+        <FlexBox
+            height="100%"
+            justifyContent="Center"
+            alignItems="Center">
+
+            <!-- Card — busy covers both login and reset states -->
+            <VBox
+                width="360px"
+                alignItems="Center"
+                busy="{viewModel>/busy}"
+                class="ehsmLoginCard">
+
+                <!-- ── Brand header — always visible ────────────── -->
+                <core:Icon
+                    src="sap-icon://shield"
+                    size="3rem"
+                    color="#2875b8"
+                    class="sapUiSmallMarginBottom"/>
+
+                <Title
+                    text="EHSM Portal"
+                    level="H2"
+                    class="ehsmAppTitle sapUiTinyMarginBottom"/>
+
+                <Text
+                    text="Environment Health &amp; Safety Management"
+                    textAlign="Center"
+                    class="ehsmAppSub sapUiSmallMarginBottom"/>
+
+                <core:HTML
+                    content="&lt;div style='width:100%;height:1px;background:#c2d4e6;margin:0.75rem 0 1rem'&gt;&lt;/div&gt;"/>
+
+                <!-- ══════════════════════════════════════════════ -->
+                <!-- LOGIN FORM — visible when mode = "login"       -->
+                <!-- ══════════════════════════════════════════════ -->
+                <VBox
+                    width="100%"
+                    visible="{= ${viewModel>/mode} === 'login' }">
+
+                    <Label
+                        text="Employee ID"
+                        width="100%"
+                        class="sapUiTinyMarginBottom"/>
+
+                    <Input
+                        id="empId"
+                        width="100%"
+                        placeholder="Enter your employee ID"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <Label
+                        text="Password"
+                        width="100%"
+                        class="sapUiTinyMarginBottom"/>
+
+                    <Input
+                        id="password"
+                        type="Password"
+                        width="100%"
+                        placeholder="Enter your password"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <Button
+                        text="Login"
+                        type="Emphasized"
+                        width="100%"
+                        class="sapUiSmallMarginTop ehsmLoginBtn"
+                        press="onLogin"/>
+
+                    <!-- Forgot password link — right-aligned below button -->
+                    <FlexBox
+                        justifyContent="End"
+                        width="100%"
+                        class="sapUiTinyMarginTop">
+                        <Link
+                            text="Forgot Password?"
+                            press="onForgotPassword"
+                            class="ehsmForgotLink"/>
+                    </FlexBox>
+
+                </VBox>
+
+                <!-- ══════════════════════════════════════════════ -->
+                <!-- RESET FORM — visible when mode = "reset"       -->
+                <!-- ══════════════════════════════════════════════ -->
+                <VBox
+                    width="100%"
+                    visible="{= ${viewModel>/mode} === 'reset' }">
+
+                    <!-- Section title + back link row -->
+                    <FlexBox
+                        justifyContent="SpaceBetween"
+                        alignItems="Center"
+                        width="100%"
+                        class="sapUiTinyMarginBottom">
+
+                        <Title
+                            text="Reset Password"
+                            level="H4"
+                            class="ehsmResetTitle"/>
+
+                        <Link
+                            text="← Back to Login"
+                            press="onBackToLogin"
+                            class="ehsmBackLink"/>
+
+                    </FlexBox>
+
+                    <core:HTML
+                        content="&lt;div style='width:100%;height:1px;background:#d6e8f7;margin:0.4rem 0 0.9rem'&gt;&lt;/div&gt;"/>
+
+                    <Label
+                        text="Employee ID"
+                        width="100%"
+                        class="sapUiTinyMarginBottom"/>
+
+                    <Input
+                        id="resetEmpId"
+                        width="100%"
+                        placeholder="Enter your employee ID"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <Label
+                        text="New Password"
+                        width="100%"
+                        class="sapUiTinyMarginBottom"/>
+
+                    <Input
+                        id="newPassword"
+                        type="Password"
+                        width="100%"
+                        placeholder="Enter new password"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <Label
+                        text="Confirm Password"
+                        width="100%"
+                        class="sapUiTinyMarginBottom"/>
+
+                    <Input
+                        id="confirmPassword"
+                        type="Password"
+                        width="100%"
+                        placeholder="Re-enter new password"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <Button
+                        text="Reset Password"
+                        type="Emphasized"
+                        width="100%"
+                        class="sapUiSmallMarginTop ehsmResetBtn"
+                        press="onResetPassword"/>
+
+                </VBox>
+
+            </VBox>
+
+        </FlexBox>
+
+    </Page>
+
+</mvc:View>

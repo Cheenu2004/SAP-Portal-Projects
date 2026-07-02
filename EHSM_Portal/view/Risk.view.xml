@@ -1,0 +1,135 @@
+<mvc:View
+    controllerName="ehsmportal.controller.Risk"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        title="Risk Management"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <VBox class="ehsmTableSection">
+
+                <Toolbar>
+
+                    <Title text="Risk Details"/>
+
+                    <ToolbarSpacer/>
+
+                    <!-- Type Filter -->
+                    <Select
+                        id="riskTypeFilter"
+                        width="180px"
+                        change="onTypeFilter"
+                        items="{viewModel>/types}">
+                        <core:Item
+                            key="{viewModel>key}"
+                            text="{viewModel>text}"/>
+                    </Select>
+
+                    <!-- Status Filter -->
+                    <Select
+                        id="riskStatusFilter"
+                        width="150px"
+                        change="onStatusFilter"
+                        items="{viewModel>/statuses}">
+                        <core:Item
+                            key="{viewModel>key}"
+                            text="{viewModel>text}"/>
+                    </Select>
+
+                    <!-- Search -->
+                    <SearchField
+                        id="riskSearch"
+                        width="250px"
+                        placeholder="Search by ID, Title, Type, Status..."
+                        liveChange="onRiskSearch"/>
+
+                    <Button
+                        icon="sap-icon://sort-ascending"
+                        tooltip="Sort Ascending"
+                        press="onSortAsc"/>
+
+                    <Button
+                        icon="sap-icon://sort-descending"
+                        tooltip="Sort Descending"
+                        press="onSortDesc"/>
+
+                </Toolbar>
+
+                <Table
+                    id="riskTable"
+                    noDataText="No risk records found."
+                    growing="true"
+                    growingThreshold="10"
+                    growingScrollToLoad="true"
+                    busy="{viewModel>/busy}"
+                    items="{viewModel>/risks}">
+
+                    <columns>
+
+                        <Column>
+                            <Text text="ID"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Title"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Risk Type"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Status"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Created On"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Created By"/>
+                        </Column>
+
+                    </columns>
+
+                    <items>
+
+                        <ColumnListItem>
+
+                            <cells>
+
+                                <Text text="{viewModel>Id}"/>
+
+                                <Text text="{viewModel>Title}"/>
+
+                                <Text text="{viewModel>TypeDesc}"/>
+
+                                <Text text="{viewModel>StatusDesc}"/>
+
+                                <Text text="{
+                                    path: 'viewModel>DatetimeCr',
+                                    formatter: '.formatDatetime'
+                                }"/>
+
+                                <Text text="{viewModel>UserIdCr}"/>
+
+                            </cells>
+
+                        </ColumnListItem>
+
+                    </items>
+
+                </Table>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>
