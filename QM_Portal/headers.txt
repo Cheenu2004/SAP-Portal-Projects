@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+set-cookie: sap-usercontext=sap-client=100; path=/
+set-cookie: MYSAPSSO2=AjQxMDMBABhLADkAMAAyADAANgA1ACAAIAAgACAAIAACAAYxADAAMAADABBMADIANQAgACAAIAAgACAABAAYMgAwADIANgAwADYAMAA1ADEANwA1ADgABQAEAAAACAYAAlgACQACRQD%2fA1cwggNTBgkqhkiG9w0BBwKgggNEMIIDQAIBATELMAkGBSsOAwIaBQAwCwYJKoZIhvcNAQcBoIICVTCCAlEwggIPAggKICUEBhlZATAJBgcqhkjOOAQDMA4xDDAKBgNVBAMTA0wyNTAeFw0yNTA0MDYxOTU5MDFaFw0zODAxMDEwMDAwMDFaMA4xDDAKBgNVBAMTA0wyNTCCAbYwggErBgcqhkjOOAQBMIIBHgKBgQCx%2fCIwOAJEZpnJ3E8KGxhcg%2fHzzVzEMTLLIpc2d6X5GnLJ1Ty06cHZLQS3ioAbNtZt2NWwGP%21psTT%21G8org6oNhTuupESDVI%2fT27c8MH8nF%2fyU6WusV6GUmtP%2f3ihyyE36kTSRHdzfbHgCtk0z3L5UzjAfz2qyALsTpeazaEyGHwIVAJRpQOg7rh5rf7B0tkCn6b6ckXwZAoGAGRyyG%2fq8RJwtG8eeb%219reYi%2fUXQj0LGRbeiChKfh5M7kAp%21PI7P8pqDtQwfuibt0lUkc7s0YNkv%2flIf2d4xnjEV7Uh2JkYwyUNL1Sbn6%21%2fGnXL0ARWxsg4ns1j6fP2gSXGWP4RtaoZv1R%21jJAxgsknZapqVEqzJQ54FuqSbJMwIDgYQAAoGAXTjLC3y6wfpqkRChAiiyWHI%21NUMAr44D7UN2Pl05860T3etIWrc9KsQbbDfQWav9zph8XHXT%21uiLIVHJdom2L4ePvfWk%2fkIKgnKbzcKN5Mpdnt0lOLe%2fUhXGsSWK97agJKAxi0DcsPgwpKr3RrCusA7Nji04gPemc8czjvsbLlwwCQYHKoZIzjgEAwMxADAuAhUAhbd7iV2nrlty1lG2d3Y9GIqEis0CFQCK3YWYElMGUcr820DcWDdmVdxFGDGBxzCBxAIBATAaMA4xDDAKBgNVBAMTA0wyNQIICiAlBAYZWQEwCQYFKw4DAhoFAKBdMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDYwNTE3NTgwNFowIwYJKoZIhvcNAQkEMRYEFMFYUaQs83ABSeJI7hZ2sQFs3k%21lMAkGByqGSM44BAMELjAsAhRY1139m%2fDwhJJ8cAp7fIC0kH817wIUD2x6%2f2l9Nz4AVEui05tA7y%21t4kQ%3d; path=/; domain=.kcloud.com; secure; HttpOnly
+set-cookie: SAP_SESSIONID_L25_100=4yXkP06gFZxsdAahtu2as1Xuvalg9xHxgABgRb2r81U%3d; path=/; secure; HttpOnly
+content-type: application/json; charset=utf-8
+content-length: 59
+x-csrf-token: yXGLXdlJGjty1ltmuwojIw==
+dataserviceversion: 1.0
+sap-metadata-last-modified: Wed, 03 Jun 2026 09:14:30 GMT
+last-modified: Wed, 03 Jun 2026 09:14:30 GMT
+cache-control: no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0
+pragma: no-cache
+expires: Tue, 03 Jul 2001 06:00:00 GMT
+sap-processing-info: ODataBEP=,crp=,RAL=,st=,MedCacheHub=Table,codeployed=X,softstate=
+sap-server: true
+sap-perf-fesrec: 59395.000000
+

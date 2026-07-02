@@ -1,0 +1,230 @@
+<mvc:View
+    controllerName="qmportal1.controller.InspectionLot"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <mvc:dependents>
+        <Dialog
+            id="detailsDialog"
+            contentWidth="460px">
+            
+            <customHeader>
+                <Bar class="qmPurpleHeader">
+                    <contentMiddle>
+                        <Title text="Inspection Lot Details" />
+                    </contentMiddle>
+                </Bar>
+            </customHeader>
+
+            <content>
+                <VBox class="sapUiSmallMarginBeginEnd sapUiSmallMarginTop">
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Lot:" design="Bold" width="130px"/>
+                        <Text text="{detailModel>/InspLot}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Material:" design="Bold" width="130px"/>
+                        <Text text="{detailModel>/Material}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Description:" design="Bold" width="130px"/>
+                        <Text text="{detailModel>/MaterialDesc}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Plant:" design="Bold" width="130px"/>
+                        <Text text="{detailModel>/Plant}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Quantity:" design="Bold" width="130px"/>
+                        <Text text="{detailModel>/Quantity}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Inspection Type:" design="Bold" width="130px"/>
+                        <Text text="{detailModel>/InspType}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <Label text="Batch:" design="Bold" width="130px"/>
+                        <Text text="{detailModel>/Batch}"/>
+                    </HBox>
+                    
+                    <Title text="Usage Decision" level="H5" class="sapUiTinyMarginBottom"/>
+                    
+                    <ObjectStatus
+                        text="{detailModel>/UDStatus}"
+                        state="{
+                            path: 'detailModel>/UDStatus',
+                            formatter: '.formatStatus'
+                        }"
+                        class="sapUiSmallMarginBottom"/>
+                </VBox>
+            </content>
+
+            <buttons>
+                <Button text="Close" press="onCloseDetailDialog"/>
+            </buttons>
+        </Dialog>
+    </mvc:dependents>
+
+    <Page
+        title="Inspection Lots"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 TOP TOOLBAR  (search + sort/refresh buttons)
+                 Kept exactly as your original toolbar structure.
+            ══════════════════════════════════════════════════════════ -->
+            <Toolbar>
+
+                <SearchField
+                    id="il_searchField"
+                    width="240px"
+                    liveChange="onSearch"
+                    placeholder="Search Inspection Lot"/>
+
+                <ToolbarSpacer width="1rem"/>
+
+                <MultiComboBox
+                    id="il_filterPlant"
+                    width="180px"
+                    placeholder="Plant"
+                    selectionChange="onFilterChange"
+                    items="{ path: 'filterModel>/plants' }">
+                    <core:Item key="{filterModel>key}" text="{filterModel>text}"/>
+                </MultiComboBox>
+
+                <MultiComboBox
+                    id="il_filterMaterial"
+                    width="180px"
+                    placeholder="Material"
+                    selectionChange="onFilterChange"
+                    items="{ path: 'filterModel>/materials' }">
+                    <core:Item key="{filterModel>key}" text="{filterModel>text}"/>
+                </MultiComboBox>
+
+                <MultiComboBox
+                    id="il_filterStatus"
+                    width="180px"
+                    placeholder="Status"
+                    selectionChange="onFilterChange"
+                    items="{ path: 'filterModel>/statuses' }">
+                    <core:Item key="{filterModel>key}" text="{filterModel>text}"/>
+                </MultiComboBox>
+
+                <ToolbarSpacer/>
+
+                <Button
+                    text="Sort"
+                    icon="sap-icon://sort"
+                    press="onSort"
+                    type="Transparent"/>
+
+                <Button
+                    text="Refresh"
+                    icon="sap-icon://refresh"
+                    press="onRefresh"
+                    type="Transparent"/>
+
+                <Button
+                    text="Clear Filters"
+                    icon="sap-icon://clear-filter"
+                    press="onClearFilters"
+                    type="Transparent"/>
+
+            </Toolbar>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 TABLE  — YOUR exact binding, columns, fields, and
+                 Detail button kept 100% unchanged.
+            ══════════════════════════════════════════════════════════ -->
+            <Table
+                id="il_inspectionTable"
+                items="{ path: 'inspectionModel>/ZQM_INSPECTION_CDS_902065' }"
+                noDataText="No inspection lots found."
+                updateFinished="onTableUpdateFinished">
+
+
+
+                <columns>
+
+                    <Column width="15%">
+                        <Text text="Inspection Lot"/>
+                    </Column>
+
+                    <Column width="12%">
+                        <Text text="Material"/>
+                    </Column>
+
+                    <Column width="20%">
+                        <Text text="Description"/>
+                    </Column>
+
+                    <Column width="8%" hAlign="Center">
+                        <Text text="Plant"/>
+                    </Column>
+
+                    <Column width="10%" hAlign="End">
+                        <Text text="Quantity"/>
+                    </Column>
+
+                    <Column width="13%" hAlign="Center">
+                        <Text text="UD Status"/>
+                    </Column>
+
+                    <Column width="10%" hAlign="Center">
+                        <Text text="Actions"/>
+                    </Column>
+
+                </columns>
+
+                <items>
+
+                    <ColumnListItem
+                        type="Active"
+                        press="onLotPress">
+
+                        <cells>
+
+                            <Text text="{inspectionModel>wf_insp_lot}"/>
+
+                            <Text text="{inspectionModel>wf_material}"/>
+
+                            <Text text="{inspectionModel>wf_material_desc}"/>
+
+                            <Text
+                                text="{inspectionModel>wf_plant}"
+                                textAlign="Center"/>
+
+                            <Text
+                                text="{inspectionModel>wf_quantity}"
+                                textAlign="End"/>
+
+                            <ObjectStatus
+                                text="{inspectionModel>wf_ud_status}"
+                                state="{
+                                    path: 'inspectionModel>wf_ud_status',
+                                    formatter: '.formatStatus'
+                                }"/>
+
+                            <Button
+                                text="Details"
+                                icon="sap-icon://detail-view"
+                                type="Transparent"
+                                press="onDetailPress"/>
+
+                        </cells>
+
+                    </ColumnListItem>
+
+                </items>
+
+            </Table>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

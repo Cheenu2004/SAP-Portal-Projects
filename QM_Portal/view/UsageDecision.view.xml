@@ -1,0 +1,261 @@
+<mvc:View
+    controllerName="qmportal1.controller.UsageDecision"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <mvc:dependents>
+
+        <!-- ============================================================
+             DIALOG : Usage Decision
+             100% unchanged from your original
+        ============================================================= -->
+        <Dialog
+            id="usageDecisionDialog"
+            contentWidth="460px"
+            busyIndicatorDelay="0"
+            busy="{dialogModel>/busy}">
+
+            <customHeader>
+                <Bar class="qmPurpleHeader">
+                    <contentMiddle>
+                        <Title text="Usage Decision — {dialogModel>/InspLot}"/>
+                    </contentMiddle>
+                </Bar>
+            </customHeader>
+
+            <content>
+                <VBox class="sapUiSmallMarginBeginEnd sapUiSmallMarginTop">
+
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Material:" design="Bold" width="180px"/>
+                        <Text text="{dialogModel>/Material}"/>
+                    </HBox>
+
+                    <MessageStrip
+                        text="Formula: Unrestricted + Blocked + Production = Lot Qty"
+                        type="Information"
+                        showIcon="true"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Lot Quantity:"       design="Bold" width="180px"/>
+                        <Text text="{dialogModel>/LotQty}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <Label text="Inspected Quantity:" design="Bold" width="180px"/>
+                        <Text text="{dialogModel>/InspectedQty}"/>
+                    </HBox>
+
+                    <ObjectStatus
+                        text="{dialogModel>/qtyMatchMsg}"
+                        state="{dialogModel>/qtyMatchState}"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <Label text="Remarks (Optional)" design="Bold" class="sapUiTinyMarginBottom"/>
+                    <TextArea
+                        id="remarksInput"
+                        value="{dialogModel>/Remarks}"
+                        placeholder="Enter any remarks..."
+                        rows="3"
+                        width="100%"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <Label
+                        text="Select your decision:"
+                        class="sapUiSmallMarginTop"
+                        design="Bold"/>
+
+                </VBox>
+            </content>
+
+            <buttons>
+                <Button
+                    text="✔  Approve"
+                    type="Accept"
+                    visible="{ path: 'appState>/role', formatter: '.formatDecisionButtonVisible' }"
+                    enabled="{dialogModel>/decisionEnabled}"
+                    press="onApprove"/>
+                <Button
+                    text="✖  Reject"
+                    type="Reject"
+                    visible="{ path: 'appState>/role', formatter: '.formatDecisionButtonVisible' }"
+                    enabled="{dialogModel>/decisionEnabled}"
+                    press="onReject"/>
+                <Button
+                    text="Cancel"
+                    type="Transparent"
+                    press="onCancelDecision"/>
+            </buttons>
+
+        </Dialog>
+
+        <!-- ============================================================
+             DIALOG 2 : View Usage Decision (READ-ONLY)
+        ============================================================= -->
+        <Dialog
+            id="viewDecisionDialog"
+            contentWidth="460px">
+
+            <customHeader>
+                <Bar class="qmPurpleHeader">
+                    <contentMiddle>
+                        <Title text="Usage Decision — {viewModel>/InspLot}"/>
+                    </contentMiddle>
+                </Bar>
+            </customHeader>
+
+            <content>
+                <VBox class="sapUiSmallMarginBeginEnd sapUiSmallMarginTop">
+
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Material:" design="Bold" width="180px"/>
+                        <Text text="{viewModel>/Material}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <Label text="Lot Qty:" design="Bold" width="180px"/>
+                        <Text text="{viewModel>/LotQty}"/>
+                    </HBox>
+
+                    <Title text="Final Decision" level="H5" class="sapUiTinyMarginBottom"/>
+
+                    <ObjectStatus
+                        text="{viewModel>/DecisionText}"
+                        state="{viewModel>/DecisionState}"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Decided By:" design="Bold" width="180px"/>
+                        <Text text="{viewModel>/DecisionBy}"/>
+                    </HBox>
+
+                    <HBox alignItems="Center" visible="{viewModel>/HasRemarks}">
+                        <Label text="Remarks:" design="Bold" width="180px"/>
+                        <Text text="{viewModel>/Remarks}"/>
+                    </HBox>
+
+                </VBox>
+            </content>
+
+            <buttons>
+                <Button text="Close" press="onCloseViewDialog"/>
+            </buttons>
+        </Dialog>
+
+    </mvc:dependents>
+
+    <!-- PAGE -->
+    <Page title="Usage Decisions" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+
+            <!-- Read-only banner for CONSULTANT / ENGINEER -->
+            <MessageStrip
+                text="View Only — You have read-only access. Approve and Reject actions are restricted to Safety Managers."
+                type="Information"
+                showIcon="true"
+                showCloseButton="false"
+                visible="{ path: 'appState>/role', formatter: '.formatReadOnlyBannerVisible' }"
+                class="sapUiSmallMargin"/>
+
+            <!-- =========================================================
+                 TOP TOOLBAR — search + status filter + refresh + clear
+            ========================================================== -->
+            <Toolbar>
+
+                <SearchField
+                    id="ud_searchField"
+                    width="240px"
+                    liveChange="onSearch"
+                    placeholder="Search Inspection Lot"/>
+
+                <ToolbarSpacer width="16px"/>
+
+                <MultiComboBox
+                    id="ud_filterMaterial"
+                    width="180px"
+                    placeholder="Material"
+                    selectionChange="onFilterChange"
+                    items="{ path: 'udFilterModel>/materials' }">
+                    <core:Item key="{udFilterModel>key}" text="{udFilterModel>text}"/>
+                </MultiComboBox>
+
+                <ToolbarSpacer width="16px"/>
+
+                <ComboBox
+                    id="ud_statusFilter"
+                    change="onStatusFilterChange"
+                    width="140px"
+                    placeholder="Decision">
+                    <items>
+                        <core:Item text="All Statuses" key=""/>
+                        <core:Item text="Pending"      key="PENDING"/>
+                        <core:Item text="Approved"     key="APPROVED"/>
+                        <core:Item text="Rejected"     key="REJECTED"/>
+                    </items>
+                </ComboBox>
+
+                <ToolbarSpacer width="16px"/>
+
+                <Button
+                    text="Refresh"
+                    icon="sap-icon://refresh"
+                    press="onRefresh"
+                    type="Transparent"/>
+
+                <Button
+                    text="Clear Filters"
+                    icon="sap-icon://clear-filter"
+                    press="onClearFilters"
+                    type="Transparent"/>
+
+            </Toolbar>
+
+
+
+            <!-- =========================================================
+                 TABLE — YOUR exact binding, columns and field names kept.
+            ========================================================== -->
+            <Table
+                id="ud_decisionTable"
+                items="{ path: 'usageModel>/ZQM_USAGE_DEC_902065' }"
+                noDataText="No usage decision records found."
+                updateFinished="onTableUpdateFinished">
+
+
+
+                <columns>
+                    <Column width="17%"><Text text="Inspection Lot"/></Column>
+                    <Column width="14%"><Text text="Material"/></Column>
+                    <Column width="12%" hAlign="End"><Text text="Lot Qty"/></Column>
+                    <Column width="10%" hAlign="Center"><Text text="Insp. Type"/></Column>
+                    <Column width="15%" hAlign="Center"><Text text="Decision Status"/></Column>
+                    <Column width="13%" hAlign="Center"><Text text="Decision By"/></Column>
+                    <Column width="12%" hAlign="Center"><Text text="Actions"/></Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem type="Inactive">
+                        <cells>
+                            <Text text="{usageModel>wf_insp_lot}"/>
+                            <Text text="{usageModel>wf_material}"/>
+                            <Text text="{usageModel>wf_quantity}" textAlign="End"/>
+                            <Text text="{usageModel>wf_insp_type}" textAlign="Center"/>
+                            <ObjectStatus
+                                text="{ path: 'usageModel>wf_insp_lot', formatter: '.formatDecisionStatus' }"
+                                state="{ path: 'usageModel>wf_insp_lot', formatter: '.formatDecisionStatusState' }"/>
+                            <Text text="{usageModel>wf_decision_by}" textAlign="Center"/>
+                            <Button
+                                text="{ path: 'usageModel>wf_insp_lot', formatter: '.formatActionButtonText' }"
+                                icon="{ path: 'usageModel>wf_insp_lot', formatter: '.formatActionButtonIcon' }"
+                                type="Transparent"
+                                press="onActionPress"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+
+            </Table>
+
+        </content>
+    </Page>
+
+</mvc:View>

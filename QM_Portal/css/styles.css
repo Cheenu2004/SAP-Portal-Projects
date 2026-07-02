@@ -1,0 +1,687 @@
+/* ============================================================
+   QM PORTAL — GLOBAL STYLESHEET
+   Theme: Light Professional Purple + Green
+   ============================================================ */
+
+:root {
+    --qm-purple-h1:    #3a0a5e;
+    --qm-purple-h2:    #6a1b9a;
+    --qm-purple-dark:  #4a148c;
+    --qm-purple:       #7b1fa2;
+    --qm-purple-mid:   #9c27b0;
+    --qm-purple-soft:  #ab47bc;
+    --qm-purple-light: #e8d5f5;
+    --qm-purple-pale:  #f3e8ff;
+    --qm-purple-tint:  #faf5ff;
+    --qm-green-dark:   #2e7d32;
+    --qm-green:        #43a047;
+    --qm-green-mid:    #66bb6a;
+    --qm-green-light:  #e8f5e9;
+    --qm-white:        #ffffff;
+    --qm-gray-bg:      #f5f0fb;
+    --qm-gray-border:  #ddd0ef;
+    --qm-gray-text:    #7a6b8a;
+    --qm-text-dark:    #2c1a3e;
+    --qm-text-mid:     #5c4a72;
+    --qm-ok-text:      #1b5e20;
+    --qm-ok-bg:        #e8f5e9;
+    --qm-ok-border:    #a5d6a7;
+    --qm-warn-text:    #bf360c;
+    --qm-warn-bg:      #fff3e0;
+    --qm-warn-border:  #ffcc80;
+    --qm-err-text:     #b71c1c;
+    --qm-err-bg:       #ffebee;
+    --qm-err-border:   #ef9a9a;
+    --shadow-sm:       0 1px 6px rgba(106,27,154,0.08);
+    --shadow-md:       0 3px 16px rgba(106,27,154,0.12);
+    --shadow-lg:       0 8px 32px rgba(106,27,154,0.18);
+    --r-sm: 6px; --r-md: 10px; --r-lg: 16px;
+}
+
+/* ----------------------------------------------------------
+   GLOBAL
+   ---------------------------------------------------------- */
+.sapUiBody, html, body {
+    background-color: var(--qm-gray-bg) !important;
+    font-family: "72","72full",Arial,sans-serif !important;
+    color: var(--qm-text-dark) !important;
+}
+.sapMPage, .sapMPageBgStandard {
+    background-color: var(--qm-gray-bg) !important;
+}
+
+/* ----------------------------------------------------------
+   PAGE HEADER
+   ---------------------------------------------------------- */
+.sapMPageHeader,
+.sapMBar.sapMPageHeader,
+.sapMIBar.sapMPageHeader,
+.sapMBar-CTX.sapMPageHeader {
+    background: linear-gradient(135deg, var(--qm-purple-h1) 0%, var(--qm-purple-h2) 100%) !important;
+    border-bottom: 3px solid var(--qm-green) !important;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.22) !important;
+    min-height: 42px !important;
+    max-height: 46px !important;
+    padding: 0 !important;
+}
+.sapMPageHeader .sapMTitle,
+.sapMPageHeader .sapMTitle *,
+.sapMPageHeader .sapMTitle bdi,
+.sapMBar-CTX .sapMTitle,
+.sapMBar-CTX .sapMTitle bdi,
+.sapMBar .sapMBarPH .sapMTitle,
+.sapMBar .sapMBarPH .sapMTitle bdi {
+    color: #fff !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+}
+.sapMPageHeader .sapMBtnInner {
+    color: #fff !important;
+    background: rgba(255,255,255,0.18) !important;
+    border-color: rgba(255,255,255,0.28) !important;
+    border-radius: var(--r-sm) !important;
+}
+.sapMPageHeader .sapMBtnInner:hover { background: rgba(255,255,255,0.28) !important; }
+.sapMPageHeader .sapMBtnIcon,
+.sapMPageHeader .sapMBtn .sapMBtnIcon,
+.sapMPageHeader .sapMBtnBack .sapMBtnIcon { color: #fff !important; }
+.sapMPageHeader .sapMBtnEmphasized .sapMBtnInner {
+    background: var(--qm-green) !important;
+    border-color: var(--qm-green-dark) !important;
+    border-radius: var(--r-sm) !important;
+}
+.sapMPageHeader .sapMBtnEmphasized .sapMBtnContent,
+.sapMPageHeader .sapMBtnEmphasized .sapMBtnIcon { color: #fff !important; font-weight: 700 !important; }
+
+/* Header user bar — user icon, user ID text, role pill, logout */
+.qmHeaderUserBar {
+    gap: 10px !important;
+    align-items: center !important;
+}
+
+/* Person icon */
+.qmHeaderUserIcon.sapUiIcon {
+    color: #fff !important;
+    font-size: 1.1rem !important;
+}
+
+/* User ID text */
+.qmHeaderUserText.sapMText,
+.qmHeaderUserText .sapMTextMaxLine {
+    color: #fff !important;
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+}
+
+/* Role pill — white text, frosted pill background */
+.qmHeaderRolePill,
+.qmHeaderRolePill.sapMLbl,
+.qmHeaderRolePill .sapMLblText,
+.qmHeaderRolePill span,
+.qmHeaderRolePill * {
+    color: #fff !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    letter-spacing: 0.4px !important;
+}
+.qmHeaderRolePill,
+.qmHeaderRolePill.sapMLbl {
+    background: rgba(255,255,255,0.22) !important;
+    padding: 3px 12px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255,255,255,0.35) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+.sapMPageScroll, .sapMPageScrollArea { padding-top: 14px !important; }
+
+/* ----------------------------------------------------------
+   LOGIN PAGE
+   ---------------------------------------------------------- */
+
+/* Page background + no scroll */
+.qmLoginPage.sapMPage,
+.qmLoginPage .sapMPageInner,
+.qmLoginPage .sapMPageBgStandard {
+    background: linear-gradient(145deg, #ede7f6 0%, #f3e5f5 35%, #e8f5e9 100%) !important;
+    overflow: hidden !important;
+    height: 100% !important;
+}
+.qmLoginPage .sapMPageScroll,
+.qmLoginPage .sapMPageScrollArea {
+    padding-top: 0 !important;
+    height: 100% !important;
+    overflow: hidden !important;
+}
+
+/* Hide SAP header on login */
+.qmLoginPage .sapMPageHeader { display: none !important; }
+
+/* Outer flex container — true full-height centering */
+.qmLoginOuter {
+    height: 100% !important;
+    width: 100% !important;
+    padding: 0 20px !important;
+    box-sizing: border-box !important;
+}
+
+/* Portal title */
+.qmLoginTitle { margin-bottom: 6px !important; }
+.qmLoginTitle .sapMTitle,
+.qmLoginTitle bdi {
+    color: var(--qm-purple-dark) !important;
+    font-size: 1.6rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.3px !important;
+}
+
+/* Subtitle */
+.qmLoginSubtitle,
+.qmLoginSubtitle .sapMText {
+    color: var(--qm-gray-text) !important;
+    font-size: 0.88rem !important;
+    margin-bottom: 24px !important;
+    display: block !important;
+}
+
+/* Login card */
+.qmCard {
+    width: 420px !important;
+    background: var(--qm-white) !important;
+    border-radius: var(--r-lg) !important;
+    box-shadow: 0 8px 40px rgba(106,27,154,0.16), 0 2px 8px rgba(0,0,0,0.06) !important;
+    border: 1px solid var(--qm-gray-border) !important;
+    overflow: hidden !important;
+}
+
+/* Card header */
+.qmCardHeader {
+    background: linear-gradient(135deg, var(--qm-purple-h1) 0%, var(--qm-purple-h2) 100%) !important;
+    border-bottom: 3px solid var(--qm-green) !important;
+    border-radius: var(--r-lg) var(--r-lg) 0 0 !important;
+    padding: 20px 32px !important;
+    min-height: 60px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+.qmCardHeaderTitle .sapMTitle,
+.qmCardHeaderTitle bdi,
+.qmCardHeader .sapMTitle,
+.qmCardHeader .sapMTitle bdi,
+.qmCardHeader bdi {
+    color: #ffffff !important;
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.4px !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3) !important;
+}
+
+/* Card body */
+.qmCardBody {
+    padding: 28px 32px 32px 32px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Field labels */
+.qmFieldLabel,
+.qmFieldLabel .sapMLabel {
+    color: var(--qm-purple-dark) !important;
+    font-weight: 700 !important;
+    font-size: 0.84rem !important;
+    display: block !important;
+    margin-bottom: 6px !important;
+    margin-top: 0 !important;
+}
+.qmFieldLabelTop {
+    margin-top: 18px !important;
+    display: block !important;
+}
+.qmFieldLabelTop .sapMLabel {
+    color: var(--qm-purple-dark) !important;
+    font-weight: 700 !important;
+    font-size: 0.84rem !important;
+}
+
+/* ============================================================
+   INPUT FIX — COMPLETE RESET OF ALL SAP WRAPPER LAYERS
+   
+   SAP renders this DOM tree for sap.m.Input:
+   
+   <div class="sapMInput sapMInputBase">          ← outermost wrapper
+     <div class="sapMInputBaseContentWrapper">    ← inner content div
+       <input class="sapMInputBaseInner" />       ← actual <input>
+     </div>
+   </div>
+   
+   Problem: SAP sets width on the outer wrapper but ALSO adds
+   margin/padding at multiple levels, causing the input to look
+   narrower than its container. We must reset ALL levels.
+   ============================================================ */
+
+/* Level 1 — the sapMFlexItem wrapper SAP wraps around each child */
+.qmCardBody .sapMFlexItem,
+.qmCardBody > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* Level 2 — outer Input wrapper div */
+.qmCardBody .sapMInput,
+.qmCardBody .sapMInputBase {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    border-radius: var(--r-md) !important;
+    border: 1.5px solid #cbb8e8 !important;
+    background: #faf5ff !important;
+    height: 46px !important;
+    display: flex !important;
+    align-items: center !important;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+/* Level 3 — SAP inner content wrapper */
+.qmCardBody .sapMInputBaseContentWrapper {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+}
+
+/* Level 4 — the actual <input> element */
+.qmCardBody .sapMInputBaseInner {
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 14px !important;   /* THE ONLY padding — single source of truth */
+    margin: 0 !important;
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    color: var(--qm-text-dark) !important;
+    font-size: 0.9rem !important;
+    box-sizing: border-box !important;
+    font-family: "72","72full",Arial,sans-serif !important;
+}
+
+/* Focus state */
+.qmCardBody .sapMInputBaseFocused,
+.qmCardBody .sapMInput.sapMInputBaseFocused,
+.qmCardBody .sapMInputBase:focus-within {
+    border-color: var(--qm-purple-soft) !important;
+    background: var(--qm-white) !important;
+    box-shadow: 0 0 0 3px rgba(171,71,188,0.13) !important;
+}
+
+/* Placeholder */
+.qmCardBody .sapMInputPlaceholder,
+.qmCardBody .sapMInputBaseInner::placeholder {
+    color: #b0a0c8 !important;
+    opacity: 1 !important;
+}
+
+/* Sign In button */
+.qmSignInBtn,
+.qmSignInBtn.sapMBtn {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-top: 24px !important;
+    margin-bottom: 12px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    display: block !important;
+    box-sizing: border-box !important;
+}
+.qmSignInBtn .sapMBtnInner {
+    background: linear-gradient(135deg, var(--qm-purple-h2) 0%, var(--qm-purple-h1) 100%) !important;
+    border-color: var(--qm-purple-h1) !important;
+    border-radius: var(--r-md) !important;
+    height: 50px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 4px 16px rgba(106,27,154,0.30) !important;
+    transition: all 0.2s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.qmSignInBtn .sapMBtnInner:hover {
+    background: linear-gradient(135deg, var(--qm-purple-h1) 0%, var(--qm-purple-dark) 100%) !important;
+    box-shadow: 0 6px 20px rgba(106,27,154,0.40) !important;
+    transform: translateY(-1px) !important;
+}
+.qmSignInBtn .sapMBtnContent,
+.qmSignInBtn .sapMBtnIcon {
+    color: #ffffff !important;
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* Forgot Password Link */
+.qmForgotPassword {
+    display: block !important;
+    text-align: center !important;
+    margin-top: 20px !important;
+    width: 100% !important;
+}
+.qmForgotPassword.sapMLnk,
+.qmForgotPassword .sapMLnk {
+    color: var(--qm-purple) !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+}
+.qmForgotPassword.sapMLnk:hover,
+.qmForgotPassword .sapMLnk:hover {
+    color: var(--qm-purple-h2) !important;
+    text-decoration: underline !important;
+}
+
+/* ----------------------------------------------------------
+   DASHBOARD TILES
+   ---------------------------------------------------------- */
+
+/* Full-height centering container */
+.qmDashboardCenter {
+    min-height: calc(100vh - 60px) !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+}
+
+/* Tile row — horizontally centered, wraps on small screens */
+.qmTileRow {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 24px !important;
+    padding: 0 32px !important;
+    width: 100% !important;
+    max-width: 960px !important;
+    box-sizing: border-box !important;
+}
+
+/* Individual tile */
+.qmDashTile.sapMGT {
+    width: 260px !important;
+    min-width: 220px !important;
+    max-width: 300px !important;
+    flex: 0 0 260px !important;
+}
+
+.sapMGT {
+    border-radius: var(--r-lg) !important;
+    box-shadow: var(--shadow-md) !important;
+    border: 1px solid var(--qm-gray-border) !important;
+    background: var(--qm-white) !important;
+    transition: transform 0.22s ease, box-shadow 0.22s ease !important;
+    overflow: hidden !important;
+}
+.sapMGT:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 28px rgba(106,27,154,0.18) !important;
+    border-color: var(--qm-purple-soft) !important;
+}
+.sapMGT::before {
+    content: "" !important;
+    display: block !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, var(--qm-green), var(--qm-green-mid)) !important;
+}
+.sapMGTHdrTxt { color: var(--qm-purple-dark) !important; font-size: 1rem !important; font-weight: 700 !important; }
+.sapMGTSubHdrTxt { color: var(--qm-gray-text) !important; font-size: 0.78rem !important; }
+.sapMNC .sapMNCValue { color: var(--qm-purple) !important; font-size: 1.7rem !important; font-weight: 800 !important; }
+.sapMNC .sapUiIcon { color: var(--qm-green) !important; }
+.sapMTitle { color: var(--qm-purple-dark) !important; }
+
+/* ----------------------------------------------------------
+   FILTER TOOLBAR
+   ---------------------------------------------------------- */
+.sapMTB {
+    background-color: var(--qm-white) !important;
+    border-bottom: 1.5px solid var(--qm-gray-border) !important;
+    border-top: 5px solid var(--qm-gray-bg) !important;
+    padding: 10px 20px !important;
+    min-height: 52px !important;
+    box-shadow: 0 2px 6px rgba(106,27,154,0.06) !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    align-items: center !important;
+}
+.sapMTB .sapMSF {
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    height: 34px !important;
+}
+.sapMTB .sapMSF:focus-within {
+    border-color: var(--qm-purple-soft) !important;
+    box-shadow: 0 0 0 3px rgba(171,71,188,0.10) !important;
+    background: var(--qm-white) !important;
+}
+.sapMTB .sapMSFI { background: transparent !important; color: var(--qm-text-dark) !important; font-size: 0.84rem !important; }
+.sapMTB .sapMSFB { color: var(--qm-purple-soft) !important; }
+.sapMTB .sapMSltLabel { color: var(--qm-text-dark) !important; font-size: 0.84rem !important; }
+.sapMTB .sapMLabel { color: var(--qm-text-mid) !important; font-weight: 700 !important; font-size: 0.80rem !important; white-space: nowrap !important; }
+.sapMTB .sapMBtnTransparent .sapMBtnContent { color: var(--qm-purple) !important; font-weight: 600 !important; }
+.sapMTB .sapMBtnTransparent .sapMBtnIcon { color: var(--qm-purple) !important; }
+.sapMTB .sapMBtnTransparent .sapMBtnInner:hover { background: var(--qm-purple-pale) !important; border-color: var(--qm-purple-soft) !important; border-radius: var(--r-sm) !important; }
+
+/* ----------------------------------------------------------
+   TABLE HEADER TOOLBAR
+   ---------------------------------------------------------- */
+.sapMListHdr.sapMTB {
+    background: var(--qm-white) !important;
+    border-bottom: 2px solid var(--qm-purple-light) !important;
+    border-top: none !important;
+    padding: 10px 20px !important;
+    min-height: 46px !important;
+    box-shadow: none !important;
+}
+.sapMListHdr .sapMTitle,
+.sapMListHdr .sapMTBShrinkItem .sapMTitle { color: var(--qm-purple-dark) !important; font-size: 0.95rem !important; font-weight: 700 !important; }
+.sapMListHdr .sapMText { color: var(--qm-gray-text) !important; font-size: 0.78rem !important; font-style: italic !important; }
+
+/* ----------------------------------------------------------
+   TABLE
+   ---------------------------------------------------------- */
+.sapMList, .sapMTable {
+    background: var(--qm-white) !important;
+    border-radius: var(--r-md) !important;
+    box-shadow: var(--shadow-md) !important;
+    border: 1px solid var(--qm-gray-border) !important;
+    overflow: hidden !important;
+    margin: 14px 20px 20px 20px !important;
+}
+.sapMListTblHeaderCell,
+.sapMListTblHeader .sapMListTblDummyCell {
+    background: linear-gradient(135deg, #5e35b1 0%, #8e24aa 100%) !important;
+    padding: 12px 14px !important;
+    border-bottom: 3px solid var(--qm-green) !important;
+    border-right: 1px solid rgba(255,255,255,0.15) !important;
+}
+.sapMListTblHeaderCell .sapMText,
+.sapMListTblHeaderCell span,
+.sapMListTblHeaderCell bdi {
+    color: #fff !important;
+    font-weight: 600 !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.7px !important;
+    text-transform: uppercase !important;
+}
+.sapMListTblRow { border-bottom: 1px solid #ede8f5 !important; transition: background-color 0.15s ease !important; }
+.sapMListTblRow:hover { background-color: var(--qm-purple-tint) !important; border-left: 3px solid var(--qm-green) !important; }
+.sapMListTblRow:nth-child(even) { background-color: #fdfbff !important; }
+.sapMListTblRow:nth-child(even):hover { background-color: var(--qm-purple-tint) !important; }
+.sapMListTblCell { padding: 12px 14px !important; vertical-align: middle !important; border-right: 1px solid #f3eefa !important; }
+.sapMListTblCell:last-child { border-right: none !important; }
+.sapMListTblCell .sapMText { color: #2c1a3e !important; font-size: 0.86rem !important; line-height: 1.4 !important; }
+.sapMListTblNavCol .sapMLIBIconNav { color: var(--qm-green) !important; }
+
+/* ----------------------------------------------------------
+   STATUS BADGES
+   ---------------------------------------------------------- */
+.sapMObjStatusSuccess .sapMObjStatusText { display: inline-block !important; color: #ffffff !important; background: var(--qm-green) !important; font-weight: 700 !important; font-size: 0.75rem !important; padding: 4px 14px !important; border-radius: 20px !important; box-shadow: 0 2px 4px rgba(67,160,71,0.3) !important; }
+.sapMObjStatusWarning .sapMObjStatusText { display: inline-block !important; color: #ffffff !important; background: #fb8c00 !important; font-weight: 700 !important; font-size: 0.75rem !important; padding: 4px 14px !important; border-radius: 20px !important; box-shadow: 0 2px 4px rgba(251,140,0,0.3) !important; }
+.sapMObjStatusError .sapMObjStatusText { display: inline-block !important; color: #ffffff !important; background: #e53935 !important; font-weight: 700 !important; font-size: 0.75rem !important; padding: 4px 14px !important; border-radius: 20px !important; box-shadow: 0 2px 4px rgba(229,57,53,0.3) !important; }
+.sapMObjStatusNone .sapMObjStatusText { display: inline-block !important; color: var(--qm-gray-text) !important; background: #f0ecf6 !important; font-size: 0.75rem !important; padding: 4px 14px !important; border-radius: 20px !important; border: 1px solid #d8cde8 !important; }
+
+/* ----------------------------------------------------------
+   BUTTONS
+   ---------------------------------------------------------- */
+.sapMBtnEmphasized .sapMBtnInner { background: linear-gradient(135deg, var(--qm-purple) 0%, var(--qm-purple-dark) 100%) !important; border-color: var(--qm-purple-dark) !important; border-radius: var(--r-sm) !important; box-shadow: 0 2px 8px rgba(106,27,154,0.22) !important; transition: all 0.2s ease !important; }
+.sapMBtnEmphasized .sapMBtnInner:hover { background: linear-gradient(135deg, var(--qm-purple-mid) 0%, var(--qm-purple) 100%) !important; box-shadow: 0 4px 14px rgba(106,27,154,0.32) !important; transform: translateY(-1px) !important; }
+.sapMBtnEmphasized.sapMBtnDisabled .sapMBtnInner { background: #b39ddb !important; border-color: #b39ddb !important; opacity: 0.7 !important; box-shadow: none !important; transform: none !important; }
+.sapMBtnEmphasized .sapMBtnContent, .sapMBtnEmphasized .sapMBtnIcon { color: #fff !important; font-weight: 600 !important; }
+.sapMBtnTransparent .sapMBtnContent { color: var(--qm-purple) !important; font-weight: 500 !important; }
+.sapMBtnTransparent .sapMBtnIcon { color: var(--qm-purple) !important; }
+.sapMBtnTransparent .sapMBtnInner:hover { background: var(--qm-purple-pale) !important; border-color: var(--qm-purple-soft) !important; border-radius: var(--r-sm) !important; }
+.sapMBtnAccept .sapMBtnInner { background: #2e7d32 !important; border-color: #1b5e20 !important; border-radius: var(--r-sm) !important; box-shadow: 0 2px 6px rgba(46,125,50,0.3) !important; }
+.sapMBtnAccept .sapMBtnContent, .sapMBtnAccept .sapMBtnIcon { color: #ffffff !important; font-weight: 700 !important; }
+.sapMBtnAccept:not(.sapMBtnDisabled) .sapMBtnInner:hover { background: #1b5e20 !important; }
+.sapMBtnReject .sapMBtnInner { background: #c62828 !important; border-color: #b71c1c !important; border-radius: var(--r-sm) !important; box-shadow: 0 2px 6px rgba(198,40,40,0.3) !important; }
+.sapMBtnReject .sapMBtnContent, .sapMBtnReject .sapMBtnIcon { color: #ffffff !important; font-weight: 700 !important; }
+.sapMBtnReject:not(.sapMBtnDisabled) .sapMBtnInner:hover { background: #b71c1c !important; }
+
+/* ----------------------------------------------------------
+   DIALOG
+   ---------------------------------------------------------- */
+.qmPurpleHeader {
+    background: linear-gradient(135deg, var(--qm-purple-h1) 0%, var(--qm-purple-h2) 100%) !important; 
+    border-bottom: 3px solid var(--qm-green) !important;
+}
+.qmPurpleHeader .sapMTitle {
+    color: #ffffff !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+}
+/* MessageBox + Reset Password dialog sizing */
+.sapMMessageBox.sapMDialog { 
+    padding: 0 !important; 
+    border-radius: 14px !important; 
+    box-shadow: 0 12px 40px rgba(74,20,140,0.22) !important; 
+    border: none !important; 
+    overflow: hidden !important; 
+    min-width: 320px !important; 
+    max-width: 420px !important; 
+    height: auto !important;
+}
+.qmResetDialog.sapMDialog { 
+    padding: 0 !important; 
+    border-radius: 14px !important; 
+    box-shadow: 0 12px 40px rgba(74,20,140,0.22) !important; 
+    border: none !important; 
+    overflow: hidden !important; 
+    min-width: 340px !important; 
+    max-width: 420px !important;
+}
+
+/* All dialogs – purple header bar (only the real header, not inner bars) */
+.sapMDialog > header,
+.sapMDialog .sapMHeader-CTX,
+.sapMMessageBoxHeader { 
+    background: linear-gradient(135deg, var(--qm-purple-h1) 0%, var(--qm-purple-h2) 100%) !important; 
+    border-bottom: 3px solid var(--qm-green) !important;
+    margin: 0 !important;
+    width: 100% !important;
+    border-radius: 0 !important;
+}
+
+/* Inner title elements – transparent so header bar colour shows through */
+.sapMDialogTitle, .sapMDialogTitleGroup {
+    background: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+}
+
+/* White text for all dialog titles */
+.sapMDialog > header:not(.sapMDialogSubHeader) .sapMTitle, .sapMDialog > header:not(.sapMDialogSubHeader) .sapMTitle bdi,
+.sapMDialogTitle .sapMTitle, .sapMDialogTitle .sapMTitle bdi,
+.sapMDialogTitleGroup .sapMTitle, .sapMDialogTitleGroup .sapMTitle bdi,
+.sapMMessageBoxHeader .sapMTitle, .sapMMessageBoxHeader .sapMTitle bdi { color: #ffffff !important; font-size: 1.1rem !important; font-weight: 700 !important; }
+.sapMDialogTitle .sapMBtn .sapMBtnIcon, .sapMDialogTitleGroup .sapMBtn .sapMBtnIcon,
+.sapMDialog > header:not(.sapMDialogSubHeader) .sapMBtnIcon { color: #ffffff !important; }
+
+/* Content area – MessageBox and Reset dialog get explicit padding */
+.sapMMessageBox .sapMDialogScrollCont,
+.sapMMessageBox .sapMDialogSection { 
+    background: #fff !important;
+    padding: 20px 24px !important; 
+    box-sizing: border-box !important; 
+    height: auto !important; 
+}
+.qmResetDialog .sapMDialogScrollCont,
+.qmResetDialog .sapMDialogSection { 
+    background: #fff !important;
+    padding: 24px 28px !important; 
+    box-sizing: border-box !important; 
+    height: auto !important; 
+}
+
+/* MessageBox text */
+.sapMMessageBox .sapMDialogScrollCont .sapMText,
+.sapMMessageBox .sapMDialogScrollCont .sapMMsgBoxText { color: var(--qm-text-dark) !important; font-size: 0.92rem !important; line-height: 1.6 !important; text-align: center !important; }
+
+/* Footer – only MessageBox footer gets flex centering. Other dialog footers use SAP default layout */
+.sapMMessageBoxFooter { background: var(--qm-purple-tint) !important; border-top: 1px solid var(--qm-gray-border) !important; padding: 12px 20px !important; display: flex !important; justify-content: center !important; gap: 12px !important; }
+.sapMDialogFooter .sapMBtnEmphasized .sapMBtnInner, .sapMMessageBoxFooter .sapMBtnEmphasized .sapMBtnInner { background: linear-gradient(135deg, var(--qm-purple) 0%, var(--qm-purple-dark) 100%) !important; border-color: var(--qm-purple-dark) !important; border-radius: 6px !important; min-width: 90px !important; }
+.sapMDialogFooter .sapMBtnEmphasized.sapMBtnDisabled .sapMBtnInner, .sapMMessageBoxFooter .sapMBtnEmphasized.sapMBtnDisabled .sapMBtnInner { background: #b39ddb !important; border-color: #b39ddb !important; opacity: 0.7 !important; }
+.sapMDialogFooter .sapMBtnEmphasized .sapMBtnContent, .sapMMessageBoxFooter .sapMBtnEmphasized .sapMBtnContent { color: #fff !important; font-weight: 700 !important; }
+.sapMDialogFooter .sapMBtnDefault .sapMBtnInner, .sapMMessageBoxFooter .sapMBtnDefault .sapMBtnInner,
+.sapMDialogFooter .sapMBtnTransparent .sapMBtnInner, .sapMMessageBoxFooter .sapMBtnTransparent .sapMBtnInner { background: #fff !important; border: 1.5px solid var(--qm-purple-soft) !important; border-radius: 6px !important; min-width: 90px !important; }
+.sapMDialogFooter .sapMBtnDefault .sapMBtnContent, .sapMMessageBoxFooter .sapMBtnDefault .sapMBtnContent,
+.sapMDialogFooter .sapMBtnTransparent .sapMBtnContent, .sapMMessageBoxFooter .sapMBtnTransparent .sapMBtnContent { color: var(--qm-purple) !important; font-weight: 600 !important; }
+.sapMDialogFooter .sapMBtnDefault .sapMBtnInner:hover, .sapMMessageBoxFooter .sapMBtnDefault .sapMBtnInner:hover { background: var(--qm-purple-pale) !important; }
+.sapMDialog .sapMLabel { color: var(--qm-purple-dark) !important; font-weight: 700 !important; font-size: 0.72rem !important; text-transform: uppercase !important; letter-spacing: 0.5px !important; }
+.sapMDialog .sapMText { color: var(--qm-text-dark) !important; font-size: 0.9rem !important; }
+
+/* ----------------------------------------------------------
+   INPUT GLOBAL (non-login pages)
+   ---------------------------------------------------------- */
+.sapMInputBase { border-radius: var(--r-sm) !important; border: 1.5px solid var(--qm-gray-border) !important; transition: border-color 0.2s, box-shadow 0.2s !important; }
+.sapMInputBaseFocused { border-color: var(--qm-purple-soft) !important; box-shadow: 0 0 0 3px rgba(171,71,188,0.10) !important; }
+
+/* ----------------------------------------------------------
+   SCROLLBAR
+   ---------------------------------------------------------- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--qm-gray-bg); }
+::-webkit-scrollbar-thumb { background: #ce93d8; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--qm-purple-soft); }
+
+/* ----------------------------------------------------------
+   RESPONSIVE
+   ---------------------------------------------------------- */
+@media (max-width: 768px) {
+    .sapMTable, .sapMList { margin: 0 8px 12px 8px !important; }
+    .sapMTB { padding: 8px 12px !important; }
+    .sapMGT { min-width: 100% !important; }
+    .qmCard { width: 90% !important; max-width: 420px !important; }
+    .qmCardBody { padding: 20px !important; }
+}

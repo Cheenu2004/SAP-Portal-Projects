@@ -1,0 +1,155 @@
+<mvc:View
+    controllerName="qmportal1.controller.Login"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form">
+
+    <mvc:dependents>
+        <Dialog
+            id="forgotPasswordDialog"
+            title="Reset Password"
+            contentWidth="350px"
+            class="qmResetDialog">
+            <content>
+                <VBox class="sapUiSmallMargin">
+                    <Label text="Engineer ID" required="true" class="sapUiTinyMarginBottom"/>
+                    <Input
+                        id="resetEngineerId"
+                        value="{resetModel>/UserId}"
+                        placeholder="Enter Engineer ID"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <Label text="New Password" required="true" class="sapUiTinyMarginBottom"/>
+                    <Input
+                        id="resetNewPassword"
+                        type="Password"
+                        value="{resetModel>/Password}"
+                        placeholder="Enter New Password"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <Label text="Confirm Password" required="true" class="sapUiTinyMarginBottom"/>
+                    <Input
+                        id="resetConfirmPassword"
+                        type="Password"
+                        value="{resetModel>/ConfirmPassword}"
+                        placeholder="Confirm New Password"
+                        class="sapUiSmallMarginBottom"/>
+                </VBox>
+            </content>
+            <buttons>
+                <Button
+                    text="Submit"
+                    type="Emphasized"
+                    press="onResetPasswordSubmit"/>
+                <Button
+                    text="Cancel"
+                    type="Transparent"
+                    press="onResetPasswordCancel"/>
+            </buttons>
+        </Dialog>
+    </mvc:dependents>
+
+    <!-- enableScrolling="false" eliminates the scrollbar completely -->
+    <Page
+        showHeader="false"
+        enableScrolling="false"
+        class="qmLoginPage">
+
+        <content>
+
+            <!-- FlexBox fills full viewport height and centers everything -->
+            <FlexBox
+                height="100%"
+                justifyContent="Center"
+                alignItems="Center"
+                direction="Column"
+                class="qmLoginOuter">
+
+                <!-- Portal title -->
+                <Title
+                    text="Quality Management Portal"
+                    level="H2"
+                    textAlign="Center"
+                    class="qmLoginTitle"/>
+
+                <!-- Subtitle -->
+                <Text
+                    text="Sign in to access your dashboard"
+                    textAlign="Center"
+                    class="qmLoginSubtitle"/>
+
+                <!-- Card wrapper -->
+                <FlexBox
+                    direction="Column"
+                    class="qmCard">
+
+                    <!-- Card header -->
+                    <FlexBox
+                        justifyContent="Center"
+                        alignItems="Center"
+                        class="qmCardHeader">
+                        <Title
+                            text="Engineer Login"
+                            level="H4"
+                            textAlign="Center"
+                            class="qmCardHeaderTitle"/>
+                    </FlexBox>
+
+                    <!-- Card body — no VBox gap issues with FlexBox -->
+                    <FlexBox
+                        direction="Column"
+                        class="qmCardBody">
+
+                        <MessageStrip
+                            id="loginErrorStrip"
+                            visible="false"
+                            type="Error"
+                            showIcon="true"
+                            showCloseButton="true"
+                            class="sapUiSmallMarginBottom"/>
+
+                        <Label
+                            text="User ID"
+                            class="qmFieldLabel"/>
+
+                        <Input
+                            id="userInput"
+                            placeholder="Enter User ID"
+                            class="qmField"
+                            submit="onLogin"/>
+
+                        <Label
+                            text="Password"
+                            class="qmFieldLabel qmFieldLabelTop"/>
+
+                        <Input
+                            id="passwordInput"
+                            type="Password"
+                            placeholder="Enter Password"
+                            class="qmField"
+                            submit="onLogin"/>
+
+                        <Button
+                            text="Sign In"
+                            icon="sap-icon://log"
+                            type="Emphasized"
+                            class="qmSignInBtn"
+                            press="onLogin"/>
+
+                        <Link 
+                            text="Forgot Password?" 
+                            press="onForgotPasswordPress" 
+                            textAlign="Center"
+                            class="qmForgotPassword" />
+
+                    </FlexBox>
+
+                </FlexBox>
+
+            </FlexBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

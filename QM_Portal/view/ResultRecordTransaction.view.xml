@@ -1,0 +1,69 @@
+<mvc:View
+    controllerName="qmportal1.controller.ResultRecordTransaction"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="rrTransPage"
+        title="Result Recording"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <VBox
+                id="rrTransVBox"
+                class="sapUiMediumMargin">
+
+                <!-- Read-only header fields — populated from route params -->
+                <Input
+                    id="idInspLot"
+                    placeholder="Inspection Lot"
+                    editable="false"/>
+
+                <Input
+                    id="idLotQty"
+                    placeholder="Lot Quantity"
+                    type="Number"
+                    editable="false"/>
+
+                <!-- Editable quantity inputs — auto-sum into Inspected Qty -->
+                <Input
+                    id="idUnrestricted"
+                    placeholder="Unrestricted Qty"
+                    type="Number"
+                    liveChange="onQtyChange"/>
+
+                <Input
+                    id="idBlocked"
+                    placeholder="Blocked Qty"
+                    type="Number"
+                    liveChange="onQtyChange"/>
+
+                <Input
+                    id="idProd"
+                    placeholder="Production Qty"
+                    type="Number"
+                    liveChange="onQtyChange"/>
+
+                <!-- Auto-computed — always read-only -->
+                <Input
+                    id="idInspected"
+                    placeholder="Inspected Qty"
+                    type="Number"
+                    editable="false"/>
+
+                <Button
+                    id="btnSaveResult"
+                    text="Save"
+                    type="Emphasized"
+                    press="onSave"
+                    class="sapUiSmallMarginTop"/>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

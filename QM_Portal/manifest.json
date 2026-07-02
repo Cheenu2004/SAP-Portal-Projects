@@ -1,0 +1,232 @@
+{
+  "_version": "1.60.0",
+
+  "sap.app": {
+    "id": "qmportal1",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.24.0"
+    },
+
+    "dataSources": {
+
+      "loginService": {
+        "uri": "/sap/opu/odata/sap/ZQM_LOGIND_902065_CDS/",
+        "type": "OData",
+        "settings": { "odataVersion": "2.0" }
+      },
+
+      "inspectionService": {
+        "uri": "/sap/opu/odata/sap/ZQM_INSPECTION_CDS_902065_CDS/",
+        "type": "OData",
+        "settings": { "odataVersion": "2.0" }
+      },
+
+      "resultService": {
+        "uri": "/sap/opu/odata/sap/ZQM_RESULT_REC_902065_CDS/",
+        "type": "OData",
+        "settings": { "odataVersion": "2.0" }
+      },
+
+      "usageService": {
+        "uri": "/sap/opu/odata/sap/ZQM_USAGE_DEC_902065_CDS/",
+        "type": "OData",
+        "settings": { "odataVersion": "2.0" }
+      },
+
+      "transactionService": {
+        "uri": "/sap/opu/odata/sap/ZQM_TRANS_902065_SRV/",
+        "type": "OData",
+        "settings": { "odataVersion": "2.0" }
+      }
+
+    }
+  },
+
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+
+  "sap.ui5": {
+
+    "flexEnabled": false,
+
+    "rootView": {
+      "viewName": "qmportal1.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "app"
+    },
+
+    "dependencies": {
+      "minUI5Version": "1.120.14",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ui.layout": {}
+      }
+    },
+
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+
+    "resources": {
+      "css": [
+        { "uri": "css/styles.css" }
+      ]
+    },
+
+    "models": {
+
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "qmportal1.i18n.i18n",
+          "supportedLocales": [""],
+          "fallbackLocale": ""
+        }
+      },
+
+      "loginModel": {
+        "dataSource": "loginService",
+        "preload": false,
+        "settings": {
+          "useBatch": false,
+          "earlyRequests": false
+        }
+      },
+
+      "inspectionModel": {
+        "dataSource": "inspectionService",
+        "preload": false,
+        "settings": {
+          "useBatch": false,
+          "earlyRequests": false
+        }
+      },
+
+      "resultModel": {
+        "dataSource": "resultService",
+        "preload": false,
+        "settings": {
+          "useBatch": false,
+          "earlyRequests": false
+        }
+      },
+
+      "usageModel": {
+        "dataSource": "usageService",
+        "preload": false,
+        "settings": {
+          "useBatch": false,
+          "earlyRequests": false
+        }
+      },
+
+      "transactionModel": {
+        "dataSource": "transactionService",
+        "preload": false,
+        "settings": {
+          "useBatch": false,
+          "earlyRequests": false
+        }
+      }
+
+    },
+
+    "routing": {
+
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "qmportal1.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "async": true,
+        "transition": "slide"
+      },
+
+      "routes": [
+        {
+          "name": "Login",
+          "pattern": "",
+          "target": "Login"
+        },
+        {
+          "name": "Dashboard",
+          "pattern": "Dashboard",
+          "target": "Dashboard"
+        },
+        {
+          "name": "InspectionLot",
+          "pattern": "InspectionLot",
+          "target": "InspectionLot"
+        },
+        {
+          "name": "ResultRecord",
+          "pattern": "ResultRecord",
+          "target": "ResultRecord"
+        },
+        {
+          "name": "UsageDecision",
+          "pattern": "UsageDecision",
+          "target": "UsageDecision"
+        },
+        {
+          "name": "ResultRecordTransaction",
+          "pattern": "ResultRecordTransaction/{inspLot}/{lotQty}",
+          "target": "ResultRecordTransaction"
+        },
+        {
+          "name": "UsageDecisionTransaction",
+          "pattern": "UsageDecisionTransaction/{inspLot}",
+          "target": "UsageDecisionTransaction"
+        }
+      ],
+
+      "targets": {
+        "Login": {
+          "viewName": "Login"
+        },
+        "Dashboard": {
+          "viewName": "Dashboard"
+        },
+        "InspectionLot": {
+          "viewName": "InspectionLot"
+        },
+        "ResultRecord": {
+          "viewName": "ResultRecord"
+        },
+        "UsageDecision": {
+          "viewName": "UsageDecision"
+        },
+        "ResultRecordTransaction": {
+          "viewName": "ResultRecordTransaction"
+        },
+        "UsageDecisionTransaction": {
+          "viewName": "UsageDecisionTransaction"
+        }
+      }
+
+    }
+
+  }
+}

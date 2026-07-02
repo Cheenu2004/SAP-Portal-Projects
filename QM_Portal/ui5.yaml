@@ -1,0 +1,17 @@
+specVersion: "3.0"
+metadata:
+  name: qmportal1
+type: application
+resources:
+  configuration:
+    paths:
+      webapp: "."
+server:
+  customMiddleware:
+    - name: ui5-middleware-simpleproxy
+      afterMiddleware: compression
+      mountPath: /sap
+      configuration:
+        baseUri: "http://AZKTLDS5CP.kcloud.com:8000/sap"
+        username: "K902065"
+        password: "Srini@0611"

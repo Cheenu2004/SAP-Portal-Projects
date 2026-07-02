@@ -1,0 +1,85 @@
+<mvc:View
+    controllerName="qmportal1.controller.UsageDecisionTransaction"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="udTransPage"
+        title="Usage Decision"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <VBox
+                id="udTransVBox"
+                class="sapUiMediumMargin">
+
+                <!-- Read-only header — populated from route param -->
+                <Input
+                    id="idUDInspLot"
+                    placeholder="Inspection Lot"
+                    editable="false"/>
+
+                <!-- Populated from ResultRecordSet -->
+                <Input
+                    id="idUDLotQty"
+                    placeholder="Lot Quantity"
+                    editable="false"/>
+
+                <Input
+                    id="idUDInspectedQty"
+                    placeholder="Inspected Quantity"
+                    editable="false"/>
+
+                <!-- Populated if decision already exists -->
+                <Input
+                    id="idUDDecision"
+                    placeholder="Decision"
+                    editable="false"/>
+
+                <Input
+                    id="idUDDecisionBy"
+                    placeholder="Decision By"
+                    editable="false"/>
+
+                <Input
+                    id="idUDDecisionDate"
+                    placeholder="Decision Date"
+                    editable="false"/>
+
+                <!-- Editable remarks -->
+                <TextArea
+                    id="idRemarks"
+                    placeholder="Enter Remarks (Optional)"
+                    rows="4"
+                    width="100%"
+                    class="sapUiSmallMarginTop"/>
+
+                <!-- Approve / Reject buttons -->
+                <HBox
+                    id="udButtonHBox"
+                    class="sapUiMediumMarginTop">
+
+                    <Button
+                        id="btnApprove"
+                        text="✔  Approve"
+                        type="Accept"
+                        press="onApprove"
+                        class="sapUiSmallMarginEnd"/>
+
+                    <Button
+                        id="btnReject"
+                        text="✖  Reject"
+                        type="Reject"
+                        press="onReject"/>
+
+                </HBox>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

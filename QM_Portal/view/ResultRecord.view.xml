@@ -1,0 +1,290 @@
+<mvc:View
+    controllerName="qmportal1.controller.ResultRecord"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <mvc:dependents>
+
+        <!-- ============================================================
+             DIALOG 1 : Record Result  (EDIT — PENDING lots only)
+             100% unchanged from your original
+        ============================================================= -->
+        <Dialog
+            id="recordResultDialog"
+            contentWidth="460px"
+            busyIndicatorDelay="0"
+            busy="{dialogModel>/busy}">
+
+            <customHeader>
+                <Bar class="qmPurpleHeader">
+                    <contentMiddle>
+                        <Title text="Record Result — {dialogModel>/InspLot}"/>
+                    </contentMiddle>
+                </Bar>
+            </customHeader>
+
+            <content>
+                <VBox class="sapUiSmallMarginBeginEnd sapUiSmallMarginTop">
+
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Material:" design="Bold" width="170px"/>
+                        <Text text="{dialogModel>/Material}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <Label text="Lot Qty:" design="Bold" width="170px"/>
+                        <Text text="{dialogModel>/LotQtyDisplay}"/>
+                    </HBox>
+
+                    <MessageStrip
+                        text="Unrestricted Qty + Blocked Qty + Production Qty = Lot Qty"
+                        type="Information"
+                        showIcon="true"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <Label text="Unrestricted Quantity" design="Bold" required="true" class="sapUiTinyMarginBottom"/>
+                    <Input
+                        id="unrestrictedInput"
+                        value="{dialogModel>/UnrestrictedQty}"
+                        width="100%"
+                        class="sapUiSmallMarginBottom"
+                        valueLiveUpdate="true"
+                        liveChange="onQtyLiveChange"/>
+
+                    <Label text="Blocked Quantity" design="Bold" required="true" class="sapUiTinyMarginBottom"/>
+                    <Input
+                        id="blockedInput"
+                        value="{dialogModel>/BlockedQty}"
+                        width="100%"
+                        class="sapUiSmallMarginBottom"
+                        valueLiveUpdate="true"
+                        liveChange="onQtyLiveChange"/>
+
+                    <Label text="Production Quantity" design="Bold" required="true" class="sapUiTinyMarginBottom"/>
+                    <Input
+                        id="prodInput"
+                        value="{dialogModel>/ProdQty}"
+                        width="100%"
+                        class="sapUiSmallMarginBottom"
+                        valueLiveUpdate="true"
+                        liveChange="onQtyLiveChange"/>
+
+                    <ObjectStatus
+                        id="qtyValidationStatus"
+                        text="{dialogModel>/validationMsg}"
+                        state="{dialogModel>/validationState}"
+                        visible="{dialogModel>/validationVisible}"/>
+
+                </VBox>
+            </content>
+
+            <beginButton>
+                <Button
+                    text="Save"
+                    type="Emphasized"
+                    icon="sap-icon://save"
+                    press="onSaveResultRecord"
+                    enabled="{dialogModel>/saveEnabled}"/>
+            </beginButton>
+            <endButton>
+                <Button
+                    text="Cancel"
+                    type="Transparent"
+                    icon="sap-icon://decline"
+                    press="onCancelResultRecord"/>
+            </endButton>
+
+        </Dialog>
+
+        <!-- ============================================================
+             DIALOG 2 : View Details  (READ-ONLY)
+             100% unchanged from your original
+        ============================================================= -->
+        <Dialog
+            id="viewDetailsDialog"
+            contentWidth="460px">
+
+            <customHeader>
+                <Bar class="qmPurpleHeader">
+                    <contentMiddle>
+                        <Title text="Result Details — {viewModel>/InspLot}"/>
+                    </contentMiddle>
+                </Bar>
+            </customHeader>
+
+            <content>
+                <VBox class="sapUiSmallMarginBeginEnd sapUiSmallMarginTop">
+
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Material:" design="Bold" width="170px"/>
+                        <Text text="{viewModel>/Material}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <Label text="Lot Qty:" design="Bold" width="170px"/>
+                        <Text text="{viewModel>/LotQty}"/>
+                    </HBox>
+
+                    <Title text="Recorded Quantities" level="H5" class="sapUiTinyMarginBottom"/>
+
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Unrestricted Qty:" design="Bold" width="170px"/>
+                        <Text text="{viewModel>/UnrestrictedQty}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Blocked Qty:"      design="Bold" width="170px"/>
+                        <Text text="{viewModel>/BlockedQty}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                        <Label text="Production Qty:"   design="Bold" width="170px"/>
+                        <Text text="{viewModel>/ProdQty}"/>
+                    </HBox>
+                    <HBox alignItems="Center" class="sapUiSmallMarginBottom">
+                        <Label text="Inspected Qty:"    design="Bold" width="170px"/>
+                        <Text text="{viewModel>/InspectedQty}"/>
+                    </HBox>
+
+                    <Title text="Usage Decision" level="H5" class="sapUiTinyMarginBottom"/>
+
+                    <ObjectStatus
+                        text="{viewModel>/DecisionText}"
+                        state="{viewModel>/DecisionState}"
+                        class="sapUiSmallMarginBottom"/>
+
+                    <HBox alignItems="Center" visible="{viewModel>/HasRemarks}">
+                        <Label text="Remarks:" design="Bold" width="170px"/>
+                        <Text text="{viewModel>/Remarks}"/>
+                    </HBox>
+
+                </VBox>
+            </content>
+
+            <endButton>
+                <Button
+                    text="Close"
+                    type="Emphasized"
+                    press="onCloseViewDialog"/>
+            </endButton>
+
+        </Dialog>
+
+    </mvc:dependents>
+
+    <!-- PAGE -->
+    <Page title="Result Records" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+
+            <!-- Read-only banner for CONSULTANT / ENGINEER -->
+            <MessageStrip
+                text="View Only — You have read-only access. Editing and saving are restricted to Safety Managers."
+                type="Information"
+                showIcon="true"
+                showCloseButton="false"
+                visible="{ path: 'appState>/role', formatter: '.formatReadOnlyBannerVisible' }"
+                class="sapUiSmallMargin"/>
+
+
+            <Toolbar>
+
+                <SearchField
+                    id="rr_searchField"
+                    width="240px"
+                    liveChange="onSearch"
+                    placeholder="Search Inspection Lot"/>
+
+                <ToolbarSpacer width="16px"/>
+
+                <MultiComboBox
+                    id="rr_filterMaterial"
+                    width="180px"
+                    placeholder="Material"
+                    selectionChange="onFilterChange"
+                    items="{ path: 'rrFilterModel>/materials' }">
+                    <core:Item key="{rrFilterModel>key}" text="{rrFilterModel>text}"/>
+                </MultiComboBox>
+
+                <MultiComboBox
+                    id="rr_filterChar"
+                    width="180px"
+                    placeholder="Characteristic"
+                    selectionChange="onFilterChange"
+                    items="{ path: 'rrFilterModel>/charDescs' }">
+                    <core:Item key="{rrFilterModel>key}" text="{rrFilterModel>text}"/>
+                </MultiComboBox>
+
+                <ToolbarSpacer width="16px"/>
+
+                <ComboBox
+                    id="rr_statusFilter"
+                    change="onStatusFilterChange"
+                    width="140px"
+                    placeholder="Status">
+                    <items>
+                        <core:Item text="All"      key=""/>
+                        <core:Item text="Pending"  key="PENDING"/>
+                        <core:Item text="Recorded" key="RECORDED"/>
+                        <core:Item text="Approved" key="APPROVED"/>
+                        <core:Item text="Rejected" key="REJECTED"/>
+                    </items>
+                </ComboBox>
+
+                <ToolbarSpacer width="16px"/>
+
+                <Button
+                    text="Refresh"
+                    icon="sap-icon://refresh"
+                    press="onRefresh"
+                    type="Transparent"/>
+
+                <Button
+                    text="Clear Filters"
+                    icon="sap-icon://clear-filter"
+                    press="onClearFilters"
+                    type="Transparent"/>
+
+            </Toolbar>
+
+            <!-- =========================================================
+                 TABLE — YOUR exact binding, columns and field names kept.
+            ========================================================== -->
+            <Table
+                id="rr_resultTable"
+                items="{ path: 'resultModel>/ZQM_RESULT_REC_902065' }"
+                noDataText="No result records found."
+                updateFinished="onTableUpdateFinished">
+
+
+
+                <columns>
+                    <Column width="18%"><Text text="Inspection Lot"/></Column>
+                    <Column width="14%"><Text text="Material"/></Column>
+                    <Column width="22%"><Text text="Characteristic"/></Column>
+                    <Column width="11%" hAlign="End"><Text text="Quantity"/></Column>
+                    <Column width="16%" hAlign="Center"><Text text="Record Status"/></Column>
+                    <Column width="12%" hAlign="Center"><Text text="Actions"/></Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem type="Inactive">
+                        <cells>
+                            <Text text="{resultModel>wf_insp_lot}"/>
+                            <Text text="{resultModel>wf_material}"/>
+                            <Text text="{resultModel>wf_char_desc}"/>
+                            <Text text="{resultModel>wf_quantity}" textAlign="End"/>
+                            <ObjectStatus
+                                text="{ path: 'resultModel>wf_insp_lot', formatter: '.formatRecordStatus' }"
+                                state="{ path: 'resultModel>wf_insp_lot', formatter: '.formatRecordStatusState' }"/>
+                            <Button
+                                text="{ path: 'resultModel>wf_insp_lot', formatter: '.formatActionButtonText' }"
+                                icon="{ path: 'resultModel>wf_insp_lot', formatter: '.formatActionButtonIcon' }"
+                                type="Transparent"
+                                press="onDetailPress"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+
+            </Table>
+
+        </content>
+    </Page>
+
+</mvc:View>
